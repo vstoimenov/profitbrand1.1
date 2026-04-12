@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { HeroGeometric } from "./components/ui/shape-landing-hero";
 
 // ─── TYPEWRITER ─────────────────────────────
 function Typewriter({ words, speed = 100, pause = 2000 }) {
@@ -343,14 +342,23 @@ export default function App() {
   const Home = () => (
     <>
       {/* HERO */}
-      <HeroGeometric
-        badge="PERFORMANCE MARKETING AGENCY"
-        title1="Ние Помагаме на Бизнеси"
-        title2="Да Генерират Предвидим Растеж"
-        subtitle="Изградихме система, генерираща 2M+ евро оборот за 2025г. — тествана с нашите пари. Сега я изграждаме за 12 бизнеса годишно."
-        ctaText="Безплатна Консултация →"
-        onCtaClick={()=>setShowAudit(true)}
-      />
+      <section className="H">
+        <div className="HB" />
+        <div className="HC">
+          <div {...f("hs")} className="Hsub">ПЕРФОРМАНС МАРКЕТИНГ АГЕНЦИЯ</div>
+          <h1 {...f("hh",0.1)} className="U">
+            Ние Помагаме на<br/>
+            <em><Typewriter words={["Бизнеси","E-commerce","SaaS компании","Локални бизнеси","B2B компании"]} /></em>
+            Да генерират предвидим растеж чрез системи, не шаблони.
+          </h1>
+          <p {...f("hp",0.2)} className="HP">
+            Изградихме система, генерираща <strong>2M+ евро оборот за 2025г.</strong> — тествана с нашите пари. Сега я изграждаме за <strong>12 бизнеса годишно</strong>.
+          </p>
+          <div {...f("hb",0.3)} className="HBs">
+            <button className="btn" onClick={()=>setShowAudit(true)}>Безплатна Консултация →</button>
+          </div>
+        </div>
+      </section>
 
       {/* MARQUEE */}
       <div className="mq"><div className="mi">{[0,1].map(i=><span key={i}>META ADS • GOOGLE ADS • TIKTOK ADS • AI АВТОМАТИЗАЦИИ • ПЕРФОРМАНС • СКАЛИРАНЕ • ВИДЕО • EMAIL ФУНИИ •{" "}</span>)}</div></div>
