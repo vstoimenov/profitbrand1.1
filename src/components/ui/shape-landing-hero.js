@@ -1,6 +1,36 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Circle } from "lucide-react";
+import { Circle, ArrowRight } from "lucide-react";
 import { cn } from "../../lib/utils";
+
+function Typewriter({ words }) {
+  const [idx, setIdx] = useState(0);
+  const [sub, setSub] = useState("");
+  const [del, setDel] = useState(false);
+  useEffect(() => {
+    const full = words[idx % words.length];
+    const speed = del ? 45 : 90;
+    const t = setTimeout(() => {
+      if (!del) {
+        setSub(full.slice(0, sub.length + 1));
+        if (sub.length + 1 === full.length) setTimeout(() => setDel(true), 1500);
+      } else {
+        setSub(full.slice(0, sub.length - 1));
+        if (sub.length - 1 === 0) {
+          setDel(false);
+          setIdx((i) => (i + 1) % words.length);
+        }
+      }
+    }, speed);
+    return () => clearTimeout(t);
+  }, [sub, del, idx, words]);
+  return (
+    <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-yellow-500 to-amber-400">
+      {sub}
+      <span style={{ display: "inline-block", width: 2, marginLeft: 4, background: "#FFD600", animation: "pbblink 1s step-end infinite" }}>&nbsp;</span>
+    </span>
+  );
+}
 
 function ElegantShape({ className, delay = 0, width = 400, height = 100, rotate = 0, gradient = "from-white/[0.08]" }) {
   return (
@@ -30,7 +60,7 @@ function ElegantShape({ className, delay = 0, width = 400, height = 100, rotate 
   );
 }
 
-function HeroGeometric({ badge, title1, title2, subtitle, ctaText, onCtaClick }) {
+function HeroGeometric({ badge, title1, title2, typewriterWords, subtitle, ctaText, onCtaClick }) {
   const fadeUpVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: (i) => ({
@@ -62,7 +92,9 @@ function HeroGeometric({ badge, title1, title2, subtitle, ctaText, onCtaClick })
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 md:mb-8 tracking-tight" style={{fontFamily:"'Unbounded', sans-serif",letterSpacing:"-1.5px",lineHeight:1.08}}>
               <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">{title1}</span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-yellow-500 to-amber-400">{title2}</span>
+              {typewriterWords ? <Typewriter words={typewriterWords} /> : (
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-yellow-500 to-amber-400">{title2}</span>
+              )}
             </h1>
           </motion.div>
 
@@ -71,9 +103,11 @@ function HeroGeometric({ badge, title1, title2, subtitle, ctaText, onCtaClick })
           </motion.div>
 
           <motion.div custom={3} variants={fadeUpVariants} initial="hidden" animate="visible">
-            <button onClick={onCtaClick} className="px-8 py-4 rounded-lg font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:-translate-y-1" style={{fontFamily:"'Unbounded', sans-serif", background:"linear-gradient(135deg, #FFD600, #FFC107)", color:"#080810", boxShadow:"0 8px 32px rgba(255,214,0,.25)", letterSpacing:"1px", fontSize:"12px"}}>
+            <button onClick={onCtaClick} className="px-8 py-4 rounded-lg font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:-translate-y-1 inline-flex items-center gap-2" style={{fontFamily:"'Unbounded', sans-serif", background:"linear-gradient(135deg, #FFD600, #FFC107)", color:"#080810", boxShadow:"0 8px 32px rgba(255,214,0,.25)", letterSpacing:"1px", fontSize:"12px"}}>
               {ctaText}
+              <ArrowRight size={14} />
             </button>
+            <style>{`@keyframes pbblink{50%{opacity:0}}`}</style>
           </motion.div>
         </div>
       </div>
