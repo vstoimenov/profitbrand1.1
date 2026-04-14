@@ -1,0 +1,8 @@
+cd profitbrand
+npm install
+git init
+git add .
+git commit -m "profitbrand site"
+git branch -M main
+git remote add origin https://github.com/ТВОЯ-АКАУНТ/profitbrand.git
+git push -u origin main
