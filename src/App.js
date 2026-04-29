@@ -285,9 +285,17 @@ export default function App() {
   useEffect(() => {
     const obs = new IntersectionObserver(
       (e) => e.forEach((x) => { if (x.isIntersecting) setVis((p) => ({ ...p, [x.target.dataset.v]: true })); }),
-      { threshold: 0.08 }
+      { threshold: 0, rootMargin: "0px 0px 50px 0px" }
     );
-    const t = setTimeout(() => document.querySelectorAll("[data-v]").forEach((el) => obs.observe(el)), 120);
+    const t = setTimeout(() => {
+      document.querySelectorAll("[data-v]").forEach((el) => {
+        obs.observe(el);
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          setVis((p) => ({ ...p, [el.dataset.v]: true }));
+        }
+      });
+    }, 60);
     return () => { clearTimeout(t); obs.disconnect(); };
   }, [page]);
 
@@ -295,7 +303,17 @@ export default function App() {
   const scrollTo = (id) => {
     setMenuOpen(false);
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    // After scroll settles, mark all currently visible [data-v] elements
+    setTimeout(() => {
+      document.querySelectorAll("[data-v]").forEach((node) => {
+        const rect = node.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          setVis((p) => ({ ...p, [node.dataset.v]: true }));
+        }
+      });
+    }, 700);
   };
   const ff = (id, d = 0) => ({
     "data-v": id,
