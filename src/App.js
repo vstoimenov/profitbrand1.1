@@ -4,6 +4,7 @@ import {
   DollarSign, Mail, Bot, Globe, Settings, Search, Wrench, Rocket,
   Check, Plus, X, ChevronDown, Menu, Eye, GripVertical, Handshake,
   TrendingUp, AlertCircle, Shield, Sparkles, ArrowRight, Clock,
+  PhoneCall, FileText, Zap, Quote, Award,
 } from "lucide-react";
 import { HeroGeometric } from "./components/ui/shape-landing-hero";
 
@@ -95,6 +96,7 @@ const ICONS = {
   BarChart3, Palette, Star, Target, GraduationCap, Video, Mic,
   DollarSign, Mail, Bot, Globe, Settings, Search, Wrench, Rocket,
   Handshake, TrendingUp, AlertCircle, Shield, Sparkles,
+  PhoneCall, FileText, Zap, Award,
 };
 
 function SvcIcon({ name, size = 28 }) {
@@ -177,8 +179,64 @@ const faqs = [
   { q: "Колко бързо ще видя резултати?", a: "Първите leads — до 14 дни. Пълна система, която работи предвидимо — 60-90 дни. Без „магия за 7 дни“." },
   { q: "Какво ако вече работя с агенция?", a: "Повечето клиенти идват точно затова. Правим безплатен одит — ако настоящата ви агенция върши работа, ще ви кажем. Ако не — ще ви покажем какво губите." },
   { q: "Как се заплаща?", a: "Условията се договарят индивидуално. Влизаме като съдружници — споделяме риска и резултата. Работим с максимум 12 бизнеса годишно, за да сме реално ангажирани." },
-  { q: "Какво ви отличава?", a: "Не пускаме просто реклами. Влизаме в бизнеса, гледаме оперативните процеси, SLED-ваме клиента след маркетинга. Там повечето агенции спират — ние тепърва започваме." },
+  { q: "Какво ви отличава?", a: "Не пускаме просто реклами. Влизаме в бизнеса, гледаме оперативните процеси, следваме клиента след маркетинга. Там повечето агенции спират — ние тепърва започваме." },
   { q: "Защо само 12 бизнеса?", a: "Защото когато влизаме като съдружници, трябва да имаме реален капацитет. Не продаваме час. Продаваме резултат." },
+];
+
+const workProcess = [
+  {
+    icon: "PhoneCall",
+    step: "Стъпка 1",
+    title: "Безплатна Консултация",
+    desc: "Преценяваме с какво и как можем да ви помогнем. Разбираме вашия бизнес, цели и ограничения.",
+    listLabel: "Какво изясняваме:",
+    items: [
+      "Кой е най-подходящият ви клиент и какво наистина го спира",
+      "Кои оферти/услуги носят най-голям потенциал",
+      "Къде „изтичат“ leads-ите и какво да поправим първо",
+    ],
+  },
+  {
+    icon: "FileText",
+    step: "Стъпка 2",
+    title: "Персонално Предложение",
+    desc: "Изпращаме предложение спрямо вашите нужди и сключваме сделка, ако условията устройват и двете страни.",
+    listLabel: "Какво включва:",
+    items: [
+      "Обхват: фуния/landing + реклами + email/автоматизации",
+      "Времева рамка и KPI (CPL, CR, ROAS, записвания)",
+      "Отговорности, активи и срокове",
+    ],
+  },
+  {
+    icon: "Zap",
+    step: "Стъпка 3",
+    title: "Имплементиране на АИР",
+    desc: "Започваме със стратегически консултации 1:1, създаване на план и имплементация стъпка по стъпка.",
+    listLabel: "Как работим:",
+    items: [
+      "Анализ → Изграждане → Растеж (циклично)",
+      "Тестове и оптимизация по реални данни",
+      "Седмични отчети и корекции на стратегията",
+    ],
+  },
+];
+
+const founderCredentials = [
+  "Собственици на агенция, генерирала над 2 047 000 евро в онлайн оборот за последните 12 месеца — за нас и нашите партньори.",
+  "Тествали сме над 340 000 евро от собствените си средства в реклами, фунии и автоматизации, докато намерим какво работи в реална среда.",
+  "Работили сме с 50+ различни бизнеса — E-commerce, SaaS, локални услуги, B2B — и знаем какво се чупи в кой стадий на растежа.",
+  "Изграждаме първата в България система, в която маркетинг агенцията споделя оперативния риск с клиента — не само пуска реклами, а влиза в бизнеса.",
+];
+
+const defaultTestimonials = [
+  { id: 1, name: "Даниела К.", role: "E-commerce, мода", quote: "Благодаря за отдадеността, експертността и информацията, която ни дадохте. Уникални сте, защото трансформирате бизнеси, не просто пускате реклами. Такива честни и отдадени хора рядко се срещат." },
+  { id: 2, name: "Мария Любенова", role: "B2B услуги", quote: "За първи път работех с агенция и съм силно впечатлена от професионализма. Дадохте много стойност и информацията беше поднесена на много разбираем език. Продължавайте все така автентично да горите във вашата мисия." },
+  { id: 3, name: "Lily Rose", role: "Coach / High-ticket", quote: "Не съм се съмнявала, че ще дадете максимума. Феноменално добри сте. Безценно е цялото знание, което споделяте. Трансформацията се случи още в първия месец." },
+  { id: 4, name: "Златка П.", role: "Local services", quote: "С огромна благодарност и вълнение искам да споделя колко ценен беше за мен онбординг процесът. Близо 6 часа дълбоко, ясно и човешко говорене за най-важната част в бизнеса — продаването, стратегията — но по начин, в който хората не се чувстват притиснати, а подкрепени да вземат решение и да действат навреме." },
+  { id: 5, name: "Радостина Славова", role: "SaaS founder", quote: "Досега ви следях понякога и бях с впечатление, че сте знаещи и можещи. След първия месец работа съм толкова впечатлена от всеотдайността и ползите, които дадохте. За мен е напълно ясно, че вие сте хората, които могат да ми помогнат да успея." },
+  { id: 6, name: "Галина", role: "Стартиращ бизнес", quote: "Благодаря за страхотния онбординг, научих много неща. Засега съм в начален етап — първо да тествам идеята си и после ще влезна в програмата за пълно скалиране." },
+  { id: 7, name: "Гинка Генова", role: "Retail", quote: "Много благодаря за процеса, който беше интересен и надежден. Харесва ми, че предлагате реална подкрепа от вас като експерти. Това, което давате като знания, е с много висока стойност и предлагате нормална такса. Вярвам, че ще постигнем успех заедно." },
 ];
 
 /* ---------- App ---------- */
@@ -193,10 +251,12 @@ export default function App() {
   const [team, setTeam] = useState(defaultTeam);
   const [services, setServices] = useState(defaultServices);
   const [cases, setCases] = useState(defaultCases);
+  const [testimonials, setTestimonials] = useState(defaultTestimonials);
   const [nc, setNc] = useState({ name: "", logo: "" });
   const [nm, setNm] = useState({ name: "", role: "", bio: "" });
   const [ns, setNs] = useState({ icon: "Sparkles", title: "", desc: "" });
   const [ncase, setNcase] = useState({ client: "", problem: "", result: "", metric: "", time: "" });
+  const [nt, setNt] = useState({ name: "", role: "", quote: "" });
   const [form, setForm] = useState({ name: "", email: "", phone: "", msg: "" });
   const [audit, setAudit] = useState({ name: "", email: "", web: "" });
   const [showAudit, setShowAudit] = useState(false);
@@ -213,12 +273,13 @@ export default function App() {
         if (d.t) setTeam(d.t);
         if (d.s) setServices(d.s);
         if (d.cs) setCases(d.cs);
+        if (d.tm) setTestimonials(d.tm);
       }
     } catch {}
   }, []);
 
-  const save = useCallback((c, t, s, cs) => {
-    try { localStorage.setItem("pb5", JSON.stringify({ c, t, s, cs })); } catch {}
+  const save = useCallback((c, t, s, cs, tm) => {
+    try { localStorage.setItem("pb5", JSON.stringify({ c, t, s, cs, tm })); } catch {}
   }, []);
 
   useEffect(() => {
@@ -619,6 +680,68 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .adm-preview-lbl { font-size:9px; color:var(--y); letter-spacing:2px;
   text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
 
+/* WORK PROCESS */
+.wp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+  max-width:1140px; margin:0 auto; }
+.wp-card { background:var(--b3); border:1px solid rgba(255,255,255,.04);
+  border-radius:16px; padding:30px 26px; transition:all .25s ease; }
+.wp-card:hover { border-color:rgba(255,214,0,.2); transform:translateY(-4px);
+  box-shadow:0 20px 40px -20px rgba(255,214,0,.12); }
+.wp-head { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+.wp-ico { width:50px; height:50px; border-radius:12px;
+  background:rgba(255,214,0,.08); border:1px solid rgba(255,214,0,.18);
+  color:var(--y); display:flex; align-items:center; justify-content:center; }
+.wp-step { font-family:'Unbounded'; font-size:10px; font-weight:800;
+  color:var(--y); letter-spacing:2px; text-transform:uppercase; }
+.wp-card h3 { font-family:'Unbounded'; font-size:16px; font-weight:800;
+  margin-bottom:10px; line-height:1.25; }
+.wp-card > p { font-size:13px; color:var(--g2); line-height:1.6; margin-bottom:16px; }
+.wp-list-lbl { font-size:10px; font-weight:700; color:var(--y);
+  letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px;
+  padding-top:14px; border-top:1px solid rgba(255,214,0,.08); }
+.wp-list { list-style:none; }
+.wp-list li { display:flex; gap:10px; padding:6px 0; font-size:12px;
+  color:var(--g2); line-height:1.5; align-items:flex-start; }
+.wp-list li svg { color:var(--y); margin-top:3px; flex-shrink:0; }
+
+/* FOUNDERS */
+.fd-wrap { max-width:920px; margin:0 auto; padding:36px;
+  background:linear-gradient(135deg,rgba(255,214,0,.04),rgba(255,214,0,.01));
+  border:1px solid rgba(255,214,0,.12); border-radius:20px; }
+.fd-people { display:flex; gap:22px; justify-content:center; flex-wrap:wrap;
+  margin-bottom:30px; padding-bottom:28px; border-bottom:1px solid rgba(255,214,0,.08); }
+.fd-person { text-align:center; max-width:220px; }
+.fd-avatar { width:74px; height:74px; border-radius:50%;
+  background:rgba(255,214,0,.1); border:2px solid rgba(255,214,0,.25);
+  color:var(--y); display:flex; align-items:center; justify-content:center;
+  margin:0 auto 12px; }
+.fd-person h4 { font-size:14px; font-weight:800; margin-bottom:4px; }
+.fd-person .rl { color:var(--y); font-size:9px; font-weight:700;
+  letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; display:block; }
+.fd-person p { color:var(--g2); font-size:12px; line-height:1.55; }
+.fd-creds { list-style:none; }
+.fd-creds li { display:flex; gap:14px; padding:14px 0; font-size:13px;
+  color:var(--g2); line-height:1.65; align-items:flex-start;
+  border-bottom:1px solid rgba(255,255,255,.04); }
+.fd-creds li:last-child { border-bottom:none; }
+.fd-num { font-family:'Unbounded'; font-size:18px; font-weight:900;
+  color:var(--y); flex-shrink:0; line-height:1; padding-top:2px; min-width:32px; }
+
+/* TESTIMONIALS */
+.ts-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:18px; max-width:1200px; margin:0 auto; }
+.ts-card { background:var(--b3); border:1px solid rgba(255,255,255,.04);
+  border-radius:16px; padding:28px 24px; position:relative;
+  transition:border-color .25s ease, transform .25s ease; }
+.ts-card:hover { border-color:rgba(255,214,0,.18); transform:translateY(-3px); }
+.ts-q { color:var(--y); opacity:.4; margin-bottom:10px; }
+.ts-text { font-size:13px; color:var(--g2); line-height:1.7; margin-bottom:18px;
+  font-style:italic; }
+.ts-meta { padding-top:14px; border-top:1px solid rgba(255,214,0,.08); }
+.ts-name { font-family:'Unbounded'; font-size:12px; font-weight:800; color:var(--w); }
+.ts-role { font-size:10px; color:var(--y); letter-spacing:1.5px;
+  text-transform:uppercase; margin-top:3px; font-weight:600; }
+
 /* RESPONSIVE */
 @media (max-width:1200px) {
   .svc-grid { grid-template-columns:repeat(4,1fr); }
@@ -627,6 +750,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .sec { padding:72px 32px; }
   .svc-grid { grid-template-columns:repeat(3,1fr); }
   .sys-grid { grid-template-columns:1fr; gap:14px; }
+  .wp-grid { grid-template-columns:1fr; }
   .jrn-grid { height:360px; }
   .jrn-step:nth-child(2) { padding-bottom:56px; }
   .jrn-step:nth-child(3) { padding-bottom:112px; }
@@ -646,6 +770,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .pbox-grid { grid-template-columns:1fr; }
   .ft { padding:28px 20px; }
   .adm { padding:90px 18px 40px; }
+  .fd-wrap { padding:24px 18px; }
+  .fd-creds li { font-size:12px; gap:10px; }
   /* Journey becomes vertical timeline */
   .jrn-wrap { min-height:auto; padding:20px 0; }
   .jrn-svg { display:none; }
@@ -672,10 +798,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   const Home = () => (
     <>
       <HeroGeometric
-        badge="PERFORMANCE MARKETING AGENCY"
-        title1="Предвидим растеж за"
-        typewriterWords={["Бизнеси", "E-commerce", "SaaS", "Локални бизнеси", "B2B"]}
-        subtitle="Изградихме система, генерираща 2M+ евро оборот за 2025г. — тествана с нашите пари. Сега я изграждаме за 12 бизнеса годишно."
+        badge="ПЕРФОРМАНС МАРКЕТИНГ АГЕНЦИЯ"
+        title1="Ние помагаме на"
+        typewriterWords={["E-commerce", "SaaS", "B2B", "Локални бизнеси", "Експерти"]}
+        subtitle="Да изградят 6-цифрен и 7-цифрен оборот чрез предвидима маркетинг система. Тествана с нашите средства — над 2 047 000 евро в онлайн оборот за 12 месеца."
         ctaText="Безплатна Консултация"
         onCtaClick={() => setShowAudit(true)}
       />
@@ -692,24 +818,30 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
       )}
 
-      <section className="ST" id="stats">
-        <div className="SI" {...ff("s0")}>
-          <div className="SIi"><DollarSign size={34} /></div>
-          <div className="SIs">Над</div>
-          <div className="SIn"><Counter end={2} suffix="M+ €" /></div>
-          <div className="SIl">Оборот за нас и партньорите ни</div>
-        </div>
-        <div className="SI" {...ff("s1", 0.1)}>
-          <div className="SIi"><TrendingUp size={34} /></div>
-          <div className="SIs">Над</div>
-          <div className="SIn"><Counter end={340} suffix="K €" /></div>
-          <div className="SIl">Тествани с наши средства</div>
-        </div>
-        <div className="SI" {...ff("s2", 0.2)}>
-          <div className="SIi"><Rocket size={34} /></div>
-          <div className="SIs">Над</div>
-          <div className="SIn"><Counter end={50} suffix="+" /></div>
-          <div className="SIl">Успешни проекта</div>
+      <section className="sec dk" id="stats" style={{ paddingBottom: 30 }}>
+        <div {...ff("sttg")} className="tg">Резултати</div>
+        <h2 {...ff("sth2", 0.1)} className="U">
+          Числата говорят <em>сами</em>.
+        </h2>
+        <div className="ST" style={{ marginTop: 32, padding: 0, background: "transparent", border: "none" }} {...ff("stg", 0.2)}>
+          <div className="SI">
+            <div className="SIi"><DollarSign size={34} /></div>
+            <div className="SIs">Над</div>
+            <div className="SIn"><Counter end={2} suffix="M+ €" /></div>
+            <div className="SIl">Оборот онлайн за нас и нашите партньори</div>
+          </div>
+          <div className="SI">
+            <div className="SIi"><TrendingUp size={34} /></div>
+            <div className="SIs">Над</div>
+            <div className="SIn"><Counter end={340} suffix="K €" /></div>
+            <div className="SIl">Изхарчени за тестове и реклами, търсейки най-добрите решения</div>
+          </div>
+          <div className="SI">
+            <div className="SIi"><Rocket size={34} /></div>
+            <div className="SIs">Над</div>
+            <div className="SIn"><Counter end={50} suffix="+" /></div>
+            <div className="SIl">Различни бизнеса, с които сме направили пробив</div>
+          </div>
         </div>
       </section>
 
@@ -811,6 +943,35 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
       </section>
 
+      {/* Work Process — funnel-masters style 3 steps */}
+      <section className="sec" id="process">
+        <div {...ff("wptg")} className="tg">Процес</div>
+        <h2 {...ff("wph2", 0.1)} className="U">
+          Процес на <em>работа</em>.
+        </h2>
+        <p {...ff("wpsd", 0.15)} className="sdesc">
+          Ясни стъпки, бързи обратни връзки и фокус върху резултата.
+        </p>
+        <div className="wp-grid" {...ff("wpg", 0.2)}>
+          {workProcess.map((p, i) => (
+            <div key={i} className="wp-card">
+              <div className="wp-head">
+                <div className="wp-ico"><SvcIcon name={p.icon} size={28} /></div>
+                <div className="wp-step">{p.step}</div>
+              </div>
+              <h3 className="U">{p.title}</h3>
+              <p>{p.desc}</p>
+              <div className="wp-list-lbl">{p.listLabel}</div>
+              <ul className="wp-list">
+                {p.items.map((it, j) => (
+                  <li key={j}><Check size={14} /> <span>{it}</span></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Onboarding Journey - Anomaly stair */}
       <section className="sec dk2" id="journey">
         <div {...ff("jrtg")} className="tg">Пътят на клиента</div>
@@ -879,19 +1040,63 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
       </section>
 
-      {/* Team */}
-      {team.length > 0 && (
-        <section className="sec dk" id="team">
-          <div {...ff("thtg")} className="tg">Кои сме ние</div>
-          <h2 {...ff("thh2", 0.1)} className="U">
-            Хората зад <em>системата</em>.
+      {/* Founders / Why trust us — funnel-masters style */}
+      <section className="sec dk" id="team">
+        <div {...ff("fdtg")} className="tg">Кои сме ние</div>
+        <h2 {...ff("fdh2", 0.1)} className="U">
+          Защо да <em>ни вярвате</em>.
+        </h2>
+        <p {...ff("fdsd", 0.15)} className="sdesc">
+          Не сме теоретици. Изградили сме това с наши пари, наш риск и наши клиенти.
+        </p>
+        <div className="fd-wrap" {...ff("fdg", 0.2)}>
+          {team.length > 0 && (
+            <div className="fd-people">
+              {team.map((m) => (
+                <div key={m.id} className="fd-person">
+                  <div className="fd-avatar"><SvcIcon name="Award" size={28} /></div>
+                  <h4 className="U">{m.name}</h4>
+                  <span className="rl">{m.role}</span>
+                  <p>{m.bio}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          <ul className="fd-creds">
+            {founderCredentials.map((c, i) => (
+              <li key={i}>
+                <span className="fd-num">{String(i + 1).padStart(2, "0")}</span>
+                <span>{c}</span>
+              </li>
+            ))}
+          </ul>
+          <div style={{ textAlign: "center", marginTop: 28 }}>
+            <button className="btn" onClick={() => setShowAudit(true)}>
+              Безплатна Консултация <ArrowRight size={14} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      {testimonials.length > 0 && (
+        <section className="sec" id="testimonials">
+          <div {...ff("tstg")} className="tg">Отзиви</div>
+          <h2 {...ff("tsh2", 0.1)} className="U">
+            Какво <em>казват</em> другите.
           </h2>
-          <div className="tm-grid" style={{ marginTop: 32 }} {...ff("thg", 0.2)}>
-            {team.map((m) => (
-              <div key={m.id} className="tm">
-                <h4>{m.name}</h4>
-                <span className="rl">{m.role}</span>
-                <p>{m.bio}</p>
+          <p {...ff("tssd", 0.15)} className="sdesc">
+            Реални думи от реални хора. Не платени актьори.
+          </p>
+          <div className="ts-grid" {...ff("tsg", 0.2)}>
+            {testimonials.map((t) => (
+              <div key={t.id} className="ts-card">
+                <Quote size={22} className="ts-q" />
+                <p className="ts-text">{t.quote}</p>
+                <div className="ts-meta">
+                  <div className="ts-name">{t.name}</div>
+                  <div className="ts-role">{t.role}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -1013,10 +1218,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       const next = reorder(list, dragId, id);
       setList(next);
       setDragId(null);
-      if (list === clients) save(next, team, services, cases);
-      if (list === team) save(clients, next, services, cases);
-      if (list === services) save(clients, team, next, cases);
-      if (list === cases) save(clients, team, services, next);
+      if (list === clients) save(next, team, services, cases, testimonials);
+      if (list === team) save(clients, next, services, cases, testimonials);
+      if (list === services) save(clients, team, next, cases, testimonials);
+      if (list === cases) save(clients, team, services, next, testimonials);
+      if (list === testimonials) save(clients, team, services, cases, next);
     },
   });
 
@@ -1052,6 +1258,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             { k: "team", l: "Екип" },
             { k: "services", l: "Услуги" },
             { k: "cases", l: "Case Studies" },
+            { k: "testimonials", l: "Отзиви" },
           ].map((t) => (
             <div key={t.k} className={`adm-tab ${adminTab === t.k ? "act" : ""}`} onClick={() => setAdminTab(t.k)}>
               {t.l}
@@ -1068,7 +1275,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               <button className="btn btnSm" onClick={() => {
                 if (!nc.name) return;
                 const u = [...clients, { ...nc, id: Date.now() }];
-                setClients(u); save(u, team, services, cases); setNc({ name: "", logo: "" });
+                setClients(u); save(u, team, services, cases, testimonials); setNc({ name: "", logo: "" });
               }}><Plus size={12} /> Добави</button>
             </div>
             <h3>Подредба (drag & drop)</h3>
@@ -1077,7 +1284,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
                 <div key={c.id} className="ae" {...dragProps(clients, setClients, c.id)}>
                   <span className="grip"><GripVertical size={14} /></span>
                   <div className="ae-body">{c.name}{c.logo && <span style={{ color: "var(--g)", fontSize: 10 }}> — {c.logo}</span>}</div>
-                  <button className="btnD" onClick={() => { const u = clients.filter((x) => x.id !== c.id); setClients(u); save(u, team, services, cases); }}><X size={12} /></button>
+                  <button className="btnD" onClick={() => { const u = clients.filter((x) => x.id !== c.id); setClients(u); save(u, team, services, cases, testimonials); }}><X size={12} /></button>
                 </div>
               ))}
             </div>
@@ -1094,7 +1301,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               <button className="btn btnSm" onClick={() => {
                 if (!nm.name) return;
                 const u = [...team, { ...nm, id: Date.now() }];
-                setTeam(u); save(clients, u, services, cases); setNm({ name: "", role: "", bio: "" });
+                setTeam(u); save(clients, u, services, cases, testimonials); setNm({ name: "", role: "", bio: "" });
               }}><Plus size={12} /> Добави</button>
             </div>
             <h3>Подредба (drag & drop)</h3>
@@ -1106,7 +1313,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
                     <strong>{m.name}</strong> — <span style={{ color: "var(--y)" }}>{m.role}</span>
                     <br /><span style={{ color: "var(--g)", fontSize: 10 }}>{m.bio}</span>
                   </div>
-                  <button className="btnD" onClick={() => { const u = team.filter((x) => x.id !== m.id); setTeam(u); save(clients, u, services, cases); }}><X size={12} /></button>
+                  <button className="btnD" onClick={() => { const u = team.filter((x) => x.id !== m.id); setTeam(u); save(clients, u, services, cases, testimonials); }}><X size={12} /></button>
                 </div>
               ))}
             </div>
@@ -1125,7 +1332,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               <button className="btn btnSm" onClick={() => {
                 if (!ns.title) return;
                 const u = [...services, { ...ns, id: Date.now(), active: true }];
-                setServices(u); save(clients, team, u, cases); setNs({ icon: "Sparkles", title: "", desc: "" });
+                setServices(u); save(clients, team, u, cases, testimonials); setNs({ icon: "Sparkles", title: "", desc: "" });
               }}><Plus size={12} /> Добави</button>
             </div>
             {(ns.title || ns.desc) && (
@@ -1149,14 +1356,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
                     style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}
                     onClick={() => {
                       const u = services.map((x) => x.id === s.id ? { ...x, active: !x.active } : x);
-                      setServices(u); save(clients, team, u, cases);
+                      setServices(u); save(clients, team, u, cases, testimonials);
                     }}
                   >
                     <SvcIcon name={s.icon} size={16} />
                     <span>{s.title}</span>
                   </div>
                   <span style={{ color: s.active ? "#6bff8b" : "#ff6e7e", fontSize: 9, fontWeight: 800 }}>{s.active ? "ON" : "OFF"}</span>
-                  <button className="btnD" onClick={(e) => { e.stopPropagation(); const u = services.filter((x) => x.id !== s.id); setServices(u); save(clients, team, u, cases); }}><X size={12} /></button>
+                  <button className="btnD" onClick={(e) => { e.stopPropagation(); const u = services.filter((x) => x.id !== s.id); setServices(u); save(clients, team, u, cases, testimonials); }}><X size={12} /></button>
                 </div>
               ))}
             </div>
@@ -1175,7 +1382,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               <button className="btn btnSm" onClick={() => {
                 if (!ncase.client) return;
                 const u = [...cases, { ...ncase, id: Date.now() }];
-                setCases(u); save(clients, team, services, u); setNcase({ client: "", problem: "", result: "", metric: "", time: "" });
+                setCases(u); save(clients, team, services, u, testimonials); setNcase({ client: "", problem: "", result: "", metric: "", time: "" });
               }}><Plus size={12} /> Добави</button>
             </div>
             {(ncase.client || ncase.problem) && (
@@ -1192,7 +1399,49 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
                   <div className="ae-body">
                     <strong style={{ color: "var(--y)" }}>{c.client}</strong> — {c.metric} / {c.time}
                   </div>
-                  <button className="btnD" onClick={() => { const u = cases.filter((x) => x.id !== c.id); setCases(u); save(clients, team, services, u); }}><X size={12} /></button>
+                  <button className="btnD" onClick={() => { const u = cases.filter((x) => x.id !== c.id); setCases(u); save(clients, team, services, u, testimonials); }}><X size={12} /></button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {adminTab === "testimonials" && (
+          <div>
+            <h3>Добави отзив</h3>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+              <input className="ai" value={nt.name} onChange={(e) => setNt({ ...nt, name: e.target.value })} placeholder="Име" />
+              <input className="ai" value={nt.role} onChange={(e) => setNt({ ...nt, role: e.target.value })} placeholder="Бизнес / роля" />
+              <input className="ai" style={{ minWidth: 320 }} value={nt.quote} onChange={(e) => setNt({ ...nt, quote: e.target.value })} placeholder="Отзив (цитат)" />
+              <button className="btn btnSm" onClick={() => {
+                if (!nt.name || !nt.quote) return;
+                const u = [...testimonials, { ...nt, id: Date.now() }];
+                setTestimonials(u); save(clients, team, services, cases, u); setNt({ name: "", role: "", quote: "" });
+              }}><Plus size={12} /> Добави</button>
+            </div>
+            {(nt.name || nt.quote) && (
+              <div className="adm-preview">
+                <div className="adm-preview-lbl"><Eye size={12} /> PREVIEW</div>
+                <div className="ts-card" style={{ maxWidth: 360 }}>
+                  <Quote size={22} className="ts-q" />
+                  <p className="ts-text">{nt.quote || "..."}</p>
+                  <div className="ts-meta">
+                    <div className="ts-name">{nt.name || "Име"}</div>
+                    <div className="ts-role">{nt.role || "Роля"}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <h3>Подредба (drag &amp; drop)</h3>
+            <div className="al">
+              {testimonials.map((t) => (
+                <div key={t.id} className="ae" {...dragProps(testimonials, setTestimonials, t.id)}>
+                  <span className="grip"><GripVertical size={14} /></span>
+                  <div className="ae-body">
+                    <strong>{t.name}</strong> — <span style={{ color: "var(--y)" }}>{t.role}</span>
+                    <br /><span style={{ color: "var(--g)", fontSize: 10 }}>{t.quote.slice(0, 80)}{t.quote.length > 80 ? "..." : ""}</span>
+                  </div>
+                  <button className="btnD" onClick={() => { const u = testimonials.filter((x) => x.id !== t.id); setTestimonials(u); save(clients, team, services, cases, u); }}><X size={12} /></button>
                 </div>
               ))}
             </div>
@@ -1212,7 +1461,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <a onClick={() => scrollTo("about")}>За нас</a>
           <a onClick={() => scrollTo("services")}>Услуги</a>
           <a onClick={() => scrollTo("system")}>АИР</a>
-          <a onClick={() => scrollTo("cases")}>Резултати</a>
+          <a onClick={() => scrollTo("process")}>Процес</a>
+          <a onClick={() => scrollTo("testimonials")}>Отзиви</a>
           <a onClick={() => scrollTo("faq")}>FAQ</a>
           <a onClick={() => nav("admin")} style={{ opacity: 0.25, fontSize: 9 }}>•</a>
           <button className="btn btnSm" onClick={() => setShowAudit(true)}>Консултация</button>
@@ -1226,7 +1476,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         <a onClick={() => { setMenuOpen(false); nav("home"); }}>Начало</a>
         <a onClick={() => scrollTo("services")}>Услуги</a>
         <a onClick={() => scrollTo("system")}>Системата АИР</a>
-        <a onClick={() => scrollTo("cases")}>Резултати</a>
+        <a onClick={() => scrollTo("process")}>Процес</a>
+        <a onClick={() => scrollTo("testimonials")}>Отзиви</a>
         <a onClick={() => scrollTo("faq")}>FAQ</a>
         <a onClick={() => nav("admin")}>Admin</a>
         <button className="btn" onClick={() => { setMenuOpen(false); setShowAudit(true); }}>Консултация</button>
