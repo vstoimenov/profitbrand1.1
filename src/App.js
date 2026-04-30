@@ -105,15 +105,15 @@ const defaultClients = [
 ];
 
 const defaultTeam = [
-  { id: 1, name: "Виктор Стоименов", role: "CEO & Founder", bio: "Performance Marketing & AI Strategy. Специализирам в Meta реклами и AI автоматизации за e-commerce. Управлявал съм рекламни бюджети, генерирали над 2 000 000 лв оборот за 12 месеца. Не теоретизирам — всичко, което препоръчвам, съм тествал с реални пари и реални бизнеси.", photo: "" },
+  { id: 1, name: "Виктор Стоименов", role: "CEO & Founder", bio: "Performance Marketing & AI Strategy. Специализирам в Meta реклами и AI автоматизации за e-commerce. Управлявал съм рекламни бюджети, генерирали над 2 000 000 € оборот за 12 месеца. Не теоретизирам — всичко, което препоръчвам, съм тествал с реални пари и реални бизнеси.", photo: "" },
 ];
 
 const defaultCases = [
   {
     id: 1,
     client: "E-COMMERCE БРАНД — ОТ ROAS 1.2 ДО 4.7x ЗА 60 ДНИ",
-    problem: "ROAS 1.2 при 8 000 лв./мес рекламен бюджет — горяха пари без ясна стратегия. Нямаше email автоматизации, нямаше retargeting система, creative-ите не бяха тествани.",
-    result: "Пълен restructure на Meta кампаниите. Нови creative концепции с A/B тестване. AI-powered email flows за abandoned cart и post-purchase. Retargeting funnel с 3 нива. Резултат: ROAS 4.7x за 60 дни. Същият бюджет — 4x повече приходи. Без смяна на продукт. Брандът достигна над 2 000 000 лв оборот за 12 месеца.",
+    problem: "ROAS 1.2 при 8 000 €./мес рекламен бюджет — горяха пари без ясна стратегия. Нямаше email автоматизации, нямаше retargeting система, creative-ите не бяха тествани.",
+    result: "Пълен restructure на Meta кампаниите. Нови creative концепции с A/B тестване. AI-powered email flows за abandoned cart и post-purchase. Retargeting funnel с 3 нива. Резултат: ROAS 4.7x за 60 дни. Същият бюджет — 4x повече приходи. Без смяна на продукт. Брандът достигна над 2 000 000 € оборот за 12 месеца.",
     metric: "4.7x ROAS",
     time: "60 дни",
   },
@@ -175,7 +175,7 @@ const faqs = [
   { q: "Какво ако вече работя с агенция?", a: "Ако текущата ти агенция не ти дава ясни числа за ROAS, CAC и LTV — имаш проблем. Можем да направим безплатен audit и да видим къде са пропуските, преди да вземеш решение." },
   { q: "Как се заплаща?", a: "Работим на месечен retainer + performance бонус при постигане на KPIs. Без дългосрочни договори. Конкретните условия обсъждаме на консултацията." },
   { q: "Какво ви отличава от другите агенции?", a: "Не пускам просто реклами. Изграждам цялата система — от Meta ads до AI автоматизации за retention. Повечето агенции спират след клика. Аз работя до повторната покупка." },
-  { q: "За какъв размер e-commerce бизнес е подходящо?", a: "Работя с e-commerce брандове, които вече имат product-market fit и минимум 3 000-5 000 лв./месец рекламен бюджет. Ако си в начален етап без продажби — все още не е моментът." },
+  { q: "За какъв размер e-commerce бизнес е подходящо?", a: "Работя с e-commerce брандове, които вече имат product-market fit и минимум 3 000-5 000 €./месец рекламен бюджет. Ако си в начален етап без продажби — все още не е моментът." },
   { q: "Работите ли с брандове извън България?", a: "Фокусът ми е български e-commerce брандове и такива, продаващи на българския/европейския пазар. За международно скалиране — обсъждаме индивидуално." },
 ];
 
@@ -219,7 +219,7 @@ const workProcess = [
 ];
 
 const founderCredentials = [
-  "Управлявал съм рекламни бюджети, генерирали над 2 000 000 лв оборот за 12 месеца — за един e-commerce бранд.",
+  "Управлявал съм рекламни бюджети, генерирали над 2 000 000 € оборот за 12 месеца — за един e-commerce бранд.",
   "Постигнал съм ROAS 4.7x за 60 дни — от изходна точка ROAS 1.2 — без увеличение на бюджета.",
   "Специализирам само в e-commerce — Meta реклами, AI email автоматизации, conversion оптимизация. Без разсейване в други ниши.",
   "Не теоретизирам. Всичко, което препоръчвам, съм тествал с реални пари и реални брандове — не на семинари.",
@@ -803,9 +803,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     <>
       <HeroGeometric
         badge="PERFORMANCE MARKETING & AI ЗА E-COMMERCE"
-        title1="Помагам на e-commerce брандове"
-        title2="да изградят 7-цифрен оборот."
-        subtitle="Performance Meta реклами + AI автоматизации — цялата система от първия клик до повторната покупка. Доказано с над 2 000 000 лв генериран оборот за 12 месеца."
+        title1="Помагам на"
+        typewriterWords={["E-commerce брандове", "Shopify магазини", "DTC брандове", "Fashion брандове", "Beauty брандове"]}
+        subtitle="Да изградят 7-цифрен оборот чрез Performance Meta реклами + AI автоматизации — цялата система от първия клик до повторната покупка. Доказано с над 2 000 000 € генериран оборот за 12 месеца."
         ctaText="Безплатна Консултация"
         onCtaClick={() => setShowAudit(true)}
       />
@@ -832,7 +832,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <div className="SI">
             <div className="SIi"><DollarSign size={34} /></div>
             <div className="SIs">Над</div>
-            <div className="SIn"><Counter end={2} suffix="M+ лв" /></div>
+            <div className="SIn"><Counter end={2} suffix="M+ €" /></div>
             <div className="SIl">Генериран оборот за e-commerce бранд за 12 месеца</div>
           </div>
           <div className="SI">
@@ -1013,7 +1013,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       <section className="sec" id="cases">
         <div {...ff("cstg")} className="tg">Резултати</div>
         <h2 {...ff("csh2", 0.1)} className="U">
-          Един бранд. <em>4x ROAS. 2 000 000+ лв оборот.</em>
+          Един бранд. <em>4x ROAS. 2 000 000+ € оборот.</em>
         </h2>
         <p {...ff("cssd", 0.15)} className="sdesc">
           Реален клиент. Реален бюджет. Реални числа от Ads Manager.
@@ -1161,7 +1161,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="https://..." />
           </div>
           <div className="fg"><label>Месечен рекламен бюджет</label>
-            <textarea value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} placeholder="Напр: 5 000 лв/мес. + кратко описание на бранда..." />
+            <textarea value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} placeholder="Напр: 5 000 €/мес. + кратко описание на бранда..." />
           </div>
           <button className="btn" style={{ width: "100%" }} onClick={() => alert("Благодарим! Ще се свържа с теб до 24 часа.")}>
             Запази консултация <ArrowRight size={14} />
