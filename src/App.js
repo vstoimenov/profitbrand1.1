@@ -260,7 +260,6 @@ export default function App() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", msg: "" });
   const [audit, setAudit] = useState({ name: "", email: "", web: "" });
   const [showAudit, setShowAudit] = useState(false);
-  const [vis, setVis] = useState({});
   const [openFaq, setOpenFaq] = useState(null);
   const [openSys, setOpenSys] = useState(null);
   const [dragId, setDragId] = useState(null);
@@ -282,24 +281,10 @@ export default function App() {
     try { localStorage.setItem("pb5", JSON.stringify({ c, t, s, cs, tm })); } catch {}
   }, []);
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (e) => e.forEach((x) => { if (x.isIntersecting) setVis((p) => ({ ...p, [x.target.dataset.v]: true })); }),
-      { threshold: 0, rootMargin: "0px 0px 50px 0px" }
-    );
-    const t = setTimeout(() => {
-      document.querySelectorAll("[data-v]").forEach((el) => {
-        obs.observe(el);
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          setVis((p) => ({ ...p, [el.dataset.v]: true }));
-        }
-      });
-    }, 60);
-    return () => { clearTimeout(t); obs.disconnect(); };
-  }, [page]);
+  // Scroll-reveal removed — elements always visible, no flash issues
+  useEffect(() => {}, [page]);
 
-  const nav = (p) => { setPage(p); setMenuOpen(false); window.scrollTo?.(0, 0); setVis({}); };
+  const nav = (p) => { setPage(p); setMenuOpen(false); window.scrollTo?.(0, 0); };
   const scrollTo = (id) => {
     setMenuOpen(false);
     const el = document.getElementById(id);
@@ -315,14 +300,8 @@ export default function App() {
       });
     }, 700);
   };
-  const ff = (id, d = 0) => ({
-    "data-v": id,
-    style: {
-      opacity: vis[id] ? 1 : 0,
-      transform: vis[id] ? "translateY(0)" : "translateY(36px)",
-      transition: `all .75s cubic-bezier(.16,1,.3,1) ${d}s`,
-    },
-  });
+  // ff() — always visible, no flash. data-v kept for potential future use.
+  const ff = (id, d = 0) => ({ "data-v": id });
   const activeServices = services.filter((s) => s.active);
 
   /* drag-drop reordering for admin lists */
