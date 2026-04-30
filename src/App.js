@@ -78,18 +78,9 @@ function Typewriter({ words, className }) {
 /* ---------- Default data ---------- */
 
 const defaultServices = [
-  { id: 1, icon: "BarChart3", title: "МАРКЕТИНГ КОНСУЛТИРАНЕ", desc: "Влизаме в бизнеса, анализираме процесите и изграждаме стратегия за реален растеж.", active: true },
-  { id: 2, icon: "Palette", title: "РЕКЛАМНО СЪДЪРЖАНИЕ", desc: "Съдържание, което продава — реални конверсии.", active: true },
-  { id: 3, icon: "Star", title: "БРАНД ИДЕНТИЧНОСТ", desc: "Позициониране, което внушава доверие от първата секунда.", active: true },
-  { id: 4, icon: "Target", title: "РЕКЛАМНИ КАМПАНИИ", desc: "Meta, Google, TikTok Ads — перформанс с доказана възвръщаемост.", active: true },
-  { id: 5, icon: "GraduationCap", title: "ОБУЧИТЕЛНИ КУРСОВЕ", desc: "Предаваме знанията си на екипа ви.", active: true },
-  { id: 6, icon: "Video", title: "ВИДЕО ПРОДУКЦИЯ", desc: "Видео, оптимизирано за конверсии.", active: true },
-  { id: 7, icon: "Mic", title: "АУДИО ПРОДУКЦИЯ", desc: "Подкасти, аудио реклами и звуков брандинг.", active: true },
-  { id: 8, icon: "DollarSign", title: "HIGH TICKET СТРУКТУРА", desc: "Продажба на скъпи оферти с предвидим поток от клиенти.", active: true },
-  { id: 9, icon: "Mail", title: "EMAIL МАРКЕТИНГ", desc: "Автоматизирани фунии, които конвертират.", active: true },
-  { id: 10, icon: "Bot", title: "AI АВТОМАТИЗАЦИИ", desc: "AI Voice Agents, Customer Support, Video Generate.", active: true },
-  { id: 11, icon: "Globe", title: "МЕЖДУНАРОДНО СКАЛИРАНЕ", desc: "Доказани стратегии за нови пазари.", active: true },
-  { id: 12, icon: "Settings", title: "ПЛАТФОРМИ & СИСТЕМИ", desc: "Сайтове, фунии, CRM — цялата инфраструктура.", active: true },
+  { id: 1, icon: "Target", title: "PERFORMANCE ACQUISITION", desc: "Meta & Instagram реклами, creative стратегия, A/B тестване, retargeting funnels, lookalike аудитории. Привличаме точните хора на най-ниската цена.", active: true },
+  { id: 2, icon: "Bot", title: "AI-POWERED RETENTION", desc: "Automated email flows, abandoned cart recovery, post-purchase sequences, AI customer segmentation, персонализирани оферти. Всеки клиент получава правилното съобщение в правилния момент.", active: true },
+  { id: 3, icon: "TrendingUp", title: "CONVERSION & SCALE", desc: "Landing page оптимизация, product page strategy, upsell/cross-sell funnels, AOV optimization. Повече приходи от същия трафик, преди да увеличим бюджета.", active: true },
 ];
 
 const ICONS = {
@@ -114,14 +105,18 @@ const defaultClients = [
 ];
 
 const defaultTeam = [
-  { id: 1, name: "Иван Петров", role: "CEO & Founder", bio: "10+ години в перформанс маркетинг.", photo: "" },
-  { id: 2, name: "Мария Георгиева", role: "Head of Strategy", bio: "Експерт по скалиране на международни пазари.", photo: "" },
+  { id: 1, name: "Виктор Стоименов", role: "CEO & Founder", bio: "Performance Marketing & AI Strategy. Специализирам в Meta реклами и AI автоматизации за e-commerce. Управлявал съм рекламни бюджети, генерирали над 2 000 000 лв оборот за 12 месеца. Не теоретизирам — всичко, което препоръчвам, съм тествал с реални пари и реални бизнеси.", photo: "" },
 ];
 
 const defaultCases = [
-  { id: 1, client: "E-COMMERCE БРАНД", problem: "ROAS 1.2 при 8,000 лв./мес. — горяха пари без да знаят защо.", result: "ROAS 4.7 за 60 дни. Същият бюджет — 4x повече приходи. Без смяна на продукт.", metric: "4.7x ROAS", time: "60 дни" },
-  { id: 2, client: "ЛОКАЛЕН БИЗНЕС", problem: "Нулево онлайн присъствие. Разчитаха само на препоръки.", result: "127 квалифицирани заявки за 30 дни. Първите 20 от тях покриха цялата инвестиция.", metric: "127 заявки", time: "30 дни" },
-  { id: 3, client: "B2B КОМПАНИЯ", problem: "70% от времето на екипа отиваше в студени обаждания. Продуктивността — нула.", result: "AI квалифицира leads автоматично. Екипът говори само с hot leads. 3x повече сделки.", metric: "3x сделки", time: "45 дни" },
+  {
+    id: 1,
+    client: "E-COMMERCE БРАНД — ОТ ROAS 1.2 ДО 4.7x ЗА 60 ДНИ",
+    problem: "ROAS 1.2 при 8 000 лв./мес рекламен бюджет — горяха пари без ясна стратегия. Нямаше email автоматизации, нямаше retargeting система, creative-ите не бяха тествани.",
+    result: "Пълен restructure на Meta кампаниите. Нови creative концепции с A/B тестване. AI-powered email flows за abandoned cart и post-purchase. Retargeting funnel с 3 нива. Резултат: ROAS 4.7x за 60 дни. Същият бюджет — 4x повече приходи. Без смяна на продукт. Брандът достигна над 2 000 000 лв оборот за 12 месеца.",
+    metric: "4.7x ROAS",
+    time: "60 дни",
+  },
 ];
 
 const journeySteps = [
@@ -137,106 +132,101 @@ const systemSteps = [
   {
     icon: "Search",
     letter: "А",
-    title: "Анализ & Blueprint",
-    desc: "Влизаме в бизнеса и правим пълен одит — не само маркетинга, а целия оперативен процес. Къде губите пари? Къде клиентите отпадат СЛЕД маркетинга?",
-    tags: ["Оперативен одит", "Целева аудитория", "Конкурентен анализ"],
+    title: "Анализ & E-com Audit",
+    desc: "Пълен одит на e-commerce бизнеса: unit economics, product margins, customer acquisition cost, lifetime value, funnel leaks. Не гадаем — решаваме на база данни.",
+    tags: ["Unit economics анализ", "Funnel audit (от ad до checkout)", "Конкурентен landscape"],
     details: [
-      "Анализ на бизнес модела и оперативните процеси",
-      "Deep dive в клиентския профил",
-      "Конкурентен landscape",
-      "Бюджетен план с очакван ROI",
+      "Unit economics анализ — CAC, LTV, contribution margin",
+      "Funnel audit — от първия ad до checkout",
+      "Конкурентен landscape и позициониране",
+      "Customer journey map и retention insights",
     ],
   },
   {
     icon: "Wrench",
     letter: "И",
     title: "Изграждане & Инфраструктура",
-    desc: "Сайт, фунии, CRM, email системи, AI автоматизации, видео — цялата машина за растеж.",
-    tags: ["Платформи", "AI системи", "Съдържание"],
+    desc: "Meta кампании, AI email системи, landing pages, creative assets — цялата машина за растеж, настроена за твоя бранд.",
+    tags: ["Meta Ads setup & creative", "AI email автоматизации", "Conversion-optimized pages"],
     details: [
-      "Сайтове, landing pages и фунии",
-      "CRM интеграции и автоматизации",
-      "AI Voice Agents и Support",
-      "Видео и рекламно съдържание",
+      "Meta Ads setup — campaign architecture, audiences, creative",
+      "AI email автоматизации — abandoned cart, post-purchase, win-back",
+      "Conversion-optimized landing pages и product pages",
+      "Retargeting funnel с 3 нива",
     ],
   },
   {
     icon: "Rocket",
     letter: "Р",
     title: "Растеж & Скалиране",
-    desc: "Пускаме кампаниите, оптимизираме в реално време, скалираме. Повече leads, повече продажби, повече пазари.",
-    tags: ["Перформанс Ads", "Оптимизация", "Нови пазари"],
+    desc: "Оптимизираме в реално време. Скалираме каналите, които работят. Добавяме нови revenue streams — subscriptions, bundles, VIP програми.",
+    tags: ["Performance оптимизация", "AOV & LTV growth", "Нови revenue streams"],
     details: [
-      "Meta, Google, TikTok Ads",
-      "Седмични отчети",
-      "A/B тестове",
-      "Международно скалиране",
+      "Performance оптимизация — седмични корекции по данни",
+      "AOV & LTV growth — upsells, bundles, cross-sells",
+      "Нови revenue streams — subscriptions, VIP, loyalty",
+      "Скалиране на каналите, които работят",
     ],
   },
 ];
 
 const faqs = [
-  { q: "Колко бързо ще видя резултати?", a: "Първите leads — до 14 дни. Пълна система, която работи предвидимо — 60-90 дни. Без „магия за 7 дни“." },
-  { q: "Какво ако вече работя с агенция?", a: "Повечето клиенти идват точно затова. Правим безплатен одит — ако настоящата ви агенция върши работа, ще ви кажем. Ако не — ще ви покажем какво губите." },
-  { q: "Как се заплаща?", a: "Условията се договарят индивидуално. Влизаме като съдружници — споделяме риска и резултата. Работим с максимум 12 бизнеса годишно, за да сме реално ангажирани." },
-  { q: "Какво ви отличава?", a: "Не пускаме просто реклами. Влизаме в бизнеса, гледаме оперативните процеси, следваме клиента след маркетинга. Там повечето агенции спират — ние тепърва започваме." },
-  { q: "Защо само 12 бизнеса?", a: "Защото когато влизаме като съдружници, трябва да имаме реален капацитет. Не продаваме час. Продаваме резултат." },
+  { q: "Колко бързо ще видя резултати?", a: "Повечето e-commerce клиенти виждат подобрение в ROAS в първите 2-4 седмици. Пълна оптимизация на системата (ads + email + automations) отнема 60-90 дни." },
+  { q: "Какво ако вече работя с агенция?", a: "Ако текущата ти агенция не ти дава ясни числа за ROAS, CAC и LTV — имаш проблем. Можем да направим безплатен audit и да видим къде са пропуските, преди да вземеш решение." },
+  { q: "Как се заплаща?", a: "Работим на месечен retainer + performance бонус при постигане на KPIs. Без дългосрочни договори. Конкретните условия обсъждаме на консултацията." },
+  { q: "Какво ви отличава от другите агенции?", a: "Не пускам просто реклами. Изграждам цялата система — от Meta ads до AI автоматизации за retention. Повечето агенции спират след клика. Аз работя до повторната покупка." },
+  { q: "За какъв размер e-commerce бизнес е подходящо?", a: "Работя с e-commerce брандове, които вече имат product-market fit и минимум 3 000-5 000 лв./месец рекламен бюджет. Ако си в начален етап без продажби — все още не е моментът." },
+  { q: "Работите ли с брандове извън България?", a: "Фокусът ми е български e-commerce брандове и такива, продаващи на българския/европейския пазар. За международно скалиране — обсъждаме индивидуално." },
 ];
 
 const workProcess = [
   {
     icon: "PhoneCall",
     step: "Стъпка 1",
-    title: "Безплатна Консултация",
-    desc: "Преценяваме с какво и как можем да ви помогнем. Разбираме вашия бизнес, цели и ограничения.",
+    title: "Безплатен E-com Audit Call",
+    desc: "30-минутен разговор, в който анализираме твоя e-commerce бизнес: какво работи, къде губиш пари, къде е най-големият потенциал за растеж.",
     listLabel: "Какво изясняваме:",
     items: [
-      "Кой е най-подходящият ви клиент и какво наистина го спира",
-      "Кои оферти/услуги носят най-голям потенциал",
-      "Къде „изтичат“ leads-ите и какво да поправим първо",
+      "Текущ ROAS, CAC, AOV и LTV — къде стоиш спрямо benchmarks",
+      "Кои продукти/категории имат най-голям margin и потенциал",
+      "Къде в funnel-а губиш най-много клиенти",
     ],
   },
   {
     icon: "FileText",
     step: "Стъпка 2",
-    title: "Персонално Предложение",
-    desc: "Изпращаме предложение спрямо вашите нужди и сключваме сделка, ако условията устройват и двете страни.",
+    title: "Growth Blueprint",
+    desc: "Получаваш детайлен стратегически документ — конкретен план за растеж на твоя e-commerce бранд с таймлайн, KPIs и приоритети.",
     listLabel: "Какво включва:",
     items: [
-      "Обхват: фуния/landing + реклами + email/автоматизации",
-      "Времева рамка и KPI (CPL, CR, ROAS, записвания)",
-      "Отговорности, активи и срокове",
+      "Meta ads стратегия: аудитории, creative подход, бюджет разпределение",
+      "AI automation план: email flows, segments, triggers",
+      "90-дневен roadmap с конкретни KPIs (ROAS, AOV, CAC targets)",
     ],
   },
   {
     icon: "Zap",
     step: "Стъпка 3",
-    title: "Имплементиране на АИР",
-    desc: "Започваме със стратегически консултации 1:1, създаване на план и имплементация стъпка по стъпка.",
+    title: "Изпълнение & Оптимизация",
+    desc: "Стартираме системата и оптимизираме на база реални данни. Седмични отчети, бързи корекции, фокус върху ROI.",
     listLabel: "Как работим:",
     items: [
-      "Анализ → Изграждане → Растеж (циклично)",
-      "Тестове и оптимизация по реални данни",
-      "Седмични отчети и корекции на стратегията",
+      "Седмични performance отчети с ясни числа",
+      "Bi-weekly strategy calls",
+      "Непрекъсната оптимизация на кампании, creative и automations",
     ],
   },
 ];
 
 const founderCredentials = [
-  "Собственици на агенция, генерирала над 2 047 000 евро в онлайн оборот за последните 12 месеца — за нас и нашите партньори.",
-  "Тествали сме над 340 000 евро от собствените си средства в реклами, фунии и автоматизации, докато намерим какво работи в реална среда.",
-  "Работили сме с 50+ различни бизнеса — E-commerce, SaaS, локални услуги, B2B — и знаем какво се чупи в кой стадий на растежа.",
-  "Изграждаме първата в България система, в която маркетинг агенцията споделя оперативния риск с клиента — не само пуска реклами, а влиза в бизнеса.",
+  "Управлявал съм рекламни бюджети, генерирали над 2 000 000 лв оборот за 12 месеца — за един e-commerce бранд.",
+  "Постигнал съм ROAS 4.7x за 60 дни — от изходна точка ROAS 1.2 — без увеличение на бюджета.",
+  "Специализирам само в e-commerce — Meta реклами, AI email автоматизации, conversion оптимизация. Без разсейване в други ниши.",
+  "Не теоретизирам. Всичко, което препоръчвам, съм тествал с реални пари и реални брандове — не на семинари.",
 ];
 
 const defaultTestimonials = [
-  { id: 1, name: "Даниела К.", role: "E-commerce, мода", quote: "Благодаря за отдадеността, експертността и информацията, която ни дадохте. Уникални сте, защото трансформирате бизнеси, не просто пускате реклами. Такива честни и отдадени хора рядко се срещат." },
-  { id: 2, name: "Мария Любенова", role: "B2B услуги", quote: "За първи път работех с агенция и съм силно впечатлена от професионализма. Дадохте много стойност и информацията беше поднесена на много разбираем език. Продължавайте все така автентично да горите във вашата мисия." },
-  { id: 3, name: "Lily Rose", role: "Coach / High-ticket", quote: "Не съм се съмнявала, че ще дадете максимума. Феноменално добри сте. Безценно е цялото знание, което споделяте. Трансформацията се случи още в първия месец." },
-  { id: 4, name: "Златка П.", role: "Local services", quote: "С огромна благодарност и вълнение искам да споделя колко ценен беше за мен онбординг процесът. Близо 6 часа дълбоко, ясно и човешко говорене за най-важната част в бизнеса — продаването, стратегията — но по начин, в който хората не се чувстват притиснати, а подкрепени да вземат решение и да действат навреме." },
-  { id: 5, name: "Радостина Славова", role: "SaaS founder", quote: "Досега ви следях понякога и бях с впечатление, че сте знаещи и можещи. След първия месец работа съм толкова впечатлена от всеотдайността и ползите, които дадохте. За мен е напълно ясно, че вие сте хората, които могат да ми помогнат да успея." },
-  { id: 6, name: "Галина", role: "Стартиращ бизнес", quote: "Благодаря за страхотния онбординг, научих много неща. Засега съм в начален етап — първо да тествам идеята си и после ще влезна в програмата за пълно скалиране." },
-  { id: 7, name: "Гинка Генова", role: "Retail", quote: "Много благодаря за процеса, който беше интересен и надежден. Харесва ми, че предлагате реална подкрепа от вас като експерти. Това, което давате като знания, е с много висока стойност и предлагате нормална такса. Вярвам, че ще постигнем успех заедно." },
+  { id: 1, name: "Даниела К.", role: "E-commerce, мода", quote: "Виктор не пуска просто реклами. Влезе в бизнеса ни — погледна margins, retention, цялата фуния. За 60 дни ROAS-ът ни се вдигна 4 пъти. Това не е магия — това е работа на човек, който знае какво прави." },
 ];
 
 /* ---------- App ---------- */
@@ -445,8 +435,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* SERVICES — Anomaly style (yellow bg, white cards, black circles, yellow icons) */
 .svc-grid {
-  display:grid; grid-template-columns:repeat(5,1fr);
-  gap:18px; max-width:1200px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:24px; max-width:1180px; margin:0 auto;
 }
 .svc {
   background:#FFFFFF; color:var(--b);
@@ -469,7 +459,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   font-family:'Unbounded'; font-size:11px; font-weight:800;
   letter-spacing:.3px; line-height:1.3; color:var(--b);
 }
-.svc p { font-size:11px; color:#3a3a4a; line-height:1.45; display:none; }
+.svc p { font-size:13px; color:#3a3a4a; line-height:1.6; padding:0 4px; }
 
 /* JOURNEY — stair-step like Anomaly */
 .jrn-wrap {
@@ -812,10 +802,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   const renderHome = () => (
     <>
       <HeroGeometric
-        badge="ПЕРФОРМАНС МАРКЕТИНГ АГЕНЦИЯ"
-        title1="Ние помагаме на"
-        typewriterWords={["E-commerce", "SaaS", "B2B", "Локални бизнеси", "Експерти"]}
-        subtitle="Да изградят 6-цифрен и 7-цифрен оборот чрез предвидима маркетинг система. Тествана с нашите средства — над 2 047 000 евро в онлайн оборот за 12 месеца."
+        badge="PERFORMANCE MARKETING & AI ЗА E-COMMERCE"
+        title1="Помагам на e-commerce брандове"
+        title2="да изградят 7-цифрен оборот."
+        subtitle="Performance Meta реклами + AI автоматизации — цялата система от първия клик до повторната покупка. Доказано с над 2 000 000 лв генериран оборот за 12 месеца."
         ctaText="Безплатна Консултация"
         onCtaClick={() => setShowAudit(true)}
       />
@@ -842,77 +832,67 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <div className="SI">
             <div className="SIi"><DollarSign size={34} /></div>
             <div className="SIs">Над</div>
-            <div className="SIn"><Counter end={2} suffix="M+ €" /></div>
-            <div className="SIl">Оборот онлайн за нас и нашите партньори</div>
+            <div className="SIn"><Counter end={2} suffix="M+ лв" /></div>
+            <div className="SIl">Генериран оборот за e-commerce бранд за 12 месеца</div>
           </div>
           <div className="SI">
             <div className="SIi"><TrendingUp size={34} /></div>
-            <div className="SIs">Над</div>
-            <div className="SIn"><Counter end={340} suffix="K €" /></div>
-            <div className="SIl">Изхарчени за тестове и реклами, търсейки най-добрите решения</div>
+            <div className="SIs">Постигнат</div>
+            <div className="SIn">4.7x ROAS</div>
+            <div className="SIl">За 60 дни — без увеличение на рекламния бюджет</div>
           </div>
           <div className="SI">
             <div className="SIi"><Rocket size={34} /></div>
-            <div className="SIs">Над</div>
-            <div className="SIn"><Counter end={50} suffix="+" /></div>
-            <div className="SIl">Различни бизнеса, с които сме направили пробив</div>
+            <div className="SIs">За</div>
+            <div className="SIn"><Counter end={60} suffix=" дни" /></div>
+            <div className="SIl">От ROAS 1.2 до ROAS 4.7 — само с оптимизация на стратегията</div>
           </div>
         </div>
       </section>
 
       {/* Differentiator */}
       <section className="sec dk" id="about">
-        <div {...ff("ptg")} className="tg">Какво ни отличава</div>
+        <div {...ff("ptg")} className="tg">Защо да работиш с мен</div>
         <h2 {...ff("ph2", 0.1)} className="U">
-          Не пускаме просто реклами.<br />
-          <em>Влизаме в бизнеса ви.</em>
+          Защо e-commerce брандове<br />
+          <em>работят с мен.</em>
         </h2>
-        <p {...ff("psd", 0.15)} className="sdesc">
-          Ако търсите поредната агенция за „постове и сторита“ — не сме ние. Влизаме в бизнеса,
-          виждаме къде губите пари оперативно, и оправяме проблемите СЛЕД маркетинга. Защото трафикът
-          без система е просто по-скъп начин да загубите клиенти.
-        </p>
         <div className="pbox" {...ff("pbx", 0.2)}>
-          <h3 className="U">Вашият бизнес е <em>наш бизнес</em>.</h3>
-          <p>
-            Работим като съдружници — споделяме риска и резултата. Ние ще докараме хора в бизнеса,
-            но после идват оперативните пропуски, лошо обслужване, изтичащи клиенти. Затова не
-            гледаме само рекламите — гледаме <strong style={{ color: "var(--y)" }}>целия бизнес</strong>.
-          </p>
           <div className="pbox-grid">
             <div className="pbox-item">
               <div className="pi"><Search size={22} /></div>
-              <h5>ОПЕРАТИВЕН ОДИТ</h5>
-              <p>Намираме проблемите в процесите — не само в маркетинга.</p>
+              <h5>НЕ ПУСКАМ ПРОСТО РЕКЛАМИ</h5>
+              <p>Повечето агенции ти пускат кампания и чакат. Аз влизам в бизнеса — гледам unit economics, product margins, customer journey, retention. Защото ROAS без контекст е безсмислено число.</p>
             </div>
             <div className="pbox-item">
-              <div className="pi"><AlertCircle size={22} /></div>
-              <h5>СЛЕД МАРКЕТИНГА</h5>
-              <p>Какво се случва когато клиентът дойде? Там повечето агенции спират.</p>
+              <div className="pi"><Bot size={22} /></div>
+              <h5>AI АВТОМАТИЗАЦИИ 24/7</h5>
+              <p>Изграждам AI системи за email flows, customer qualification, abandoned cart recovery и post-purchase upsells. Не ръчно — автоматизирано, персонализирано, скалируемо.</p>
             </div>
             <div className="pbox-item">
-              <div className="pi"><Handshake size={22} /></div>
-              <h5>ПАРТНЬОРИ</h5>
-              <p>Споделяме риска. Условията — индивидуално за всеки.</p>
+              <div className="pi"><Settings size={22} /></div>
+              <h5>ЦЯЛАТА СИСТЕМА, НЕ ПАРЧЕТА</h5>
+              <p>Meta реклами + landing pages + email sequences + AI автоматизации + creative стратегия. Всичко работи като една машина. Не купуваш отделни услуги — получаваш система за растеж.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services — Anomaly style yellow bg */}
+      {/* Services — E-commerce Growth System */}
       <section className="sec yellow" id="services">
-        <div {...ff("svtg")} className="tg">Нашите услуги</div>
+        <div {...ff("svtg")} className="tg">Какво получаваш</div>
         <h2 {...ff("svh2", 0.1)} className="U">
-          Всичко под <em>един покрив</em>.
+          E-commerce <em>Growth System</em>.
         </h2>
         <p {...ff("svsd", 0.15)} className="sdesc">
-          Не продаваме отделни услуги. Всичко работи като една система — от първия клик до последното плащане.
+          Една система. Всичко, от което e-commerce брандът ти има нужда, за да расте предвидимо.
         </p>
         <div className="svc-grid" {...ff("svg", 0.2)}>
           {activeServices.map((s) => (
             <div key={s.id} className="svc" tabIndex={0}>
               <div className="ic"><SvcIcon name={s.icon} size={28} /></div>
               <h4>{s.title}</h4>
+              <p>{s.desc}</p>
             </div>
           ))}
         </div>
@@ -1031,12 +1011,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
       {/* Cases */}
       <section className="sec" id="cases">
-        <div {...ff("cstg")} className="tg">Доказателства</div>
+        <div {...ff("cstg")} className="tg">Резултати</div>
         <h2 {...ff("csh2", 0.1)} className="U">
-          Числата говорят <em>сами</em>.
+          Един бранд. <em>4x ROAS. 2 000 000+ лв оборот.</em>
         </h2>
         <p {...ff("cssd", 0.15)} className="sdesc">
-          Реални клиенти. Реални бюджети. Реални резултати.
+          Реален клиент. Реален бюджет. Реални числа от Ads Manager.
         </p>
         <div className="cases" {...ff("csg", 0.2)}>
           {cases.map((c) => (
@@ -1055,15 +1035,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
       </section>
 
-      {/* Founders / Why trust us — funnel-masters style */}
+      {/* Founder */}
       <section className="sec dk" id="team">
-        <div {...ff("fdtg")} className="tg">Кои сме ние</div>
+        <div {...ff("fdtg")} className="tg">Кой стои зад Profitbrand</div>
         <h2 {...ff("fdh2", 0.1)} className="U">
-          Защо да <em>ни вярвате</em>.
+          Не теоретизирам — <em>тествал съм с реални пари</em>.
         </h2>
-        <p {...ff("fdsd", 0.15)} className="sdesc">
-          Не сме теоретици. Изградили сме това с наши пари, наш риск и наши клиенти.
-        </p>
         <div className="fd-wrap" {...ff("fdg", 0.2)}>
           {team.length > 0 && (
             <div className="fd-people">
@@ -1124,17 +1101,17 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       <section className="sec" id="guarantee">
         <div {...ff("grtg")} className="tg">Гаранция</div>
         <h2 {...ff("grh2", 0.1)} className="U">
-          Поемаме <em>риска</em>.
+          Гаранция за <em>резултат</em>.
         </h2>
         <p {...ff("grsd", 0.15)} className="sdesc">
-          Ако ние сме уверени в системата, защо вие да не сте?
+          Ако аз съм уверен в системата, защо ти да не си?
         </p>
         <div className="guar" {...ff("grg", 0.2)}>
-          <h3 className="U">Тройна <em>Гаранция</em></h3>
+          <h3 className="U">Тройна <em>гаранция</em></h3>
           <ul>
-            <li><span className="gc"><Check size={14} /></span>30 квалифицирани leads за 30 дни — или работим безплатно докато ги докараме.</li>
-            <li><span className="gc"><Check size={14} /></span>Без дългосрочни договори. Спирате когато искате.</li>
-            <li><span className="gc"><Check size={14} /></span>Пълна прозрачност в реално време — виждате всяко изхарчено евро.</li>
+            <li><span className="gc"><Check size={14} /></span>Подобрение на ROAS с минимум 50% в първите 90 дни — или работим безплатно докато го постигнем.</li>
+            <li><span className="gc"><Check size={14} /></span>Без дългосрочни договори. Спираш когато искаш.</li>
+            <li><span className="gc"><Check size={14} /></span>Пълна прозрачност — достъп до Ads Manager и всички данни в реално време.</li>
           </ul>
         </div>
       </section>
@@ -1168,10 +1145,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       <section className="sec" id="contact">
         <div {...ff("cftg")} className="tg">Контакт</div>
         <h2 {...ff("cfh2", 0.1)} className="U">
-          Готови? <em>Пишете ни.</em>
+          Готов ли си да <em>вдигнеш оборота</em>?
         </h2>
         <p {...ff("cfsd", 0.15)} className="sdesc">
-          Отговаряме в рамките на 24 часа. Без ботове, без sales скриптове.
+          Запиши се за безплатен 30-минутен E-commerce Audit Call. Ще анализираме бизнеса ти и ще ти кажа конкретно къде губиш пари и какво да промениш.
         </p>
         <div style={{ maxWidth: 460, margin: "32px auto 0", textAlign: "left" }} {...ff("cfg", 0.2)}>
           <div className="fg"><label>Име</label>
@@ -1180,28 +1157,28 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <div className="fg"><label>Email</label>
             <input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="email@example.com" />
           </div>
-          <div className="fg"><label>Телефон</label>
-            <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+359 ..." />
+          <div className="fg"><label>Уебсайт на бранда</label>
+            <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="https://..." />
           </div>
-          <div className="fg"><label>Съобщение</label>
-            <textarea value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} placeholder="Разкажете за бизнеса и целите ви..." />
+          <div className="fg"><label>Месечен рекламен бюджет</label>
+            <textarea value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} placeholder="Напр: 5 000 лв/мес. + кратко описание на бранда..." />
           </div>
-          <button className="btn" style={{ width: "100%" }} onClick={() => alert("Благодарим!")}>
-            Изпращане <ArrowRight size={14} />
+          <button className="btn" style={{ width: "100%" }} onClick={() => alert("Благодарим! Ще се свържа с теб до 24 часа.")}>
+            Запази консултация <ArrowRight size={14} />
           </button>
         </div>
       </section>
 
       {/* CTA */}
       <section className="cta sec dk">
-        <h2 {...ff("cth2")} className="U" style={{ maxWidth: 600, margin: "0 auto 16px" }}>
-          Работим с <em>12 бизнеса годишно</em>.
+        <h2 {...ff("cth2")} className="U" style={{ maxWidth: 640, margin: "0 auto 16px" }}>
+          Приемам <em>ограничен брой</em> e-commerce брандове.
         </h2>
-        <p {...ff("ctp", 0.1)} style={{ color: "var(--g2)", maxWidth: 460, margin: "0 auto 28px", fontSize: 14, lineHeight: 1.7 }}>
-          Местата за 2026г. са ограничени. Ако сте сериозни за растеж — заявете консултацията сега.
+        <p {...ff("ctp", 0.1)} style={{ color: "var(--g2)", maxWidth: 520, margin: "0 auto 28px", fontSize: 14, lineHeight: 1.7 }}>
+          За да гарантирам качество. Ако си сериозен за растеж — запази консултация сега.
         </p>
         <button {...ff("ctb", 0.2)} className="btn" onClick={() => setShowAudit(true)}>
-          Безплатна Консултация <ArrowRight size={14} />
+          Безплатен E-com Audit <ArrowRight size={14} />
         </button>
       </section>
     </>
@@ -1593,11 +1570,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       <nav className="N">
         <div className="NL U" onClick={() => nav("home")}>PROFITBRAND</div>
         <div className="NR">
-          <a onClick={() => scrollTo("about")}>За нас</a>
-          <a onClick={() => scrollTo("services")}>Услуги</a>
-          <a onClick={() => scrollTo("system")}>АИР</a>
+          <a onClick={() => scrollTo("team")}>За мен</a>
+          <a onClick={() => scrollTo("services")}>Growth System</a>
           <a onClick={() => scrollTo("process")}>Процес</a>
-          <a onClick={() => scrollTo("testimonials")}>Отзиви</a>
+          <a onClick={() => scrollTo("cases")}>Резултати</a>
           <a onClick={() => scrollTo("faq")}>FAQ</a>
           <button className="btn btnSm" onClick={() => setShowAudit(true)}>Консултация</button>
         </div>
@@ -1608,10 +1584,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
       <div className={`mm ${menuOpen ? "o" : ""}`}>
         <a onClick={() => { setMenuOpen(false); nav("home"); }}>Начало</a>
-        <a onClick={() => scrollTo("services")}>Услуги</a>
-        <a onClick={() => scrollTo("system")}>Системата АИР</a>
+        <a onClick={() => scrollTo("team")}>За мен</a>
+        <a onClick={() => scrollTo("services")}>Growth System</a>
         <a onClick={() => scrollTo("process")}>Процес</a>
-        <a onClick={() => scrollTo("testimonials")}>Отзиви</a>
+        <a onClick={() => scrollTo("cases")}>Резултати</a>
         <a onClick={() => scrollTo("faq")}>FAQ</a>
         <a onClick={() => nav("admin")}>Admin</a>
         <button className="btn" onClick={() => { setMenuOpen(false); setShowAudit(true); }}>Консултация</button>
@@ -1634,9 +1610,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         <div className="mo" onClick={(e) => e.target.className.includes("mo ") && setShowAudit(false)}>
           <div className="mo-box">
             <button className="mo-x" aria-label="Затвори" onClick={() => setShowAudit(false)}><X size={20} /></button>
-            <h3 className="U" style={{ fontSize: 16, marginBottom: 4 }}>Безплатна Консултация</h3>
+            <h3 className="U" style={{ fontSize: 16, marginBottom: 4 }}>Безплатен E-com Audit</h3>
             <p style={{ color: "var(--g2)", fontSize: 12, marginBottom: 20, lineHeight: 1.6 }}>
-              Ще покажем къде можете да растете. Без ангажимент. Без sales скрипт.
+              30-минутен разговор. Ще ти покажа конкретно къде губиш пари и какво да промениш. Без ангажимент. Без sales скрипт.
             </p>
             <div className="fg"><label>Име</label>
               <input value={audit.name} onChange={(e) => setAudit({ ...audit, name: e.target.value })} placeholder="Вашето име" />
@@ -1644,11 +1620,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             <div className="fg"><label>Email</label>
               <input value={audit.email} onChange={(e) => setAudit({ ...audit, email: e.target.value })} placeholder="email@example.com" />
             </div>
-            <div className="fg"><label>Уебсайт</label>
-              <input value={audit.web} onChange={(e) => setAudit({ ...audit, web: e.target.value })} placeholder="yoursite.com" />
+            <div className="fg"><label>Уебсайт на бранда</label>
+              <input value={audit.web} onChange={(e) => setAudit({ ...audit, web: e.target.value })} placeholder="https://yoursite.com" />
             </div>
-            <button className="btn" style={{ width: "100%" }} onClick={() => { alert("Заявката е изпратена!"); setShowAudit(false); }}>
-              Искам Консултация <ArrowRight size={14} />
+            <button className="btn" style={{ width: "100%" }} onClick={() => { alert("Благодарим! Ще се свържа до 24 часа."); setShowAudit(false); }}>
+              Запази консултация <ArrowRight size={14} />
             </button>
           </div>
         </div>
