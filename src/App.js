@@ -299,17 +299,7 @@ export default function App() {
   const scrollTo = (id) => {
     setMenuOpen(false);
     const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-    // After scroll settles, mark all currently visible [data-v] elements
-    setTimeout(() => {
-      document.querySelectorAll("[data-v]").forEach((node) => {
-        const rect = node.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          setVis((p) => ({ ...p, [node.dataset.v]: true }));
-        }
-      });
-    }, 700);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   // ff() — always visible, no flash. data-v kept for potential future use.
   const ff = (id, d = 0) => ({ "data-v": id });
