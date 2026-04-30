@@ -804,7 +804,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       <HeroGeometric
         badge="PERFORMANCE MARKETING & AI ЗА E-COMMERCE"
         title1="Помагам на"
-        typewriterWords={["E-commerce брандове", "Shopify магазини", "DTC брандове", "Fashion брандове", "Beauty брандове"]}
+        typewriterWords={["Коучове", "Консултанти", "High Ticket бизнеси"]}
         subtitle="Да изградят 7-цифрен оборот чрез Performance Meta реклами + AI автоматизации — цялата система от първия клик до повторната покупка. Доказано с над 2 000 000 € генериран оборот за 12 месеца."
         ctaText="Безплатна Консултация"
         onCtaClick={() => setShowAudit(true)}
