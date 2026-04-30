@@ -354,7 +354,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .Z { font-family:'Outfit',sans-serif; color:var(--w); background:var(--b); min-height:100vh; overflow-x:hidden; }
 .U { font-family:'Unbounded',sans-serif; }
 
-@keyframes mq { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 @keyframes pulse-y { 0%,100%{box-shadow:0 0 0 0 rgba(255,214,0,.35)} 50%{box-shadow:0 0 0 14px rgba(255,214,0,0)} }
 @keyframes blink { 50%{opacity:0} }
 
@@ -407,15 +406,24 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   display:inline-flex; align-items:center; transition:background .2s ease; }
 .btnD:hover { background:#ff5e6e; }
 
-/* Client marquee */
-.cmq { overflow:hidden; white-space:nowrap; padding:24px 0;
-  background:var(--b2); border-top:1px solid rgba(255,214,0,.06); border-bottom:1px solid rgba(255,214,0,.06); }
-.cmi { display:inline-flex; animation:mq 28s linear infinite; align-items:center; gap:40px; }
-.cmq:hover .cmi { animation-play-state:paused; }
-.cl-logo { min-width:140px; height:56px; display:flex; align-items:center; justify-content:center;
+/* Trust strip — static client logos */
+.trust { padding:36px 32px 40px; background:var(--b2);
+  border-top:1px solid rgba(255,214,0,.06); border-bottom:1px solid rgba(255,214,0,.06); }
+.trust-lbl { text-align:center; font-size:10px; letter-spacing:3px; text-transform:uppercase;
+  color:var(--g); font-weight:700; margin-bottom:18px; font-family:'Unbounded'; }
+.trust-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:14px;
+  max-width:1100px; margin:0 auto; }
+.cl-logo { height:64px; display:flex; align-items:center; justify-content:center;
   background:var(--b3); border:1px solid rgba(255,255,255,.05); border-radius:10px;
-  padding:0 24px; font-family:'Unbounded'; font-size:11px; font-weight:600; color:var(--g); flex-shrink:0; }
-.cl-logo img { max-width:100px; max-height:34px; object-fit:contain; filter:grayscale(1) brightness(2); }
+  padding:0 14px; font-family:'Unbounded'; font-size:11px; font-weight:600;
+  color:var(--g2); transition:border-color .25s ease, transform .25s ease, color .25s ease;
+  text-align:center; line-height:1.2; }
+.cl-logo:hover { border-color:rgba(255,214,0,.25); color:var(--y); transform:translateY(-2px); }
+.cl-logo img { max-width:100%; max-height:36px; object-fit:contain;
+  filter:grayscale(1) brightness(1.6) opacity(.75); transition:filter .25s ease; }
+.cl-logo:hover img { filter:grayscale(0) brightness(1) opacity(1); }
+@media (max-width:900px) { .trust-grid { grid-template-columns:repeat(3,1fr); } }
+@media (max-width:480px) { .trust-grid { grid-template-columns:repeat(2,1fr); } .trust { padding:28px 16px; } }
 
 /* Section */
 .sec { padding:88px 48px; position:relative; scroll-margin-top:72px; contain:layout paint; isolation:isolate; }
@@ -819,15 +827,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       />
 
       {clients.length > 0 && (
-        <div className="cmq">
-          <div className="cmi">
-            {[...clients, ...clients, ...clients].map((c, i) => (
-              <div key={i} className="cl-logo">
+        <section className="trust" aria-label="Клиенти">
+          <div className="trust-lbl">Доверяват ни се</div>
+          <div className="trust-grid">
+            {clients.map((c) => (
+              <div key={c.id} className="cl-logo">
                 {c.logo ? <img src={c.logo} alt={c.name} /> : c.name}
               </div>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       <section className="sec dk" id="stats" style={{ paddingBottom: 30 }}>
