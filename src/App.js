@@ -284,6 +284,17 @@ export default function App() {
   // Scroll-reveal removed — elements always visible, no flash issues
   useEffect(() => {}, [page]);
 
+  // Inject CSS into <head> exactly once — never re-renders, no paint flash
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (document.getElementById("pb-app-styles")) return;
+    const el = document.createElement("style");
+    el.id = "pb-app-styles";
+    el.textContent = css;
+    document.head.appendChild(el);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const nav = (p) => { setPage(p); setMenuOpen(false); window.scrollTo?.(0, 0); };
   const scrollTo = (id) => {
     setMenuOpen(false);
@@ -326,8 +337,12 @@ export default function App() {
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
-body { background:var(--b); }
+html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; scroll-padding-top:72px; }
+body { background:var(--b); overflow-x:hidden; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+}
 
 button, a, [role="button"], input[type="submit"] { cursor:pointer; }
 button:disabled { cursor:not-allowed; }
@@ -349,7 +364,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .N {
   position:fixed; top:0; left:0; right:0; z-index:100;
   padding:14px 48px; display:flex; align-items:center; justify-content:space-between;
-  background:rgba(8,8,16,.85); backdrop-filter:blur(24px);
+  background:rgba(8,8,16,.96);
   border-bottom:1px solid rgba(255,214,0,.05);
 }
 .NL { font-family:'Unbounded'; font-weight:900; font-size:18px; cursor:pointer;
@@ -403,7 +418,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .cl-logo img { max-width:100px; max-height:34px; object-fit:contain; filter:grayscale(1) brightness(2); }
 
 /* Section */
-.sec { padding:88px 48px; position:relative; scroll-margin-top:72px; }
+.sec { padding:88px 48px; position:relative; scroll-margin-top:72px; contain:layout paint; isolation:isolate; }
 .sec.dk { background:var(--b2); }
 .sec.dk2 { background:var(--b3); }
 .sec.yellow { background:var(--y); color:var(--b); }
@@ -629,8 +644,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .cta * { position:relative; }
 
 /* Modal */
-.mo { position:fixed; inset:0; background:rgba(0,0,0,.8);
-  backdrop-filter:blur(8px); z-index:200;
+.mo { position:fixed; inset:0; background:rgba(0,0,0,.92);
+  z-index:200;
   display:flex; align-items:center; justify-content:center; padding:24px; }
 .mo-box { background:var(--b3); border:1px solid rgba(255,214,0,.12);
   border-radius:20px; padding:38px; max-width:460px; width:100%; position:relative; }
@@ -1450,8 +1465,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
   return (
     <div className="Z">
-      <style>{css}</style>
-
       <nav className="N">
         <div className="NL U" onClick={() => nav("home")}>PROFITBRAND</div>
         <div className="NR">
