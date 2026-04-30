@@ -114,8 +114,8 @@ const defaultClients = [
 ];
 
 const defaultTeam = [
-  { id: 1, name: "Иван Петров", role: "CEO & Founder", bio: "10+ години в перформанс маркетинг." },
-  { id: 2, name: "Мария Георгиева", role: "Head of Strategy", bio: "Експерт по скалиране на международни пазари." },
+  { id: 1, name: "Иван Петров", role: "CEO & Founder", bio: "10+ години в перформанс маркетинг.", photo: "" },
+  { id: 2, name: "Мария Георгиева", role: "Head of Strategy", bio: "Експерт по скалиране на международни пазари.", photo: "" },
 ];
 
 const defaultCases = [
@@ -253,7 +253,9 @@ export default function App() {
   const [cases, setCases] = useState(defaultCases);
   const [testimonials, setTestimonials] = useState(defaultTestimonials);
   const [nc, setNc] = useState({ name: "", logo: "" });
-  const [nm, setNm] = useState({ name: "", role: "", bio: "" });
+  const [nm, setNm] = useState({ name: "", role: "", bio: "", photo: "" });
+  const [credentials, setCredentials] = useState(founderCredentials);
+  const [newCred, setNewCred] = useState("");
   const [ns, setNs] = useState({ icon: "Sparkles", title: "", desc: "" });
   const [ncase, setNcase] = useState({ client: "", problem: "", result: "", metric: "", time: "" });
   const [nt, setNt] = useState({ name: "", role: "", quote: "" });
@@ -273,12 +275,13 @@ export default function App() {
         if (d.s) setServices(d.s);
         if (d.cs) setCases(d.cs);
         if (d.tm) setTestimonials(d.tm);
+        if (d.cr) setCredentials(d.cr);
       }
     } catch {}
   }, []);
 
-  const save = useCallback((c, t, s, cs, tm) => {
-    try { localStorage.setItem("pb5", JSON.stringify({ c, t, s, cs, tm })); } catch {}
+  const save = useCallback((c, t, s, cs, tm, cr) => {
+    try { localStorage.setItem("pb5", JSON.stringify({ c, t, s, cs, tm, cr })); } catch {}
   }, []);
 
   // Scroll-reveal removed — elements always visible, no flash issues
@@ -721,10 +724,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .fd-people { display:flex; gap:22px; justify-content:center; flex-wrap:wrap;
   margin-bottom:30px; padding-bottom:28px; border-bottom:1px solid rgba(255,214,0,.08); }
 .fd-person { text-align:center; max-width:220px; }
-.fd-avatar { width:74px; height:74px; border-radius:50%;
+.fd-avatar { width:88px; height:88px; border-radius:50%;
   background:rgba(255,214,0,.1); border:2px solid rgba(255,214,0,.25);
   color:var(--y); display:flex; align-items:center; justify-content:center;
-  margin:0 auto 12px; }
+  margin:0 auto 14px; overflow:hidden; flex-shrink:0; }
+.fd-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
 .fd-person h4 { font-size:14px; font-weight:800; margin-bottom:4px; }
 .fd-person .rl { color:var(--y); font-size:9px; font-weight:700;
   letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; display:block; }
@@ -1065,7 +1069,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             <div className="fd-people">
               {team.map((m) => (
                 <div key={m.id} className="fd-person">
-                  <div className="fd-avatar"><SvcIcon name="Award" size={28} /></div>
+                  <div className="fd-avatar">
+                    {m.photo ? <img src={m.photo} alt={m.name} /> : <SvcIcon name="Award" size={28} />}
+                  </div>
                   <h4 className="U">{m.name}</h4>
                   <span className="rl">{m.role}</span>
                   <p>{m.bio}</p>
@@ -1074,7 +1080,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             </div>
           )}
           <ul className="fd-creds">
-            {founderCredentials.map((c, i) => (
+            {credentials.map((c, i) => (
               <li key={i}>
                 <span className="fd-num">{String(i + 1).padStart(2, "0")}</span>
                 <span>{c}</span>
@@ -1229,11 +1235,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       const next = reorder(list, dragId, id);
       setList(next);
       setDragId(null);
-      if (list === clients) save(next, team, services, cases, testimonials);
-      if (list === team) save(clients, next, services, cases, testimonials);
-      if (list === services) save(clients, team, next, cases, testimonials);
-      if (list === cases) save(clients, team, services, next, testimonials);
-      if (list === testimonials) save(clients, team, services, cases, next);
+      if (list === clients) save(next, team, services, cases, testimonials, credentials);
+      if (list === team) save(clients, next, services, cases, testimonials, credentials);
+      if (list === services) save(clients, team, next, cases, testimonials, credentials);
+      if (list === cases) save(clients, team, services, next, testimonials, credentials);
+      if (list === testimonials) save(clients, team, services, cases, next, credentials);
     },
   });
 
@@ -1266,7 +1272,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         <div className="adm-tabs">
           {[
             { k: "clients", l: "Клиенти" },
-            { k: "team", l: "Екип" },
+            { k: "team", l: "Екип & Снимки" },
+            { k: "credentials", l: "За нас (Credentials)" },
             { k: "services", l: "Услуги" },
             { k: "cases", l: "Case Studies" },
             { k: "testimonials", l: "Отзиви" },
@@ -1286,7 +1293,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               <button className="btn btnSm" onClick={() => {
                 if (!nc.name) return;
                 const u = [...clients, { ...nc, id: Date.now() }];
-                setClients(u); save(u, team, services, cases, testimonials); setNc({ name: "", logo: "" });
+                setClients(u); save(u, team, services, cases, testimonials, credentials); setNc({ name: "", logo: "" });
               }}><Plus size={12} /> Добави</button>
             </div>
             <h3>Подредба (drag & drop)</h3>
@@ -1295,7 +1302,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
                 <div key={c.id} className="ae" {...dragProps(clients, setClients, c.id)}>
                   <span className="grip"><GripVertical size={14} /></span>
                   <div className="ae-body">{c.name}{c.logo && <span style={{ color: "var(--g)", fontSize: 10 }}> — {c.logo}</span>}</div>
-                  <button className="btnD" onClick={() => { const u = clients.filter((x) => x.id !== c.id); setClients(u); save(u, team, services, cases, testimonials); }}><X size={12} /></button>
+                  <button className="btnD" onClick={() => { const u = clients.filter((x) => x.id !== c.id); setClients(u); save(u, team, services, cases, testimonials, credentials); }}><X size={12} /></button>
                 </div>
               ))}
             </div>
@@ -1305,26 +1312,121 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         {adminTab === "team" && (
           <div>
             <h3>Добави член на екипа</h3>
+            <p style={{ color: "var(--g)", fontSize: 11, marginBottom: 10, lineHeight: 1.6 }}>
+              💡 За снимка: качи я в imgur.com → копирай direct link (.jpg/.png) → постави го в полето „URL снимка".
+            </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
               <input className="ai" value={nm.name} onChange={(e) => setNm({ ...nm, name: e.target.value })} placeholder="Име" />
               <input className="ai" value={nm.role} onChange={(e) => setNm({ ...nm, role: e.target.value })} placeholder="Позиция" />
               <input className="ai" style={{ minWidth: 240 }} value={nm.bio} onChange={(e) => setNm({ ...nm, bio: e.target.value })} placeholder="Описание" />
+              <input className="ai" style={{ minWidth: 240 }} value={nm.photo} onChange={(e) => setNm({ ...nm, photo: e.target.value })} placeholder="URL снимка (опц.)" />
               <button className="btn btnSm" onClick={() => {
                 if (!nm.name) return;
                 const u = [...team, { ...nm, id: Date.now() }];
-                setTeam(u); save(clients, u, services, cases, testimonials); setNm({ name: "", role: "", bio: "" });
+                setTeam(u); save(clients, u, services, cases, testimonials, credentials); setNm({ name: "", role: "", bio: "", photo: "" });
               }}><Plus size={12} /> Добави</button>
             </div>
-            <h3>Подредба (drag & drop)</h3>
+            {(nm.name || nm.photo) && (
+              <div className="adm-preview">
+                <div className="adm-preview-lbl"><Eye size={12} /> PREVIEW</div>
+                <div className="fd-person" style={{ margin: "0 auto" }}>
+                  <div className="fd-avatar">
+                    {nm.photo ? <img src={nm.photo} alt={nm.name} /> : <Award size={28} />}
+                  </div>
+                  <h4 className="U">{nm.name || "Име"}</h4>
+                  <span className="rl">{nm.role || "Позиция"}</span>
+                  <p>{nm.bio || "Описание..."}</p>
+                </div>
+              </div>
+            )}
+            <h3>Управление (drag & drop за подредба)</h3>
             <div className="al">
               {team.map((m) => (
                 <div key={m.id} className="ae" {...dragProps(team, setTeam, m.id)}>
                   <span className="grip"><GripVertical size={14} /></span>
+                  {m.photo ? (
+                    <img src={m.photo} alt={m.name} style={{ width: 38, height: 38, borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(255,214,0,.25)" }} />
+                  ) : (
+                    <div style={{ width: 38, height: 38, borderRadius: "50%", background: "rgba(255,214,0,.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--y)" }}>
+                      <Award size={16} />
+                    </div>
+                  )}
                   <div className="ae-body">
                     <strong>{m.name}</strong> — <span style={{ color: "var(--y)" }}>{m.role}</span>
                     <br /><span style={{ color: "var(--g)", fontSize: 10 }}>{m.bio}</span>
                   </div>
-                  <button className="btnD" onClick={() => { const u = team.filter((x) => x.id !== m.id); setTeam(u); save(clients, u, services, cases, testimonials); }}><X size={12} /></button>
+                  <button className="btnD" onClick={() => { const u = team.filter((x) => x.id !== m.id); setTeam(u); save(clients, u, services, cases, testimonials, credentials); }}><X size={12} /></button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {adminTab === "credentials" && (
+          <div>
+            <h3>Credentials (точки в секцията „Кои сме ние")</h3>
+            <p style={{ color: "var(--g)", fontSize: 11, marginBottom: 10, lineHeight: 1.6 }}>
+              Това са пронумерованите твърдения за теб/екипа в секция „Кои сме ние и защо да ни вярвате". Добавяй конкретни числа, доказателства, постижения.
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+              <input
+                className="ai"
+                style={{ minWidth: 480, flex: 1 }}
+                value={newCred}
+                onChange={(e) => setNewCred(e.target.value)}
+                placeholder="Напр: Изградихме системата ХYZ, която генерира 1М€ оборот..."
+              />
+              <button className="btn btnSm" onClick={() => {
+                if (!newCred.trim()) return;
+                const u = [...credentials, newCred.trim()];
+                setCredentials(u); save(clients, team, services, cases, testimonials, u); setNewCred("");
+              }}><Plus size={12} /> Добави</button>
+            </div>
+            <h3>Подредба & редакция</h3>
+            <div className="al">
+              {credentials.map((c, i) => (
+                <div key={i} className="ae">
+                  <span className="grip" style={{ minWidth: 20, color: "var(--y)", fontFamily: "Unbounded", fontWeight: 900 }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <textarea
+                    className="ai"
+                    style={{ flex: 1, minHeight: 50, fontFamily: "Outfit", resize: "vertical" }}
+                    value={c}
+                    onChange={(e) => {
+                      const u = credentials.map((x, j) => j === i ? e.target.value : x);
+                      setCredentials(u);
+                    }}
+                    onBlur={() => save(clients, team, services, cases, testimonials, credentials)}
+                  />
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    <button
+                      className="btnD"
+                      style={{ background: "var(--b)", color: "var(--g2)" }}
+                      disabled={i === 0}
+                      onClick={() => {
+                        if (i === 0) return;
+                        const u = [...credentials];
+                        [u[i - 1], u[i]] = [u[i], u[i - 1]];
+                        setCredentials(u); save(clients, team, services, cases, testimonials, u);
+                      }}
+                    >↑</button>
+                    <button
+                      className="btnD"
+                      style={{ background: "var(--b)", color: "var(--g2)" }}
+                      disabled={i === credentials.length - 1}
+                      onClick={() => {
+                        if (i === credentials.length - 1) return;
+                        const u = [...credentials];
+                        [u[i], u[i + 1]] = [u[i + 1], u[i]];
+                        setCredentials(u); save(clients, team, services, cases, testimonials, u);
+                      }}
+                    >↓</button>
+                  </div>
+                  <button className="btnD" onClick={() => {
+                    const u = credentials.filter((_, j) => j !== i);
+                    setCredentials(u); save(clients, team, services, cases, testimonials, u);
+                  }}><X size={12} /></button>
                 </div>
               ))}
             </div>
@@ -1343,7 +1445,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               <button className="btn btnSm" onClick={() => {
                 if (!ns.title) return;
                 const u = [...services, { ...ns, id: Date.now(), active: true }];
-                setServices(u); save(clients, team, u, cases, testimonials); setNs({ icon: "Sparkles", title: "", desc: "" });
+                setServices(u); save(clients, team, u, cases, testimonials, credentials); setNs({ icon: "Sparkles", title: "", desc: "" });
               }}><Plus size={12} /> Добави</button>
             </div>
             {(ns.title || ns.desc) && (
@@ -1367,14 +1469,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
                     style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}
                     onClick={() => {
                       const u = services.map((x) => x.id === s.id ? { ...x, active: !x.active } : x);
-                      setServices(u); save(clients, team, u, cases, testimonials);
+                      setServices(u); save(clients, team, u, cases, testimonials, credentials);
                     }}
                   >
                     <SvcIcon name={s.icon} size={16} />
                     <span>{s.title}</span>
                   </div>
                   <span style={{ color: s.active ? "#6bff8b" : "#ff6e7e", fontSize: 9, fontWeight: 800 }}>{s.active ? "ON" : "OFF"}</span>
-                  <button className="btnD" onClick={(e) => { e.stopPropagation(); const u = services.filter((x) => x.id !== s.id); setServices(u); save(clients, team, u, cases, testimonials); }}><X size={12} /></button>
+                  <button className="btnD" onClick={(e) => { e.stopPropagation(); const u = services.filter((x) => x.id !== s.id); setServices(u); save(clients, team, u, cases, testimonials, credentials); }}><X size={12} /></button>
                 </div>
               ))}
             </div>
@@ -1393,7 +1495,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               <button className="btn btnSm" onClick={() => {
                 if (!ncase.client) return;
                 const u = [...cases, { ...ncase, id: Date.now() }];
-                setCases(u); save(clients, team, services, u, testimonials); setNcase({ client: "", problem: "", result: "", metric: "", time: "" });
+                setCases(u); save(clients, team, services, u, testimonials, credentials); setNcase({ client: "", problem: "", result: "", metric: "", time: "" });
               }}><Plus size={12} /> Добави</button>
             </div>
             {(ncase.client || ncase.problem) && (
@@ -1410,7 +1512,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
                   <div className="ae-body">
                     <strong style={{ color: "var(--y)" }}>{c.client}</strong> — {c.metric} / {c.time}
                   </div>
-                  <button className="btnD" onClick={() => { const u = cases.filter((x) => x.id !== c.id); setCases(u); save(clients, team, services, u, testimonials); }}><X size={12} /></button>
+                  <button className="btnD" onClick={() => { const u = cases.filter((x) => x.id !== c.id); setCases(u); save(clients, team, services, u, testimonials, credentials); }}><X size={12} /></button>
                 </div>
               ))}
             </div>
@@ -1427,7 +1529,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               <button className="btn btnSm" onClick={() => {
                 if (!nt.name || !nt.quote) return;
                 const u = [...testimonials, { ...nt, id: Date.now() }];
-                setTestimonials(u); save(clients, team, services, cases, u); setNt({ name: "", role: "", quote: "" });
+                setTestimonials(u); save(clients, team, services, cases, u, credentials); setNt({ name: "", role: "", quote: "" });
               }}><Plus size={12} /> Добави</button>
             </div>
             {(nt.name || nt.quote) && (
@@ -1452,7 +1554,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
                     <strong>{t.name}</strong> — <span style={{ color: "var(--y)" }}>{t.role}</span>
                     <br /><span style={{ color: "var(--g)", fontSize: 10 }}>{t.quote.slice(0, 80)}{t.quote.length > 80 ? "..." : ""}</span>
                   </div>
-                  <button className="btnD" onClick={() => { const u = testimonials.filter((x) => x.id !== t.id); setTestimonials(u); save(clients, team, services, cases, u); }}><X size={12} /></button>
+                  <button className="btnD" onClick={() => { const u = testimonials.filter((x) => x.id !== t.id); setTestimonials(u); save(clients, team, services, cases, u, credentials); }}><X size={12} /></button>
                 </div>
               ))}
             </div>
@@ -1473,7 +1575,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <a onClick={() => scrollTo("process")}>Процес</a>
           <a onClick={() => scrollTo("testimonials")}>Отзиви</a>
           <a onClick={() => scrollTo("faq")}>FAQ</a>
-          <a onClick={() => nav("admin")} style={{ opacity: 0.25, fontSize: 9 }}>•</a>
           <button className="btn btnSm" onClick={() => setShowAudit(true)}>Консултация</button>
         </div>
         <button className="mob" aria-label="Меню" onClick={() => setMenuOpen(!menuOpen)}>
@@ -1501,6 +1602,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <a onClick={() => nav("home")}>Начало</a>
           <a onClick={() => scrollTo("services")}>Услуги</a>
           <a onClick={() => scrollTo("contact")}>Контакт</a>
+          <a onClick={() => nav("admin")} style={{ color: "var(--y)" }}>Admin</a>
         </div>
       </footer>
 
