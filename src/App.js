@@ -809,7 +809,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 `;
 
-  const Home = () => (
+  const renderHome = () => (
     <>
       <HeroGeometric
         badge="ПЕРФОРМАНС МАРКЕТИНГ АГЕНЦИЯ"
@@ -1243,7 +1243,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     },
   });
 
-  const AdminPage = () => {
+  const renderAdmin = () => {
     if (!isAdmin)
       return (
         <div className="adm" style={{ textAlign: "center", paddingTop: 180 }}>
@@ -1313,13 +1313,37 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <div>
             <h3>Добави член на екипа</h3>
             <p style={{ color: "var(--g)", fontSize: 11, marginBottom: 10, lineHeight: 1.6 }}>
-              💡 За снимка: качи я в imgur.com → копирай direct link (.jpg/.png) → постави го в полето „URL снимка".
+              💡 Снимка: качи файл директно от компютъра (бутон „📁 Качи снимка") ИЛИ постави URL на онлайн снимка.
             </p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 5, alignItems: "center" }}>
               <input className="ai" value={nm.name} onChange={(e) => setNm({ ...nm, name: e.target.value })} placeholder="Име" />
               <input className="ai" value={nm.role} onChange={(e) => setNm({ ...nm, role: e.target.value })} placeholder="Позиция" />
               <input className="ai" style={{ minWidth: 240 }} value={nm.bio} onChange={(e) => setNm({ ...nm, bio: e.target.value })} placeholder="Описание" />
-              <input className="ai" style={{ minWidth: 240 }} value={nm.photo} onChange={(e) => setNm({ ...nm, photo: e.target.value })} placeholder="URL снимка (опц.)" />
+              <input className="ai" style={{ minWidth: 220 }} value={nm.photo.startsWith("data:") ? "(качена снимка)" : nm.photo} onChange={(e) => setNm({ ...nm, photo: e.target.value })} placeholder="URL снимка" disabled={nm.photo.startsWith("data:")} />
+              <label className="btn2 btnSm" style={{ cursor: "pointer", margin: 0 }}>
+                📁 Качи снимка
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    const f = e.target.files && e.target.files[0];
+                    if (!f) return;
+                    if (f.size > 2 * 1024 * 1024) {
+                      alert("Снимката трябва да е под 2MB. Compress-ни я на squoosh.app");
+                      return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = () => setNm((p) => ({ ...p, photo: reader.result }));
+                    reader.readAsDataURL(f);
+                  }}
+                />
+              </label>
+              {nm.photo && (
+                <button className="btnD" onClick={() => setNm({ ...nm, photo: "" })} title="Изчисти снимката">
+                  <X size={12} />
+                </button>
+              )}
               <button className="btn btnSm" onClick={() => {
                 if (!nm.name) return;
                 const u = [...team, { ...nm, id: Date.now() }];
@@ -1593,8 +1617,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         <button className="btn" onClick={() => { setMenuOpen(false); setShowAudit(true); }}>Консултация</button>
       </div>
 
-      {page === "home" && <Home />}
-      {page === "admin" && <AdminPage />}
+      {page === "home" && renderHome()}
+      {page === "admin" && renderAdmin()}
 
       <footer className="ft">
         <div className="cp">© 2025 PROFITBRAND. Всички права запазени.</div>
