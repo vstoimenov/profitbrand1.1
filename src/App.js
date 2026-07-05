@@ -3,8 +3,8 @@ import {
   BarChart3, Palette, Star, Target, GraduationCap, Video, Mic,
   DollarSign, Mail, Bot, Globe, Settings, Search, Wrench, Rocket,
   Check, Plus, X, ChevronDown, Menu, Eye, GripVertical, Handshake,
-  TrendingUp, AlertCircle, Shield, Sparkles, ArrowRight, Clock,
-  PhoneCall, FileText, Zap, Quote, Award,
+  TrendingUp, AlertCircle, Shield, Sparkles, ArrowRight,
+  PhoneCall, FileText, Zap, Quote, Award, Headphones,
 } from "lucide-react";
 import { HeroGeometric } from "./components/ui/shape-landing-hero";
 
@@ -46,48 +46,21 @@ function Counter({ end, suffix = "", duration = 2200 }) {
   );
 }
 
-function Typewriter({ words, className }) {
-  const [idx, setIdx] = useState(0);
-  const [sub, setSub] = useState("");
-  const [del, setDel] = useState(false);
-  useEffect(() => {
-    const full = words[idx % words.length];
-    const speed = del ? 40 : 85;
-    const t = setTimeout(() => {
-      if (!del) {
-        setSub(full.slice(0, sub.length + 1));
-        if (sub.length + 1 === full.length) setTimeout(() => setDel(true), 1400);
-      } else {
-        setSub(full.slice(0, sub.length - 1));
-        if (sub.length - 1 === 0) {
-          setDel(false);
-          setIdx((i) => (i + 1) % words.length);
-        }
-      }
-    }, speed);
-    return () => clearTimeout(t);
-  }, [sub, del, idx, words]);
-  return (
-    <span className={className}>
-      {sub}
-      <span className="tw-caret">|</span>
-    </span>
-  );
-}
-
 /* ---------- Default data ---------- */
 
 const defaultServices = [
   { id: 1, icon: "Target", title: "PERFORMANCE ACQUISITION", desc: "Meta & Instagram реклами, creative стратегия, A/B тестване, retargeting funnels, lookalike аудитории. Привличаме точните хора на най-ниската цена.", active: true },
   { id: 2, icon: "Bot", title: "AI-POWERED RETENTION", desc: "Automated email flows, abandoned cart recovery, post-purchase sequences, AI customer segmentation, персонализирани оферти. Всеки клиент получава правилното съобщение в правилния момент.", active: true },
   { id: 3, icon: "TrendingUp", title: "CONVERSION & SCALE", desc: "Landing page оптимизация, product page strategy, upsell/cross-sell funnels, AOV optimization. Повече приходи от същия трафик, преди да увеличим бюджета.", active: true },
+  { id: 4, icon: "Headphones", title: "AI CUSTOMER SUPPORT", desc: "AI агенти, които отговарят на клиентски запитвания 24/7 — преди покупка, при доставка, след продажба. По-бързи отговори, по-малко изпуснати продажби, нула чакащи клиенти.", active: true },
+  { id: 5, icon: "Award", title: "🔒 ТАЕН WORKSHOP (САМО ЗА ВЪТРЕШНИ)", desc: "Закрит workshop — достъпен само за партньори в програмата. Стратегиите, които не споделяме публично: точните creative formula-и, AI prompt библиотеки, retention sequences, които вдигат AOV с 30-40%. Това е BONUS, който не се намира никъде другаде.", active: true },
 ];
 
 const ICONS = {
   BarChart3, Palette, Star, Target, GraduationCap, Video, Mic,
   DollarSign, Mail, Bot, Globe, Settings, Search, Wrench, Rocket,
   Handshake, TrendingUp, AlertCircle, Shield, Sparkles,
-  PhoneCall, FileText, Zap, Award,
+  PhoneCall, FileText, Zap, Award, Headphones,
 };
 
 function SvcIcon({ name, size = 28 }) {
@@ -105,7 +78,7 @@ const defaultClients = [
 ];
 
 const defaultTeam = [
-  { id: 1, name: "Виктор Стоименов", role: "CEO & Founder", bio: "Performance Marketing & AI Strategy. Специализирам в Meta реклами и AI автоматизации за e-commerce. Управлявал съм рекламни бюджети, генерирали над 2 000 000 € оборот за 12 месеца. Не теоретизирам — всичко, което препоръчвам, съм тествал с реални пари и реални бизнеси.", photo: "" },
+  { id: 1, name: "Виктор Стоименов", role: "CEO & Founder", bio: "Performance Marketing & AI Strategy. Управляваме собствен бизнес + бизнеси на клиенти в 7 държави в Европа. Сертифициран от Google за AI Leadership. Управлявали сме рекламни бюджети, генерирали над 2 000 000 € оборот за 12 месеца. Не теоретизираме — всичко, което препоръчваме, сме тествали с реални пари и реални бизнеси.", photo: "/viktor.jpg" },
 ];
 
 const defaultCases = [
@@ -174,9 +147,9 @@ const faqs = [
   { q: "Колко бързо ще видя резултати?", a: "Повечето e-commerce клиенти виждат подобрение в ROAS в първите 2-4 седмици. Пълна оптимизация на системата (ads + email + automations) отнема 60-90 дни." },
   { q: "Какво ако вече работя с агенция?", a: "Ако текущата ти агенция не ти дава ясни числа за ROAS, CAC и LTV — имаш проблем. Можем да направим безплатен audit и да видим къде са пропуските, преди да вземеш решение." },
   { q: "Как се заплаща?", a: "Работим на месечен retainer + performance бонус при постигане на KPIs. Без дългосрочни договори. Конкретните условия обсъждаме на консултацията." },
-  { q: "Какво ви отличава от другите агенции?", a: "Не пускам просто реклами. Изграждам цялата система — от Meta ads до AI автоматизации за retention. Повечето агенции спират след клика. Аз работя до повторната покупка." },
-  { q: "За какъв размер e-commerce бизнес е подходящо?", a: "Работя с e-commerce брандове, които вече имат product-market fit и минимум 3 000-5 000 €./месец рекламен бюджет. Ако си в начален етап без продажби — все още не е моментът." },
-  { q: "Работите ли с брандове извън България?", a: "Фокусът ми е български e-commerce брандове и такива, продаващи на българския/европейския пазар. За международно скалиране — обсъждаме индивидуално." },
+  { q: "Какво ви отличава от другите агенции?", a: "Не пускаме просто реклами. Изграждаме цялата система — от Meta ads до AI автоматизации за retention. Повечето агенции спират след клика. Ние работим до повторната покупка." },
+  { q: "За какъв размер e-commerce бизнес е подходящо?", a: "Работим с e-commerce брандове, които вече имат product-market fit и минимум 3 000-5 000 €/месец рекламен бюджет. Ако си в начален етап без продажби — все още не е моментът." },
+  { q: "Работите ли с брандове извън България?", a: "Фокусът ни е български e-commerce брандове и такива, продаващи на българския/европейския пазар. За международно скалиране — обсъждаме индивидуално." },
 ];
 
 const workProcess = [
@@ -219,20 +192,27 @@ const workProcess = [
 ];
 
 const founderCredentials = [
-  "Управлявал съм рекламни бюджети, генерирали над 2 000 000 € оборот за 12 месеца — за един e-commerce бранд.",
-  "Постигнал съм ROAS 4.7x за 60 дни — от изходна точка ROAS 1.2 — без увеличение на бюджета.",
-  "Специализирам само в e-commerce — Meta реклами, AI email автоматизации, conversion оптимизация. Без разсейване в други ниши.",
-  "Не теоретизирам. Всичко, което препоръчвам, съм тествал с реални пари и реални брандове — не на семинари.",
+  "Управляваме собствен бизнес + бизнеси на клиенти в 7 държави в Европа. Не работим теоретично — продаваме реално, всеки ден, в реални пазари.",
+  "Сертифициран от Google за AI Leadership — официално признат експерт в имплементацията на AI системи за бизнес растеж.",
+  "Управлявали сме рекламни бюджети, генерирали над 2 000 000 € оборот за 12 месеца. Постигнали сме ROAS 4.7x за 60 дни — от изходна точка ROAS 1.2 — без увеличение на бюджета.",
+  "Тествали сме десетки хиляди евро рекламен бюджет със собствени пари — не с пари на клиенти. Знаем какво е кампания да не върви и как да я обърнем, защото сме го преживели с нашия си бизнес.",
+  "Всички показани резултати и метрики са от реални клиенти и реални бюджети — не от семинари, симулации или хипотетични cases. Числата са от Ads Manager-и, които можеш да видиш със собствените си очи.",
 ];
 
 const defaultTestimonials = [
   { id: 1, name: "Даниела К.", role: "E-commerce, мода", quote: "Виктор не пуска просто реклами. Влезе в бизнеса ни — погледна margins, retention, цялата фуния. За 60 дни ROAS-ът ни се вдигна 4 пъти. Това не е магия — това е работа на човек, който знае какво прави." },
 ];
 
+/* Bump when default copy (services/credentials/testimonials) changes,
+   so visitors with older localStorage get the fresh content. */
+const DATA_VERSION = 2;
+
 /* ---------- App ---------- */
 
 export default function App() {
-  const [page, setPage] = useState("home");
+  const [page, setPage] = useState(() =>
+    typeof window !== "undefined" && window.location.pathname.replace(/\/+$/, "") === "/admin" ? "admin" : "home"
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminPass, setAdminPass] = useState("");
@@ -262,16 +242,20 @@ export default function App() {
       if (d) {
         if (d.c) setClients(d.c);
         if (d.t) setTeam(d.t);
-        if (d.s) setServices(d.s);
         if (d.cs) setCases(d.cs);
-        if (d.tm) setTestimonials(d.tm);
-        if (d.cr) setCredentials(d.cr);
+        // Copy content (services/credentials/testimonials) rolls out fresh
+        // on version bump; stored overrides load only for the same version.
+        if (d.v === DATA_VERSION) {
+          if (d.s) setServices(d.s);
+          if (d.tm) setTestimonials(d.tm);
+          if (d.cr) setCredentials(d.cr);
+        }
       }
     } catch {}
   }, []);
 
   const save = useCallback((c, t, s, cs, tm, cr) => {
-    try { localStorage.setItem("pb5", JSON.stringify({ c, t, s, cs, tm, cr })); } catch {}
+    try { localStorage.setItem("pb5", JSON.stringify({ v: DATA_VERSION, c, t, s, cs, tm, cr })); } catch {}
   }, []);
 
   // Scroll-reveal removed — elements always visible, no flash issues
@@ -288,7 +272,20 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const nav = (p) => { setPage(p); setMenuOpen(false); window.scrollTo?.(0, 0); };
+  const nav = (p) => {
+    setPage(p);
+    setMenuOpen(false);
+    window.scrollTo?.(0, 0);
+    const path = p === "admin" ? "/admin" : "/";
+    if (window.location.pathname !== path) window.history.pushState({}, "", path);
+  };
+
+  // Sync page with browser back/forward
+  useEffect(() => {
+    const onPop = () => setPage(window.location.pathname.replace(/\/+$/, "") === "/admin" ? "admin" : "home");
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
   const scrollTo = (id) => {
     setMenuOpen(false);
     const el = document.getElementById(id);
@@ -319,7 +316,8 @@ export default function App() {
   --w:#FFFFFF; --g:#707088; --g2:#9999B0;
 }
 
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+button, a, [role="button"] { touch-action:manipulation; }
 html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; scroll-padding-top:72px; }
 body { background:var(--b); overflow-x:hidden; }
 @media (prefers-reduced-motion: reduce) {
@@ -766,7 +764,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .NR { display:none; }
   .mob { display:block; }
   .N { padding:12px 16px; }
-  .sec { padding:56px 20px; }
+  .sec { padding:56px 20px; content-visibility:auto; contain-intrinsic-size:auto 600px; }
+  .jrn-circle { animation:none; }
+  .svc:hover, .case:hover, .tm:hover, .sys-card:hover, .jrn-step:hover { transform:none; }
   .ST { grid-template-columns:1fr; gap:22px; padding:40px 20px; }
   .svc-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
   .svc { min-height:170px; padding:22px 14px 18px; }
@@ -803,7 +803,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     <>
       <HeroGeometric
         badge="PERFORMANCE MARKETING & AI ЗА E-COMMERCE"
-        title1="Помагам на"
+        title1="Помагаме на"
         typewriterWords={["E-commerce брандове", "Коучове", "Консултанти", "High Ticket бизнеси"]}
         subtitle="Да изградят 7-цифрен оборот чрез Performance Meta реклами + AI автоматизации — цялата система от първия клик до повторната покупка. Доказано с над 2 000 000 € генериран оборот за 12 месеца."
         ctaText="Безплатна Консултация"
@@ -816,7 +816,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <div className="trust-grid">
             {clients.map((c) => (
               <div key={c.id} className="cl-logo">
-                {c.logo ? <img src={c.logo} alt={c.name} /> : c.name}
+                {c.logo ? <img src={c.logo} alt={c.name} loading="lazy" decoding="async" /> : c.name}
               </div>
             ))}
           </div>
@@ -852,22 +852,25 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
       {/* Differentiator */}
       <section className="sec dk" id="about">
-        <div {...ff("ptg")} className="tg">Защо да работиш с мен</div>
+        <div {...ff("ptg")} className="tg">Защо да работиш с нас</div>
         <h2 {...ff("ph2", 0.1)} className="U">
           Защо e-commerce брандове<br />
-          <em>работят с мен.</em>
+          <em>работят с нас.</em>
         </h2>
+        <p {...ff("psd", 0.15)} className="sdesc">
+          Тествали сме десетки хиляди евро рекламен бюджет със <strong style={{ color: "var(--y)" }}>собствени пари</strong> — не с пари на клиенти. Мислим като партньори и знаем какво е нещата да не вървят.
+        </p>
         <div className="pbox" {...ff("pbx", 0.2)}>
           <div className="pbox-grid">
             <div className="pbox-item">
               <div className="pi"><Search size={22} /></div>
-              <h5>НЕ ПУСКАМ ПРОСТО РЕКЛАМИ</h5>
-              <p>Повечето агенции ти пускат кампания и чакат. Аз влизам в бизнеса — гледам unit economics, product margins, customer journey, retention. Защото ROAS без контекст е безсмислено число.</p>
+              <h5>НЕ ПУСКАМЕ ПРОСТО РЕКЛАМИ</h5>
+              <p>Повечето агенции ти пускат кампания и чакат. Ние влизаме в бизнеса — гледаме unit economics, product margins, customer journey, retention. Защото ROAS без контекст е безсмислено число.</p>
             </div>
             <div className="pbox-item">
               <div className="pi"><Bot size={22} /></div>
               <h5>AI АВТОМАТИЗАЦИИ 24/7</h5>
-              <p>Изграждам AI системи за email flows, customer qualification, abandoned cart recovery и post-purchase upsells. Не ръчно — автоматизирано, персонализирано, скалируемо.</p>
+              <p>Изграждаме AI системи за email flows, customer qualification, abandoned cart recovery и post-purchase upsells. Не ръчно — автоматизирано, персонализирано, скалируемо.</p>
             </div>
             <div className="pbox-item">
               <div className="pi"><Settings size={22} /></div>
@@ -1039,7 +1042,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       <section className="sec dk" id="team">
         <div {...ff("fdtg")} className="tg">Кой стои зад Profitbrand</div>
         <h2 {...ff("fdh2", 0.1)} className="U">
-          Не теоретизирам — <em>тествал съм с реални пари</em>.
+          Не теоретизираме — <em>тествали сме с реални пари</em>.
         </h2>
         <div className="fd-wrap" {...ff("fdg", 0.2)}>
           {team.length > 0 && (
@@ -1047,7 +1050,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               {team.map((m) => (
                 <div key={m.id} className="fd-person">
                   <div className="fd-avatar">
-                    {m.photo ? <img src={m.photo} alt={m.name} /> : <SvcIcon name="Award" size={28} />}
+                    {m.photo ? <img src={m.photo} alt={m.name} loading="lazy" decoding="async" /> : <SvcIcon name="Award" size={28} />}
                   </div>
                   <h4 className="U">{m.name}</h4>
                   <span className="rl">{m.role}</span>
@@ -1104,7 +1107,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           Гаранция за <em>резултат</em>.
         </h2>
         <p {...ff("grsd", 0.15)} className="sdesc">
-          Ако аз съм уверен в системата, защо ти да не си?
+          Ако ние сме уверени в системата, защо ти да не си?
         </p>
         <div className="guar" {...ff("grg", 0.2)}>
           <h3 className="U">Тройна <em>гаранция</em></h3>
@@ -1148,7 +1151,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           Готов ли си да <em>вдигнеш оборота</em>?
         </h2>
         <p {...ff("cfsd", 0.15)} className="sdesc">
-          Запиши се за безплатен 30-минутен E-commerce Audit Call. Ще анализираме бизнеса ти и ще ти кажа конкретно къде губиш пари и какво да промениш.
+          Запиши се за безплатен 30-минутен E-commerce Audit Call. Ще анализираме бизнеса ти и ще ти кажем конкретно къде губиш пари и какво да промениш.
         </p>
         <div style={{ maxWidth: 460, margin: "32px auto 0", textAlign: "left" }} {...ff("cfg", 0.2)}>
           <div className="fg"><label>Име</label>
@@ -1163,7 +1166,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <div className="fg"><label>Месечен рекламен бюджет</label>
             <textarea value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} placeholder="Напр: 5 000 €/мес. + кратко описание на бранда..." />
           </div>
-          <button className="btn" style={{ width: "100%" }} onClick={() => alert("Благодарим! Ще се свържа с теб до 24 часа.")}>
+          <button className="btn" style={{ width: "100%" }} onClick={() => alert("Благодарим! Ще се свържем с теб до 24 часа.")}>
             Запази консултация <ArrowRight size={14} />
           </button>
         </div>
@@ -1172,10 +1175,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       {/* CTA */}
       <section className="cta sec dk">
         <h2 {...ff("cth2")} className="U" style={{ maxWidth: 640, margin: "0 auto 16px" }}>
-          Приемам <em>ограничен брой</em> e-commerce брандове.
+          Приемаме <em>ограничен брой</em> e-commerce брандове.
         </h2>
         <p {...ff("ctp", 0.1)} style={{ color: "var(--g2)", maxWidth: 520, margin: "0 auto 28px", fontSize: 14, lineHeight: 1.7 }}>
-          За да гарантирам качество. Ако си сериозен за растеж — запази консултация сега.
+          За да гарантираме качество. Ако си сериозен за растеж — запази консултация сега.
         </p>
         <button {...ff("ctb", 0.2)} className="btn" onClick={() => setShowAudit(true)}>
           Безплатен E-com Audit <ArrowRight size={14} />
@@ -1570,11 +1573,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       <nav className="N">
         <div className="NL U" onClick={() => nav("home")}>PROFITBRAND</div>
         <div className="NR">
-          <a onClick={() => scrollTo("team")}>За мен</a>
-          <a onClick={() => scrollTo("services")}>Growth System</a>
-          <a onClick={() => scrollTo("process")}>Процес</a>
-          <a onClick={() => scrollTo("cases")}>Резултати</a>
-          <a onClick={() => scrollTo("faq")}>FAQ</a>
+          <a href="#team" onClick={(e) => { e.preventDefault(); scrollTo("team"); }}>За нас</a>
+          <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Growth System</a>
+          <a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }}>Процес</a>
+          <a href="#cases" onClick={(e) => { e.preventDefault(); scrollTo("cases"); }}>Резултати</a>
+          <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>FAQ</a>
           <button className="btn btnSm" onClick={() => setShowAudit(true)}>Консултация</button>
         </div>
         <button className="mob" aria-label="Меню" onClick={() => setMenuOpen(!menuOpen)}>
@@ -1583,13 +1586,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       </nav>
 
       <div className={`mm ${menuOpen ? "o" : ""}`}>
-        <a onClick={() => { setMenuOpen(false); nav("home"); }}>Начало</a>
-        <a onClick={() => scrollTo("team")}>За мен</a>
-        <a onClick={() => scrollTo("services")}>Growth System</a>
-        <a onClick={() => scrollTo("process")}>Процес</a>
-        <a onClick={() => scrollTo("cases")}>Резултати</a>
-        <a onClick={() => scrollTo("faq")}>FAQ</a>
-        <a onClick={() => nav("admin")}>Admin</a>
+        <a href="/" onClick={(e) => { e.preventDefault(); setMenuOpen(false); nav("home"); }}>Начало</a>
+        <a href="#team" onClick={(e) => { e.preventDefault(); scrollTo("team"); }}>За нас</a>
+        <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Growth System</a>
+        <a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }}>Процес</a>
+        <a href="#cases" onClick={(e) => { e.preventDefault(); scrollTo("cases"); }}>Резултати</a>
+        <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>FAQ</a>
         <button className="btn" onClick={() => { setMenuOpen(false); setShowAudit(true); }}>Консултация</button>
       </div>
 
@@ -1599,10 +1601,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       <footer className="ft">
         <div className="cp">© 2025 PROFITBRAND. Всички права запазени.</div>
         <div className="lk">
-          <a onClick={() => nav("home")}>Начало</a>
-          <a onClick={() => scrollTo("services")}>Услуги</a>
-          <a onClick={() => scrollTo("contact")}>Контакт</a>
-          <a onClick={() => nav("admin")} style={{ color: "var(--y)" }}>Admin</a>
+          <a href="/" onClick={(e) => { e.preventDefault(); nav("home"); }}>Начало</a>
+          <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Услуги</a>
+          <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>Контакт</a>
         </div>
       </footer>
 
@@ -1612,7 +1613,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             <button className="mo-x" aria-label="Затвори" onClick={() => setShowAudit(false)}><X size={20} /></button>
             <h3 className="U" style={{ fontSize: 16, marginBottom: 4 }}>Безплатен E-com Audit</h3>
             <p style={{ color: "var(--g2)", fontSize: 12, marginBottom: 20, lineHeight: 1.6 }}>
-              30-минутен разговор. Ще ти покажа конкретно къде губиш пари и какво да промениш. Без ангажимент. Без sales скрипт.
+              30-минутен разговор. Ще ти покажем конкретно къде губиш пари и какво да промениш. Без ангажимент. Без sales скрипт.
             </p>
             <div className="fg"><label>Име</label>
               <input value={audit.name} onChange={(e) => setAudit({ ...audit, name: e.target.value })} placeholder="Вашето име" />
@@ -1623,7 +1624,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             <div className="fg"><label>Уебсайт на бранда</label>
               <input value={audit.web} onChange={(e) => setAudit({ ...audit, web: e.target.value })} placeholder="https://yoursite.com" />
             </div>
-            <button className="btn" style={{ width: "100%" }} onClick={() => { alert("Благодарим! Ще се свържа до 24 часа."); setShowAudit(false); }}>
+            <button className="btn" style={{ width: "100%" }} onClick={() => { alert("Благодарим! Ще се свържем до 24 часа."); setShowAudit(false); }}>
               Запази консултация <ArrowRight size={14} />
             </button>
           </div>

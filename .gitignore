@@ -1,0 +1,10 @@
+# dependencies
+/node_modules
+
+# production build (Vercel builds from source)
+/build
+
+# misc
+.DS_Store
+npm-debug.log*
+.env.local
