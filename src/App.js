@@ -69,12 +69,11 @@ function SvcIcon({ name, size = 28 }) {
 }
 
 const defaultClients = [
-  { id: 1, name: "Client 1", logo: "" },
-  { id: 2, name: "Client 2", logo: "" },
-  { id: 3, name: "Client 3", logo: "" },
-  { id: 4, name: "Client 4", logo: "" },
-  { id: 5, name: "Client 5", logo: "" },
-  { id: 6, name: "Client 6", logo: "" },
+  { id: 1, name: "Wienerberger", logo: "/logos/wienerberger.png" },
+  { id: 2, name: "Захарни Заводи", logo: "/logos/zaharni-zavodi.png" },
+  { id: 3, name: "minimart", logo: "/logos/minimart.png" },
+  { id: 4, name: "Saint Charles Apothecary", logo: "/logos/saint-charles.png" },
+  { id: 5, name: "ПК Инвиктус", logo: "/logos/invictus.png" },
 ];
 
 const defaultTeam = [
@@ -200,12 +199,16 @@ const founderCredentials = [
 ];
 
 const defaultTestimonials = [
-  { id: 1, name: "Даниела К.", role: "E-commerce, мода", quote: "Виктор не пуска просто реклами. Влезе в бизнеса ни — погледна margins, retention, цялата фуния. За 60 дни ROAS-ът ни се вдигна 4 пъти. Това не е магия — това е работа на човек, който знае какво прави." },
+  { id: 1, name: "Даниела К.", role: "E-commerce, мода", quote: "PROFITBRAND не пускат просто реклами. Влязоха в бизнеса ни — погледнаха margins, retention, цялата фуния. За 60 дни ROAS-ът ни се вдигна 4 пъти. Това не е магия — това е работа на хора, които знаят какво правят." },
+  { id: 2, name: "minimart", role: "E-commerce", quote: "Преди работехме на парче — една кампания тук, един пост там. PROFITBRAND ни подредиха цялата система: реклами, retargeting, автоматизирани имейли. Сега знаем точно колко ни струва един клиент и колко ни носи." },
+  { id: 3, name: "Saint Charles Apothecary", role: "Premium бранд", quote: "Търсехме партньор, който разбира как се позиционира premium бранд онлайн, без да смъква стойността му с агресивни промоции. Кампаниите са прецизни, комуникацията — на ниво, а отчетите — с реални числа, не с общи приказки." },
+  { id: 4, name: "Захарни Заводи", role: "Производство / FMCG", quote: "Впечатли ни колко бързо разбраха спецификата на нашия пазар. Ясен процес, седмични отчети и коректност във всяко едно нещо, за което сме се разбрали." },
+  { id: 5, name: "ПК Инвиктус", role: "Спортен клуб", quote: "Кампаниите за записване на нови деца дадоха резултат още в първите седмици — а автоматизираните отговори ни спестиха часове писане всеки ден. Препоръчваме ги на всеки, който иска реални клиенти, а не просто харесвания." },
 ];
 
 /* Bump when default copy (services/credentials/testimonials) changes,
    so visitors with older localStorage get the fresh content. */
-const DATA_VERSION = 2;
+const DATA_VERSION = 3;
 
 /* ---------- App ---------- */
 
@@ -240,12 +243,12 @@ export default function App() {
     try {
       const d = JSON.parse(localStorage.getItem("pb5"));
       if (d) {
-        if (d.c) setClients(d.c);
         if (d.t) setTeam(d.t);
         if (d.cs) setCases(d.cs);
-        // Copy content (services/credentials/testimonials) rolls out fresh
-        // on version bump; stored overrides load only for the same version.
+        // Copy content (clients/services/credentials/testimonials) rolls out
+        // fresh on version bump; stored overrides load only for the same version.
         if (d.v === DATA_VERSION) {
+          if (d.c) setClients(d.c);
           if (d.s) setServices(d.s);
           if (d.tm) setTestimonials(d.tm);
           if (d.cr) setCredentials(d.cr);
@@ -279,6 +282,19 @@ export default function App() {
     const path = p === "admin" ? "/admin" : "/";
     if (window.location.pathname !== path) window.history.pushState({}, "", path);
   };
+
+  // Broken/missing logo files fall back to the client name.
+  // (onError alone can miss errors that fire before React attaches listeners.)
+  useEffect(() => {
+    const t = setTimeout(() => {
+      document.querySelectorAll(".cl-logo img").forEach((img) => {
+        if (img.complete && img.naturalWidth === 0) {
+          img.replaceWith(document.createTextNode(img.alt || ""));
+        }
+      });
+    }, 800);
+    return () => clearTimeout(t);
+  }, [page, clients]);
 
   // Sync page with browser back/forward
   useEffect(() => {
@@ -392,17 +408,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   border-top:1px solid rgba(255,214,0,.06); border-bottom:1px solid rgba(255,214,0,.06); }
 .trust-lbl { text-align:center; font-size:10px; letter-spacing:3px; text-transform:uppercase;
   color:var(--g); font-weight:700; margin-bottom:18px; font-family:'Unbounded'; }
-.trust-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:14px;
+.trust-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:14px;
   max-width:1100px; margin:0 auto; }
-.cl-logo { height:64px; display:flex; align-items:center; justify-content:center;
-  background:var(--b3); border:1px solid rgba(255,255,255,.05); border-radius:10px;
-  padding:0 14px; font-family:'Unbounded'; font-size:11px; font-weight:600;
-  color:var(--g2); transition:border-color .25s ease, transform .25s ease, color .25s ease;
-  text-align:center; line-height:1.2; }
-.cl-logo:hover { border-color:rgba(255,214,0,.25); color:var(--y); transform:translateY(-2px); }
-.cl-logo img { max-width:100%; max-height:36px; object-fit:contain;
-  filter:grayscale(1) brightness(1.6) opacity(.75); transition:filter .25s ease; }
-.cl-logo:hover img { filter:grayscale(0) brightness(1) opacity(1); }
+.cl-logo { height:72px; display:flex; align-items:center; justify-content:center;
+  background:#FFFFFF; border:1px solid rgba(255,255,255,.08); border-radius:10px;
+  padding:10px 16px; font-family:'Unbounded'; font-size:11px; font-weight:600;
+  color:#3a3a4a; transition:border-color .25s ease, transform .25s ease;
+  text-align:center; line-height:1.2; overflow:hidden; }
+.cl-logo:hover { border-color:rgba(255,214,0,.45); transform:translateY(-2px); }
+.cl-logo img { max-width:100%; max-height:48px; object-fit:contain; display:block; }
 @media (max-width:900px) { .trust-grid { grid-template-columns:repeat(3,1fr); } }
 @media (max-width:480px) { .trust-grid { grid-template-columns:repeat(2,1fr); } .trust { padding:28px 16px; } }
 
@@ -816,7 +830,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <div className="trust-grid">
             {clients.map((c) => (
               <div key={c.id} className="cl-logo">
-                {c.logo ? <img src={c.logo} alt={c.name} loading="lazy" decoding="async" /> : c.name}
+                {c.logo ? (
+                  <img
+                    src={c.logo}
+                    alt={c.name}
+                    decoding="async"
+                    onError={(e) => { e.currentTarget.replaceWith(document.createTextNode(c.name)); }}
+                  />
+                ) : c.name}
               </div>
             ))}
           </div>
