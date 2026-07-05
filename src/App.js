@@ -417,7 +417,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .sec h2 { font-family:'Unbounded'; font-size:clamp(24px,3.6vw,42px); font-weight:800;
   margin-bottom:14px; letter-spacing:-1px; line-height:1.1; text-align:center; }
 .sec h2 em { font-style:normal; color:var(--y); }
-.sec.yellow h2 em { color:#0D0D18; background:#080810; padding:0 10px; border-radius:6px; }
+.sec.yellow h2 em { color:var(--y); background:#080810; padding:0 10px; border-radius:6px; }
 .sdesc { font-size:15px; line-height:1.7; color:var(--g2); max-width:600px; margin:0 auto 40px; text-align:center; }
 .sec.yellow .sdesc { color:rgba(8,8,16,.75); }
 
