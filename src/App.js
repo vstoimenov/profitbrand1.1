@@ -71,10 +71,12 @@ function SvcIcon({ name, size = 28 }) {
 const defaultClients = [
   { id: 1, name: "Wienerberger", logo: "/logos/wienerberger.png" },
   { id: 2, name: "Захарни Заводи", logo: "/logos/zaharni-zavodi.png" },
-  { id: 3, name: "minimart", logo: "/logos/minimart.png" },
+  { id: 3, name: "minimart", logo: "/logos/minimart.png", dark: true },
   { id: 4, name: "Saint Charles Apothecary", logo: "/logos/saint-charles.png" },
   { id: 5, name: "ПК Инвиктус", logo: "/logos/invictus.png" },
   { id: 6, name: "Kavo Kerreu", logo: "/logos/kavo-kerreu.jpg" },
+  { id: 7, name: "Sintra", logo: "/logos/sintra.png" },
+  { id: 8, name: "Wolt", logo: "/logos/wolt.jpg" },
 ];
 
 const defaultTeam = [
@@ -210,7 +212,7 @@ const defaultTestimonials = [
 
 /* Bump when default copy (services/credentials/testimonials) changes,
    so visitors with older localStorage get the fresh content. */
-const DATA_VERSION = 4;
+const DATA_VERSION = 5;
 
 /* ---------- App ---------- */
 
@@ -410,7 +412,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   border-top:1px solid rgba(255,214,0,.06); border-bottom:1px solid rgba(255,214,0,.06); }
 .trust-lbl { text-align:center; font-size:10px; letter-spacing:3px; text-transform:uppercase;
   color:var(--g); font-weight:700; margin-bottom:18px; font-family:'Unbounded'; }
-.trust-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:14px;
+.trust-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
   max-width:1100px; margin:0 auto; }
 .cl-logo { height:72px; display:flex; align-items:center; justify-content:center;
   background:#FFFFFF; border:1px solid rgba(255,255,255,.08); border-radius:10px;
@@ -418,6 +420,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   color:#3a3a4a; transition:border-color .25s ease, transform .25s ease;
   text-align:center; line-height:1.2; overflow:hidden; }
 .cl-logo:hover { border-color:rgba(255,214,0,.45); transform:translateY(-2px); }
+.cl-logo.dark { background:#0D0D18; border-color:rgba(255,255,255,.12); color:var(--g2); }
 .cl-logo img { max-width:100%; max-height:48px; object-fit:contain; display:block; }
 @media (max-width:900px) { .trust-grid { grid-template-columns:repeat(3,1fr); } }
 @media (max-width:480px) { .trust-grid { grid-template-columns:repeat(2,1fr); } .trust { padding:28px 16px; } }
@@ -831,7 +834,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           <div className="trust-lbl">Доверяват ни се</div>
           <div className="trust-grid">
             {clients.map((c) => (
-              <div key={c.id} className="cl-logo">
+              <div key={c.id} className={`cl-logo ${c.dark ? "dark" : ""}`}>
                 {c.logo ? (
                   <img
                     src={c.logo}
