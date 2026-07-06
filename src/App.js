@@ -74,6 +74,7 @@ const defaultClients = [
   { id: 3, name: "minimart", logo: "/logos/minimart.png" },
   { id: 4, name: "Saint Charles Apothecary", logo: "/logos/saint-charles.png" },
   { id: 5, name: "ПК Инвиктус", logo: "/logos/invictus.png" },
+  { id: 6, name: "Kavo Kerreu", logo: "/logos/kavo-kerreu.jpg" },
 ];
 
 const defaultTeam = [
@@ -208,7 +209,7 @@ const defaultTestimonials = [
 
 /* Bump when default copy (services/credentials/testimonials) changes,
    so visitors with older localStorage get the fresh content. */
-const DATA_VERSION = 3;
+const DATA_VERSION = 4;
 
 /* ---------- App ---------- */
 
@@ -408,7 +409,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   border-top:1px solid rgba(255,214,0,.06); border-bottom:1px solid rgba(255,214,0,.06); }
 .trust-lbl { text-align:center; font-size:10px; letter-spacing:3px; text-transform:uppercase;
   color:var(--g); font-weight:700; margin-bottom:18px; font-family:'Unbounded'; }
-.trust-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:14px;
+.trust-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:14px;
   max-width:1100px; margin:0 auto; }
 .cl-logo { height:72px; display:flex; align-items:center; justify-content:center;
   background:#FFFFFF; border:1px solid rgba(255,255,255,.08); border-radius:10px;
