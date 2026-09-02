@@ -13,7 +13,7 @@
  */
 
 var SHEET_NAME = "Лист1";
-var HEADERS = ["Дата", "Име", "Имейл", "Сайт", "Какво продава", "Бюджет / месец", "Стойност на клиент", "Вердикт", "Източник"];
+var HEADERS = ["Дата", "Име", "Имейл", "Телефон", "Сайт", "Какво продава", "Бюджет / месец", "Стойност на клиент", "Вердикт", "Източник"];
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -30,6 +30,7 @@ function doPost(e) {
       data.date || new Date().toISOString(),
       data.name || "",
       data.email || "",
+      data.phone || "",
       data.website || "",
       data.sells || "",
       data.budget || "",

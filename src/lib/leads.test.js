@@ -6,6 +6,7 @@ const valid = {
   clientValue: "€150–500",
   name: "Иван",
   email: "ivan@example.com",
+  phone: "+359 888 123 456",
   website: "https://example.com",
 };
 const now = new Date("2026-09-02T12:00:00Z");
@@ -31,6 +32,7 @@ test("verdict is 'за преглед' otherwise and payload carries all fields"
     date: "2026-09-02T12:00:00.000Z",
     name: "Иван",
     email: "ivan@example.com",
+    phone: "+359 888 123 456",
     website: "https://example.com",
     sells: "CRM софтуер за малки фирми",
     budget: "€1 000–3 000",
@@ -42,8 +44,8 @@ test("verdict is 'за преглед' otherwise and payload carries all fields"
 
 test("validateLead flags missing fields and bad email", () => {
   expect(validateLead(valid)).toEqual({});
-  const errs = validateLead({ ...valid, name: "  ", email: "nope", sells: "" });
-  expect(Object.keys(errs).sort()).toEqual(["email", "name", "sells"]);
+  const errs = validateLead({ ...valid, name: "  ", email: "nope", sells: "", phone: "12" });
+  expect(Object.keys(errs).sort()).toEqual(["email", "name", "phone", "sells"]);
 });
 
 test("submitLead rejects when no endpoint configured", async () => {

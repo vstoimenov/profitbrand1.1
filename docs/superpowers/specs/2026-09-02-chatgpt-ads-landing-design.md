@@ -44,5 +44,8 @@ Dynamic: `daysSince("2026-08-24")` for "преди X дни" (min 1), `bgMonthNa
 - `src/lib/leads.test.js`: `buildLeadPayload` verdict rules; `submitLead` rejects with empty endpoint.
 - `src/lib/dates.test.js`: `daysSince`, `bgMonthName`.
 
+## Copy v3 (2026-09-02, later the same day)
+Owner supplied "ChatGPT Ads Landing v3 (просто и човешко)". Supersedes the v2 copy rules above: first-person singular voice, "от 1 септември" instead of a day counter, a pricing section IS included (€350/month management, no setup fee, ad budget min €500/month paid to the platform, 2-month minimum, "$200 000 in the US vs €850 first month"), a required "Телефон" form field (Apps Script column added), button "Прати и ще ти пиша до 48 часа", new FAQ and final section (max 5 new clients per month). The two Meta ad texts at the end of the doc are not part of the page.
+
 ## Out of scope
 Admin editing of the landing copy; email notifications; analytics events.

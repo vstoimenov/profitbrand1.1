@@ -1,58 +1,46 @@
 import { useEffect, useState } from "react";
 import {
-  ArrowRight, ArrowLeft, Check, X, Plus, Shield, Search, FileText, Zap,
-  MessageSquare, Lock, Users, Ban, Clock, Sparkles, Target, BarChart3, Mail, AlertTriangle,
+  ArrowRight, ArrowLeft, Check, X, Plus, FileText, Zap,
+  MessageSquare, Users, BarChart3, Mail, AlertTriangle, Clock, Target,
 } from "lucide-react";
-import { daysSince, daysWord, bgMonthName } from "../lib/dates";
 import { BUDGETS, CLIENT_VALUES, buildLeadPayload, validateLead, submitLead, sourceFromSearch } from "../lib/leads";
 
-const LAUNCH_BG = "2026-08-24";
-
-const SECRETS = [
-  { icon: BarChart3, t: "Кликът струва около €3–5. Не €0.30.", d: "Ако продаваш нещо за €25, това не е реклама — това е дарение за OpenAI." },
-  { icon: Users, t: "Вижда я само човек на безплатния или Go план.", d: "Който плаща за Plus — никога. Ако таргетираш CEO-та на корпорации, забрави." },
-  { icon: Target, t: "Няма „жени 35–45 в София“. Няма интереси.", d: "Има само темата на разговора. Ако хората не питат ChatGPT за твоя продукт — рекламата ти не съществува." },
-  { icon: Clock, t: "В България тръгна на 24 август 2026.", d: "Никой няма и един ред данни какво работи тук. НИКОЙ." },
+const FACTS = [
+  { icon: BarChart3, t: "Кликът е скъп — около €3–5.", d: "Не €0.30 като във Facebook." },
+  { icon: Users, t: "Виждат я само хора на безплатния план.", d: "Който плаща за ChatGPT Plus, не вижда реклами." },
+  { icon: Target, t: "Няма таргетиране по възраст или интереси.", d: "Рекламата излиза само ако темата на разговора съвпада с твоя продукт." },
+  { icon: Clock, t: "В България е от 1 септември.", d: "Още никой няма реални данни какво работи тук." },
 ];
 
-const DONT = [
-  ["…продаваш импулсна стока под €30.", "Сметката не излиза. Никога."],
-  ["…нямаш сайт, който вече продава.", "ChatGPT праща най-горещия трафик, който ще видиш — на счупен лендинг това е горещ трафик в кофата."],
-  ["…искаш „да пробваш със 100 евро“.", "100 евро са 25 клика. От 25 клика не научаваш нищо, освен че си похарчил 100 евро."],
-  ["…търсиш някой да ти обещае продажби.", "Каналът е на седмици тук. Който ти обещава продажби, гадае — с твоите пари."],
-];
-
-const DO = [
-  ["Хората питат ChatGPT за това, което продаваш", "— софтуер, услуги, обучения, специализирана техника, B2B."],
-  ["Един клиент ти носи над €150.", "Тогава клик за €4 е най-евтиният клиент, който си купувал от години."],
-  ["Сайтът ти вече конвертира от Facebook или Google.", "Просто искаш още един кран, от който конкурентите още не пият."],
+const FOR_YOU = [
+  ["Хората питат ChatGPT за това, което продаваш", "— услуги, софтуер, обучения, по-скъпа техника, B2B."],
+  ["Един клиент ти носи над €150.", "Иначе клик за €4 не се връща."],
+  ["Имаш сайт, който вече продава.", "Рекламата праща хора — сайтът ги превръща в клиенти."],
 ];
 
 const STEPS = [
-  { icon: MessageSquare, step: "Стъпка 1", title: "3 въпроса, 60 секунди", desc: "Какво продаваш, какъв бюджет, колко ти носи клиент. Толкова. Никакво „да си запишем разговор за откриване“." },
-  { icon: FileText, step: "Стъпка 2", title: "Вердикт за 48 часа", desc: "„Да“, „не“ или „не още“ — с една конкретна причина, на имейл. Ако е „не“, току-що си спестил бюджета и месец нерви. Ако е „да“ — получаваш офертата и KPI-а, с който ще те мерим НАС, писмено, преди да си платил лев." },
-  { icon: Zap, step: "Стъпка 3", title: "30-дневен пилот", desc: "Setup за 5 работни дни. Първи данни на 14-ия ден. Присъда на 30-ия. Стигнем ли KPI-а — продължаваш. Не го стигнем ли — вторият месец е за наша сметка." },
+  { icon: MessageSquare, step: "Стъпка 1", title: "Отговаряш на 3 въпроса", desc: "Какво продаваш, какъв бюджет, колко ти носи един клиент. Отнема минута." },
+  { icon: FileText, step: "Стъпка 2", title: "До 48 часа ти пиша лично", desc: "Подходящ е, не е, или не още — и защо. Ако е подходящ, говорим 15 минути и записваме целта: колко да струва клик или запитване." },
+  { icon: Zap, step: "Стъпка 3", title: "Пускаме рекламите", desc: "Първите данни виждаш на 14-ия ден, пълен отчет на 30-ия. Ако не сме стигнали целта — вторият месец е без такса." },
 ];
 
-const PILOT = [
-  { icon: Lock, t: "Партньорски достъп до ChatGPT Ads инвентара за България", d: "Не чакаш self-serve, който за България още не е отворен, и не се редиш зад корпорациите." },
-  { icon: Search, t: "Fit анализ на една страница", d: "Кои точно разговори в ChatGPT водят към твоя продукт, какво питат хората и с какви думи." },
-  { icon: Target, t: "Setup на акаунт, tracking и конверсии", d: "За да виждаш всяко евро от ChatGPT отделно, а не смесено с Facebook." },
-  { icon: Sparkles, t: "3–5 варианта на рекламата", d: "Написани по въпросите, които хората реално задават — не по това, което ти мислиш, че питат." },
-  { icon: BarChart3, t: "Два отчета — ден 14 и ден 30", d: "Цена на клик, цена на лийд, какво работи, какво режем и защо." },
-  { icon: Shield, t: "KPI, записан в деня на вердикта", d: "Преди да платиш. Ако не го стигнем — плащаме ние. (Виж гаранцията.)" },
+const INCLUDED = [
+  "Достъп до рекламите в ChatGPT през партньорска агенция (в България още няма самостоятелен достъп)",
+  "Настройка на акаунт и проследяване",
+  "3–5 варианта на рекламата по въпросите, които хората реално задават",
+  "Два отчета — на 14-ия и на 30-ия ден",
 ];
 
 const FAQS = [
-  { q: "Ако ме отхвърлите — какво получавам?", a: "Една конкретна причина и какво трябва да се промени, за да стане „да“. Понякога е сайтът, понякога офертата, понякога нишата просто не се пита в ChatGPT. Никой не получава „не“ без обяснение." },
-  { q: "Защо не пускате реклами на всеки, който плаща?", a: "Защото на 14-ия ден ще видиш, че не работи, и ще си прав да ни намразиш. Искаме 10 пилота, които работят, не 30, от които 20 се отказват с лош вкус в устата. Данните от твоята ниша са ни по-ценни от таксата ти." },
-  { q: "Колко струва един клик в ChatGPT?", a: "В САЩ — около $3–5. В България никой няма число. Това е част от това, което пилотът ти дава: на 14-ия ден ще го знаеш за твоята ниша, от твоя акаунт." },
-  { q: "Всички ли виждат рекламата?", a: "Не. Само хора на безплатния и Go план. Plus и Pro не виждат реклами. За B2C и малък/среден B2B в България това е огромното мнозинство. За корпоративни CEO-та — не разчитай." },
-  { q: "Кой определя KPI-а — не е ли удобно за вас?", a: "Заедно, в деня на вердикта, писмено, преди да си платил. Ако сметнеш, че сме го поставили меко — кажи, вдигаме го. Гаранцията е безсмислена, ако KPI-ът е шега." },
-  { q: "Не може ли просто да изчакам self-serve Ads Manager?", a: "Може. Тогава влизаш заедно с всички останали и наддаваш срещу тях. Помниш ли Facebook през 2015? Ранните плащаха стотинки, защото никой друг не наддаваше. После дойдоха всички. Прозорецът е сега." },
+  { q: "Ако кажеш, че не е подходящо — какво получавам?", a: "Една конкретна причина и какво трябва да се промени, за да стане. Никой не получава „не“ без обяснение." },
+  { q: "Защо не пускаш реклами на всеки, който плаща?", a: "Защото след две седмици ще видиш, че не работи, и ще си прав да си ядосан. Предпочитам 5 клиента, при които работи, пред 15, които се отказват." },
+  { q: "Колко струва един клик?", a: "В САЩ — около $3–5. В България още никой не знае точно. След 14 дни ще го знаеш за твоя бизнес." },
+  { q: "Всички ли виждат рекламата?", a: "Не. Само хора на безплатния план на ChatGPT. Който плаща за Plus, не вижда реклами. За повечето бизнеси в България това е голямото мнозинство от хората." },
+  { q: "Кой определя целта?", a: "Заедно, преди да платиш. Ако ти се струва твърде лесна — кажи, вдигаме я." },
+  { q: "Не мога ли просто да си пусна сам, като отвори за всички?", a: "Можеш. Тогава ще влезеш заедно с всички останали. Сега има по-малко конкуренция и кликът е по-евтин." },
 ];
 
-const EMPTY = { sells: "", budget: "", clientValue: "", name: "", email: "", website: "" };
+const EMPTY = { sells: "", budget: "", clientValue: "", name: "", email: "", phone: "", website: "" };
 
 const css = `
 .cg { color:var(--w); }
@@ -117,6 +105,24 @@ const css = `
 .cg-pilot-note { max-width:760px; margin:32px auto 0; text-align:center; background:#080810; color:var(--w); border-radius:14px; padding:20px 24px;
   font-size:14px; line-height:1.65; }
 .cg-pilot-note b { color:var(--y); }
+
+/* Pricing */
+.cg-price { max-width:900px; margin:36px auto 0; display:grid; grid-template-columns:1.1fr 1fr; gap:18px; }
+.cg-price-main { background:#fff; color:var(--b); border-radius:18px; padding:32px 30px; box-shadow:0 2px 0 rgba(8,8,16,.08); }
+.cg-price-main .big { font-family:'Unbounded'; font-size:clamp(30px,4vw,44px); font-weight:900; line-height:1; }
+.cg-price-main .big small { font-size:14px; font-weight:700; color:#3a3a4a; margin-left:6px; }
+.cg-price-main .sub { font-size:13px; font-weight:700; color:#3a3a4a; margin:6px 0 18px; }
+.cg-price-main li { list-style:none; display:flex; gap:10px; padding:8px 0; font-size:13px; line-height:1.55; color:#3a3a4a; border-top:1px solid rgba(8,8,16,.06); }
+.cg-price-main li svg { color:var(--b); flex-shrink:0; margin-top:3px; }
+.cg-price-side { display:flex; flex-direction:column; gap:14px; }
+.cg-price-box { background:#080810; color:var(--w); border-radius:16px; padding:22px 24px; font-size:13px; line-height:1.65; flex:1; }
+.cg-price-box h4 { font-family:'Unbounded'; font-size:11px; font-weight:800; color:var(--y); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+.cg-price-box b { color:var(--y); }
+.cg-notfor { max-width:900px; margin:20px auto 0; padding:20px 24px; border-radius:14px; background:var(--b3); border:1px solid rgba(255,68,85,.25);
+  font-size:14px; line-height:1.65; color:var(--g2); display:flex; gap:14px; align-items:flex-start; }
+.cg-notfor .m { width:26px; height:26px; min-width:26px; border-radius:7px; background:rgba(255,68,85,.14); color:#FF6B78; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.cg-notfor b { color:var(--w); }
+@media (max-width:900px) { .cg-price { grid-template-columns:1fr; } .cg-price-main { padding:24px 20px; } }
 
 /* Founder */
 .cg-founder { max-width:900px; margin:0 auto; display:grid; grid-template-columns:220px 1fr; gap:36px; align-items:start;
@@ -191,9 +197,6 @@ export default function ChatGptAds({ nav }) {
     document.head.appendChild(el);
   }, []);
 
-  const days = daysSince(LAUNCH_BG);
-  const month = bgMonthName(new Date());
-
   const goApply = () => {
     const el = document.getElementById("apply");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -231,15 +234,15 @@ export default function ChatGptAds({ nav }) {
     <div className="cg">
       {/* 1. Hero */}
       <section className="cg-hero">
-        <div className="cg-pre"><b>ВНИМАНИЕ:</b> За собственици на бизнес, които плащат €0.30 на клик във Facebook и се питат защо клиентите стават все по-скъпи</div>
+        <div className="cg-pre">За собственици на бизнес, които се питат дали да рекламират в ChatGPT</div>
         <h1>
-          ChatGPT започна да показва реклами в България преди <em>{days} {daysWord(days)}</em>. Ето как да сложиш бизнеса си под отговора, който клиентът ти сам е поискал — преди конкурентите ти да разберат, че това изобщо е възможно.
+          ChatGPT показва реклами в България <em>от 1 септември</em>. Разбери дали бизнесът ти е подходящ за реклами там — за 48 часа, безплатно.
         </h1>
         <p className="cg-sub">
-          Не пускаме реклами на всеки, който плаща. Отговаряш на 3 въпроса, за 48 часа получаваш вердикт — <strong>„да“, „не“ или „не още“</strong> — и ако си от 3-те на всеки 10, които одобряваме, за 30 дни ще знаеш какво струва клиент от ChatGPT в ТВОЯТА ниша. От твоя акаунт. Не от статия.
+          Отговаряш на 3 кратки въпроса. Аз преглеждам бизнеса ти и до 2 дни ти пиша лично: <strong>подходящ ли е, или не</strong>. Ако не е — ще ти кажа защо и ще си спестил парите. Ако е — пускаме рекламите с ясна цел, записана преди да платиш.
         </p>
         <button className="btn" onClick={goApply}>Провери дали бизнесът ти е подходящ <ArrowRight size={14} /></button>
-        <div className="cg-micro">3 въпроса · 60 секунди · вердикт за 48 ч · <b>само 5 пилотни слота за {month}</b></div>
+        <div className="cg-micro">3 въпроса · 1 минута · <b>отговор до 48 часа</b> · без обаждания и презентации</div>
 
         <figure className="cg-shot">
           <img
@@ -248,23 +251,20 @@ export default function ChatGptAds({ nav }) {
             height="1000"
             alt="ChatGPT отговор със Sponsored реклама под него — пример как изглежда рекламата в ChatGPT"
           />
-          <figcaption className="cg-shot-tag"><ArrowLeft size={14} /> ТУК. ТВОЯТА. ИЛИ НА КОНКУРЕНТА.</figcaption>
+          <figcaption className="cg-shot-tag"><ArrowLeft size={14} /> ТОВА Е РЕКЛАМАТА</figcaption>
         </figure>
       </section>
 
-      {/* 2. Secret */}
+      {/* 2. What it is */}
       <section className="sec dk">
-        <div className="tg">Прочети това внимателно</div>
-        <h2 className="U">Мръсната малка тайна за <em>рекламите в ChatGPT</em></h2>
-        <p className="sdesc">Защото след 6 месеца ще е късно.</p>
-        <div className="cg-prose">
-          <p>Представи си клиента ти. Сяда вечерта, отваря ChatGPT и пише: <strong>„кой софтуер за фактури е най-добър за малка фирма в България“</strong>. Не скролва. Не гледа видеа с котки. Пита. С намерение. С кредитна карта в главата.</p>
-          <p>И под отговора — малка карта с надпис <em>Sponsored</em>. Твоята. Или на конкурента ти.</p>
-          <p className="cg-big">Няма по-топъл момент в цялата история на рекламата. Google хващаше намерение с 3 думи. ChatGPT го хваща с цял разговор.</p>
-          <p>А сега тайната, която „експертите“ в LinkedIn пропускат:</p>
+        <div className="tg">С две думи</div>
+        <h2 className="U">Какво са <em>рекламите в ChatGPT</em></h2>
+        <div className="cg-prose" style={{ marginTop: 24 }}>
+          <p>Човек пише в ChatGPT: <strong>„кой софтуер за фактури е най-добър за малка фирма“</strong>. Получава отговор. А под отговора — малка карта с надпис <em>„Sponsored“</em>. Това е рекламата. Появява се точно когато някой пита за това, което продаваш.</p>
+          <p className="cg-big">Звучи страхотно. И за някои бизнеси е. Но има няколко неща, които трябва да знаеш, преди да похарчиш и евро:</p>
         </div>
         <div className="cg-secrets">
-          {SECRETS.map((s, i) => (
+          {FACTS.map((s, i) => (
             <div key={i} className="cg-secret">
               <span className="ic"><s.icon size={22} /></span>
               <div><h4>{s.t}</h4><p>{s.d}</p></div>
@@ -272,38 +272,33 @@ export default function ChatGptAds({ nav }) {
           ))}
         </div>
         <div className="cg-punch">
-          Точно затова всяка агенция, която ти каже „да, разбира се, пускаме веднага!“ — ти казва „да“ на парите ти, не на резултата ти.
+          Затова не казвам „да“ на всеки. Първо проверявам дали има смисъл за теб.
         </div>
       </section>
 
-      {/* 3. Warning */}
+      {/* 3. For whom */}
       <section className="sec">
-        <div className="tg">Предупреждение</div>
-        <h2 className="U">Не кандидатствай, <em>ако…</em></h2>
-        <div className="cg-warn-grid">
-          <div className="cg-warn">
-            <h3><Ban size={18} /> Не кандидатствай, ако…</h3>
-            <ul>
-              {DONT.map(([b, d], i) => (
-                <li key={i}><span className="m"><X size={14} /></span><span><b>{b}</b>{d}</span></li>
-              ))}
-            </ul>
-          </div>
+        <div className="tg">За кого е и за кого не е</div>
+        <h2 className="U">Най-вероятно е подходящо <em>за теб, ако</em>:</h2>
+        <div className="cg-warn-grid" style={{ gridTemplateColumns: "1fr", maxWidth: 760 }}>
           <div className="cg-warn ok">
-            <h3><Check size={18} /> Кандидатствай, ако поне две от тези три са верни:</h3>
             <ul>
-              {DO.map(([b, d], i) => (
-                <li key={i}><span className="m"><Check size={14} /></span><span><b>{b}</b>{d}</span></li>
+              {FOR_YOU.map(([b, d], i) => (
+                <li key={i} style={i === 0 ? { borderTop: "none", paddingTop: 0 } : undefined}><span className="m"><Check size={14} /></span><span><b>{b}</b>{d}</span></li>
               ))}
             </ul>
           </div>
+        </div>
+        <div className="cg-notfor">
+          <span className="m"><X size={14} /></span>
+          <span><b>Най-вероятно не е за теб</b>, ако продаваш евтини стоки под €30, нямаш работещ сайт или искаш „да пробваш със 100 евро“. Ще ти го кажа честно и няма да ти губя времето.</span>
         </div>
       </section>
 
       {/* 4. Steps */}
       <section className="sec dk">
         <div className="tg">Как става</div>
-        <h2 className="U">3 стъпки, <em>нула срещи</em>.</h2>
+        <h2 className="U">3 стъпки, <em>без срещи</em>.</h2>
         <div className="wp-grid" style={{ marginTop: 36 }}>
           {STEPS.map((p, i) => (
             <div key={i} className="wp-card">
@@ -318,41 +313,47 @@ export default function ChatGptAds({ nav }) {
         </div>
       </section>
 
-      {/* 5. Pilot */}
+      {/* 5. Pricing */}
       <section className="sec yellow">
-        <div className="tg">Какво влиза в пилота</div>
-        <h2 className="U">Не си сам <em>в него</em>.</h2>
-        <p className="sdesc">Първите пилоти в България ги правим заедно. Ти получаваш данните за нишата си, ние — за следващите.</p>
-        <div className="cg-pilot">
-          {PILOT.map((p, i) => (
-            <div key={i} className="cg-pilot-i">
-              <div className="ic"><p.icon size={20} /></div>
-              <h4>{p.t}</h4>
-              <p>{p.d}</p>
+        <div className="tg">Колко струва</div>
+        <h2 className="U">Без първоначална <em>такса</em>.</h2>
+        <div className="cg-price">
+          <div className="cg-price-main">
+            <div className="big">€350<small>на месец</small></div>
+            <div className="sub">Без първоначална такса. Вътре е всичко:</div>
+            <ul>
+              {INCLUDED.map((t, i) => <li key={i}><Check size={15} /> <span>{t}</span></li>)}
+            </ul>
+          </div>
+          <div className="cg-price-side">
+            <div className="cg-price-box">
+              <h4>Рекламен бюджет — отделно</h4>
+              Минимум <b>€500 на месец</b>, плащаш го директно на платформата, не на мен. Минимален ангажимент <b>2 месеца</b>, защото за по-малко не се научава нищо.
             </div>
-          ))}
-        </div>
-        <div className="cg-pilot-note">
-          Условията и цената получаваш в <b>персонална оферта в деня на вердикта</b> — писмено, заедно с KPI-а, преди да си платил лев.
+            <div className="cg-price-box">
+              <h4>За сравнение</h4>
+              В САЩ първите рекламодатели плащаха около <b>$200 000</b>, за да влязат. Тук влизаш с <b>€850</b> за първия месец.
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 6. Founder */}
+      {/* 6. Who am I */}
       <section className="sec">
-        <div className="tg">Кой ти казва „не“</div>
-        <h2 className="U">„Не“ е <em>част от услугата</em>.</h2>
+        <div className="tg">Кой съм аз</div>
+        <h2 className="U">Предпочитам да ти кажа <em>„не“ в началото</em>.</h2>
         <div className="cg-founder" style={{ marginTop: 36 }}>
           <img src="/viktor.jpg" alt="Виктор Стоименов" loading="lazy" />
           <div>
             <div className="nm">Виктор Стоименов</div>
             <span className="rl">Founder, PROFITBRAND</span>
-            <p>От 2024 г. правя performance маркетинг — за собствени продукти и за клиенти. Кампании в <strong>9 европейски пазара</strong>. Бизнес, който помогнах да стигне <strong>седемцифрен годишен оборот</strong>. Месечни бюджети от €3 000 до над €10 000.</p>
-            <p>Виждал съм достатъчно канали, които не връщат парите, за да ги познавам на втория ден. Затова „не“ е част от услугата. Ако ти кажа „да“ на всичко, съм поредната агенция. Ако ти кажа „не“ навреме — съм ти спестил повече от всяка кампания.</p>
-            <p>ChatGPT Ads гледам от февруари, когато тръгна в САЩ. Имам партньорски достъп до инвентара за България. Първите пилоти тук ще ги направим заедно — ти получаваш данните за нишата си, аз — за следващите. <strong>Затова слотовете са 5, не 50.</strong></p>
+            <p>Правя реклами в интернет от 2024 г. — за мои продукти и за клиенти. Кампании в <strong>9 европейски държави</strong>, бюджети от €3 000 до над €10 000 на месец, бизнес, който помогнах да стигне <strong>седемцифрен оборот</strong>.</p>
+            <p>Виждал съм много канали, които не връщат парите. Затова предпочитам да ти кажа „не“ в началото, отколкото ти да го разбереш след месец и €1 000.</p>
+            <p>Рекламите в ChatGPT следя от февруари, когато тръгнаха в САЩ. Имам достъп до тях за България през партньор. <strong>Първите кампании тук ще ги направим заедно.</strong></p>
             <div className="cg-creds">
               <span>Google AI Leader сертификат</span>
-              <span>9 европейски пазара</span>
-              <span>Партньорски достъп ChatGPT Ads BG</span>
+              <span>9 европейски държави</span>
+              <span>Достъп до ChatGPT Ads за България</span>
             </div>
           </div>
         </div>
@@ -361,28 +362,28 @@ export default function ChatGptAds({ nav }) {
       {/* 7. Guarantee */}
       <section className="sec dk">
         <div className="tg">Гаранция</div>
-        <h2 className="U">Гаранцията <em>„плащаме ние“</em></h2>
+        <h2 className="U">Обещавам числото, <em>което зависи от мен</em>.</h2>
         <div className="guar" style={{ marginTop: 32 }}>
-          <h3 className="U">Гарантираме <em>числото, което зависи от нас</em></h3>
+          <h3 className="U">Една цел, <em>записана преди да платиш</em></h3>
           <ul>
-            <li><span className="gc"><Check size={14} /></span>В деня на вердикта записваме един KPI: цена на клик или цена на лийд, конкретна за твоята ниша. Писмено. Преди да платиш.</li>
-            <li><span className="gc"><Check size={14} /></span>На 30-ия ден я сравняваме с реалността. Не сме я стигнали → вторият месец управление е за наша сметка. Ти плащаш само рекламния бюджет и решаваш дали продължаваме.</li>
-            <li><span className="gc"><Check size={14} /></span>Не гарантираме продажби — и това е единствената честна гаранция, която някой може да ти даде за канал на {days} {daysWord(days)} в България. Гарантираме числото, което зависи от нас. И го носим.</li>
+            <li><span className="gc"><Check size={14} /></span>Преди да платиш, записваме една цел: колко да струва клик или запитване за твоя бизнес. На 30-ия ден я сравняваме с реалността.</li>
+            <li><span className="gc"><Check size={14} /></span>Ако не сме я стигнали, вторият месец е без такса за управление. Плащаш само рекламния бюджет и решаваш дали продължаваме.</li>
+            <li><span className="gc"><Check size={14} /></span>Не обещавам продажби — каналът е нов и който ти обещава продажби, гадае. Обещавам числото, което зависи от мен.</li>
           </ul>
         </div>
       </section>
 
       {/* 8. Apply */}
       <section className="sec" id="apply">
-        <div className="tg">Кандидатствай</div>
-        <h2 className="U">3 въпроса, <em>60 секунди</em>.</h2>
-        <p className="sdesc">Няма обаждане. Няма презентация. Няма „да ти покажем деска“. Отговаряш, проверяваме, за 48 часа получаваш вердикт на имейл.</p>
+        <div className="tg">Провери дали бизнесът ти е подходящ</div>
+        <h2 className="U">3 въпроса, <em>1 минута</em>.</h2>
+        <p className="sdesc">До 48 часа ти пиша лично.</p>
         <div className="cg-form">
           {status === "done" ? (
             <div className="cg-done">
               <div className="ic"><Mail size={28} /></div>
               <h3 className="U">Заявката е получена.</h3>
-              <p>Проверяваме и до 48 часа получаваш вердикт на имейл — „да“, „не“ или „не още“, с една конкретна причина.</p>
+              <p>Преглеждам бизнеса ти и до 48 часа ти пиша лично: подходящ е, не е, или не още — и защо.</p>
             </div>
           ) : (
             <form onSubmit={submit} noValidate>
@@ -399,18 +400,19 @@ export default function ChatGptAds({ nav }) {
                   <option value="" disabled>Избери…</option>
                   {CLIENT_VALUES.map((b) => <option key={b} value={b}>{b}</option>)}
                 </select>)}
-              <div className="cg-form-q second">Къде да пратим вердикта</div>
+              <div className="cg-form-q second">Къде да ти пиша</div>
               {field("name", "Име", <input id="cg-name" value={form.name} onChange={set("name")} placeholder="Твоето име" autoComplete="name" />)}
               {field("email", "Имейл", <input id="cg-email" type="email" value={form.email} onChange={set("email")} placeholder="email@firma.bg" autoComplete="email" />)}
+              {field("phone", "Телефон", <input id="cg-phone" type="tel" value={form.phone} onChange={set("phone")} placeholder="0888 123 456" autoComplete="tel" />)}
               {field("website", "Сайт", <input id="cg-website" value={form.website} onChange={set("website")} placeholder="https://..." autoComplete="url" />)}
               <button className="btn" type="submit" disabled={status === "sending"}>
-                {status === "sending" ? "Изпращаме…" : <>ПРАТИ ЗАЯВКАТА — ВЕРДИКТ ЗА 48 Ч <ArrowRight size={14} /></>}
+                {status === "sending" ? "Изпращаме…" : <>Прати и ще ти пиша до 48 часа <ArrowRight size={14} /></>}
               </button>
               {status === "fail" && (
-                <div className="cg-fail">Нещо се обърка и заявката не стигна до нас. Опитай пак след минута или ни пиши директно — ще отговорим.</div>
+                <div className="cg-fail">Нещо се обърка и заявката не стигна до мен. Опитай пак след минута или ми пиши директно — ще отговоря.</div>
               )}
               <div className="cg-form-note">
-                Бюджет под €500 или клиент под €50 = <b>„не още“</b>. Ще ти го кажем директно. Честното „не“ е по-евтино и за двама ни.
+                Без обаждания и презентации. Отговарям писмено, лично, до 48 часа.
               </div>
             </form>
           )}
@@ -419,7 +421,7 @@ export default function ChatGptAds({ nav }) {
 
       {/* 9. FAQ */}
       <section className="sec dk">
-        <div className="tg">ЧЗВ</div>
+        <div className="tg">Често задавани въпроси</div>
         <h2 className="U">Знаем какво <em>си мислиш</em>.</h2>
         <div className="faq" style={{ marginTop: 32 }}>
           {FAQS.map((q, i) => (
@@ -437,19 +439,8 @@ export default function ChatGptAds({ nav }) {
 
       {/* 10. Final */}
       <section className="cta sec">
-        <div className="tg">Имаш два пътя оттук</div>
-        <div className="cg-paths">
-          <div className="cg-path">
-            <div className="lb">Първият</div>
-            <p>Затваряш страницата, чакаш self-serve да отвори, влизаш след 6 месеца заедно с всички и плащаш клика, който тълпата е качила. Легитимен избор. Просто скъп.</p>
-          </div>
-          <div className="cg-path win">
-            <div className="lb">Вторият</div>
-            <p>Отговаряш на 3 въпроса сега. За 48 часа знаеш дали изобщо си струва. Ако не — спестил си бюджета. Ако да — след 30 дни имаш числа за нишата си, които никой конкурент няма.</p>
-          </div>
-        </div>
-        <h2 className="cg-final-h U">5 пилотни слота за <em>{month}</em>.</h2>
-        <p className="cg-final-p">Не защото е „маркетинг“ — защото толкова можем да водим като хората.</p>
+        <h2 className="cg-final-h U">Най-много <em>5 нови клиента</em> на месец.</h2>
+        <p className="cg-final-p">За да мога да им обърна внимание. Ако бизнесът ти е подходящ — ще ти кажа до 48 часа. Ако не е — също.</p>
         <button className="btn" onClick={goApply}>Провери дали бизнесът ти е подходящ <ArrowRight size={14} /></button>
         <p style={{ marginTop: 22, fontSize: 12 }}>
           <a href="/" onClick={(e) => { e.preventDefault(); nav("home"); }} style={{ color: "var(--g)", textDecoration: "none" }}>

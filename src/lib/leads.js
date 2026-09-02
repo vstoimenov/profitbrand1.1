@@ -16,6 +16,8 @@ export function validateLead(form) {
   req("budget", "Избери бюджет.");
   req("clientValue", "Избери колко ти носи един клиент.");
   req("name", "Напиши името си.");
+  if (!(form.phone || "").trim()) errs.phone = "Напиши телефон за връзка.";
+  else if ((form.phone || "").replace(/\D/g, "").length < 6) errs.phone = "Телефонът не изглежда валиден.";
   req("website", "Напиши сайта си.");
   if (!(form.email || "").trim()) errs.email = "Напиши имейл.";
   else if (!EMAIL_RE.test(form.email.trim())) errs.email = "Имейлът не изглежда валиден.";
@@ -30,6 +32,7 @@ export function buildLeadPayload(form, { now = new Date(), source = "" } = {}) {
     date: now.toISOString(),
     name: (form.name || "").trim(),
     email: (form.email || "").trim(),
+    phone: (form.phone || "").trim(),
     website: (form.website || "").trim(),
     sells: (form.sells || "").trim(),
     budget,
