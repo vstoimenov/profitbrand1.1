@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  ArrowRight, ArrowDown, Check, X, Plus, Shield, Search, FileText, Zap,
+  ArrowRight, ArrowLeft, Check, X, Plus, Shield, Search, FileText, Zap,
   MessageSquare, Lock, Users, Ban, Clock, Sparkles, Target, BarChart3, Mail, AlertTriangle,
 } from "lucide-react";
 import { daysSince, daysWord, bgMonthName } from "../lib/dates";
@@ -71,28 +71,15 @@ const css = `
 .cg-micro { margin-top:14px; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--g); font-weight:700; }
 .cg-micro b { color:var(--y); }
 
-/* Mock ChatGPT answer */
-.cg-chat { max-width:640px; margin:52px auto 0; text-align:left; background:#151521; border:1px solid rgba(255,255,255,.08);
-  border-radius:18px; padding:22px 22px 18px; box-shadow:0 30px 80px -30px rgba(0,0,0,.8); position:relative; }
-.cg-chat-top { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--g); margin-bottom:16px; font-weight:600; }
-.cg-chat-top i { width:8px; height:8px; border-radius:50%; background:#3a3a4a; display:inline-block; }
-.cg-user { margin-left:auto; max-width:78%; background:#25253a; color:var(--w); padding:12px 16px; border-radius:16px 16px 4px 16px;
-  font-size:14px; line-height:1.5; width:fit-content; }
-.cg-bot { margin-top:16px; font-size:14px; line-height:1.65; color:#d9d9e6; }
-.cg-bot p { margin-bottom:10px; }
-.cg-bot .cg-line { height:9px; border-radius:6px; background:rgba(255,255,255,.08); margin:8px 0; }
-.cg-spon { margin-top:14px; border:1px solid rgba(255,214,0,.55); background:rgba(255,214,0,.06); border-radius:12px; padding:12px 14px;
-  display:flex; align-items:center; gap:14px; position:relative; }
-.cg-spon-tag { position:absolute; top:-10px; left:12px; background:var(--y); color:var(--b); font-family:'Unbounded'; font-size:9px; font-weight:800;
-  padding:3px 8px; border-radius:6px; letter-spacing:1px; }
-.cg-spon-logo { width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,#FFD600,#FF9F1C); filter:blur(3px); flex-shrink:0; }
-.cg-spon-txt { flex:1; }
-.cg-spon-txt .n { font-weight:700; font-size:13px; filter:blur(4px); color:var(--w); }
-.cg-spon-txt .s { font-size:12px; color:var(--g2); margin-top:2px; }
-.cg-spon-btn { font-size:11px; font-weight:700; color:var(--b); background:var(--y); padding:6px 10px; border-radius:6px; white-space:nowrap; }
-.cg-arrow { position:absolute; right:-14px; bottom:-30px; color:#FF4455; font-family:'Unbounded'; font-size:11px; font-weight:800;
-  display:flex; align-items:center; gap:6px; transform:rotate(-8deg); }
-@media (max-width:700px) { .cg-arrow { right:6px; bottom:-34px; } }
+/* Real ChatGPT screenshot with Sponsored card */
+.cg-shot { max-width:560px; margin:52px auto 0; position:relative; border-radius:18px; overflow:visible; }
+.cg-shot img { display:block; width:100%; height:auto; border-radius:18px; border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.85), 0 0 0 1px rgba(255,214,0,.08); }
+.cg-shot-tag { position:absolute; right:-18px; top:27%; transform:rotate(-4deg);
+  background:#FF4455; color:#fff; font-family:'Unbounded'; font-size:11px; font-weight:800; letter-spacing:.5px;
+  padding:9px 12px; border-radius:8px; display:inline-flex; align-items:center; gap:6px;
+  box-shadow:0 10px 30px rgba(255,68,85,.45); white-space:nowrap; }
+@media (max-width:700px) { .cg-shot-tag { right:8px; top:25%; font-size:9px; padding:8px 10px; } }
 
 /* Section prose */
 .cg-prose { max-width:720px; margin:0 auto; font-size:16px; line-height:1.75; color:var(--g2); }
@@ -186,7 +173,7 @@ const css = `
   .cg-form { padding:24px 18px; }
   .cg-warn { padding:22px 18px; }
 }
-@media (max-width:600px) { .cg-pilot { grid-template-columns:1fr; } .cg-hero h1 { font-size:22px; letter-spacing:-.5px; } .cg-sub { font-size:15px; } .cg-chat { padding:16px 14px; }
+@media (max-width:600px) { .cg-pilot { grid-template-columns:1fr; } .cg-hero h1 { font-size:22px; letter-spacing:-.5px; } .cg-sub { font-size:15px; }
   .cg .btn { white-space:normal; text-align:center; line-height:1.45; padding:14px 20px; max-width:100%; } }
 `;
 
@@ -254,26 +241,15 @@ export default function ChatGptAds({ nav }) {
         <button className="btn" onClick={goApply}>Провери дали бизнесът ти е подходящ <ArrowRight size={14} /></button>
         <div className="cg-micro">3 въпроса · 60 секунди · вердикт за 48 ч · <b>само 5 пилотни слота за {month}</b></div>
 
-        <div className="cg-chat" aria-hidden="true">
-          <div className="cg-chat-top"><i /> ChatGPT</div>
-          <div className="cg-user">кой софтуер за фактури е най-добър за малка фирма в България?</div>
-          <div className="cg-bot">
-            <p>За малка фирма в България най-често се препоръчват решения с автоматично издаване, банкова свързаност и…</p>
-            <div className="cg-line" style={{ width: "92%" }} />
-            <div className="cg-line" style={{ width: "76%" }} />
-            <div className="cg-line" style={{ width: "84%" }} />
-          </div>
-          <div className="cg-spon">
-            <span className="cg-spon-tag">SPONSORED</span>
-            <div className="cg-spon-logo" />
-            <div className="cg-spon-txt">
-              <div className="n">Твоят бранд ООД</div>
-              <div className="s">Фактури за 30 секунди. Безплатен тест за 14 дни.</div>
-            </div>
-            <span className="cg-spon-btn">Виж →</span>
-          </div>
-          <div className="cg-arrow"><ArrowDown size={14} /> ТУК. ТВОЯТА. ИЛИ НА КОНКУРЕНТА.</div>
-        </div>
+        <figure className="cg-shot">
+          <img
+            src="/chatgpt-ad-example.jpg"
+            width="750"
+            height="1000"
+            alt="ChatGPT отговор със Sponsored реклама под него — пример как изглежда рекламата в ChatGPT"
+          />
+          <figcaption className="cg-shot-tag"><ArrowLeft size={14} /> ТУК. ТВОЯТА. ИЛИ НА КОНКУРЕНТА.</figcaption>
+        </figure>
       </section>
 
       {/* 2. Secret */}

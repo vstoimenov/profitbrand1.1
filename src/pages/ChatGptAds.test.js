@@ -16,6 +16,8 @@ test("renders the hero headline and no agency prices", () => {
   expect(body).not.toMatch(/€\s?390/);
   expect(body).not.toMatch(/1\s?480/);
   expect(body).not.toMatch(/200\s?000/);
+  const shot = screen.getByRole("img", { name: /Sponsored/ });
+  expect(shot).toHaveAttribute("src", "/chatgpt-ad-example.jpg");
 });
 
 test("empty submit shows validation errors and does not send", async () => {
