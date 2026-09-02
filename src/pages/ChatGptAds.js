@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, Check, X, Plus, FileText, Zap,
-  MessageSquare, Users, BarChart3, Mail, AlertTriangle, Target,
+  MessageSquare, Users, BarChart3, Mail, AlertTriangle, Target, Clock,
 } from "lucide-react";
 import { BUDGETS, CLIENT_VALUES, buildLeadPayload, validateLead, submitLead, sourceFromSearch } from "../lib/leads";
 import { trackPixel, trackLead } from "../lib/meta";
@@ -176,7 +176,11 @@ const css = `
 .cg-form-note { font-size:12px; color:var(--g); line-height:1.6; margin-top:14px; text-align:center; }
 .cg-form-note b { color:var(--g2); }
 .cg-fail { margin-top:12px; padding:12px 14px; border-radius:8px; background:rgba(255,68,85,.1); border:1px solid rgba(255,68,85,.3); color:#FF8A94; font-size:13px; line-height:1.5; }
-.cg-done { text-align:center; padding:20px 0; }
+.cg-done { text-align:center; padding:20px 0; outline:none; }
+.cg-done-list { list-style:none; text-align:left; margin:18px auto 20px; max-width:380px; }
+.cg-done-list li { display:flex; gap:10px; align-items:flex-start; font-size:13px; color:var(--g2); line-height:1.55; padding:7px 0; border-top:1px solid rgba(255,255,255,.06); word-break:break-word; }
+.cg-done-list li svg { color:var(--y); flex-shrink:0; margin-top:3px; }
+.cg-done .btn2 { text-decoration:none; }
 .cg-done .ic { width:64px; height:64px; border-radius:50%; background:var(--y); color:var(--b); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; }
 .cg-done h3 { font-family:'Unbounded'; font-size:18px; font-weight:800; margin-bottom:10px; }
 .cg-done p { font-size:14px; color:var(--g2); line-height:1.65; }
@@ -194,6 +198,10 @@ const css = `
 .cg-final-p { color:var(--g2); font-size:14px; max-width:560px; margin:0 auto 26px; text-align:center; line-height:1.65; }
 
 @media (max-width:900px) {
+  /* The global .sec rule uses content-visibility:auto; on this long, animated page it
+     delays reveals and confuses scroll-to-element after submit — keep everything rendered. */
+  .cg .sec { content-visibility:visible; contain:none; }
+  .cg-form { scroll-margin-top:84px; }
   .cg-hero { padding:104px 20px 56px; }
   .cg-secrets, .cg-warn-grid, .cg-paths { grid-template-columns:1fr; }
   .cg-founder { grid-template-columns:1fr; padding:24px 18px; }
@@ -201,7 +209,10 @@ const css = `
   .cg-form { padding:24px 18px; }
   .cg-warn { padding:22px 18px; }
 }
-@media (max-width:600px) { .cg-pilot { grid-template-columns:1fr; } .cg-hero h1 { font-size:22px; letter-spacing:-.5px; } .cg-sub { font-size:15px; }
+@media (max-width:600px) { .cg-hero h1 { font-size:22px; letter-spacing:-.5px; } .cg-sub { font-size:15px; }
+  /* 16px inputs stop iOS Safari from auto-zooming on focus */
+  .cg-form .fg input, .cg-form select { font-size:16px; padding:13px 14px; }
+  .cg-form .btn { white-space:normal; line-height:1.4; padding:14px 18px; }
   .cg .btn { white-space:normal; text-align:center; line-height:1.45; padding:14px 20px; max-width:100%; } }
 `;
 
@@ -224,6 +235,21 @@ export default function ChatGptAds({ nav }) {
   }, []);
 
   useEffect(() => { trackPixel("ViewContent", { content_name: "chatgpt-ads" }); }, []);
+
+  // After a successful submit, make sure the confirmation is on screen (mobile: the
+  // form collapses and the viewport would otherwise land on the FAQ below).
+  useEffect(() => {
+    if (status !== "done") return;
+    // Instant scroll (a smooth one gets cancelled by the collapsing form), repeated
+    // once the enter animation has settled so the box ends up centred.
+    const go = () => {
+      const el = document.getElementById("cg-done");
+      if (el) { el.scrollIntoView({ behavior: "auto", block: "center" }); el.focus({ preventScroll: true }); }
+    };
+    const raf = requestAnimationFrame(go);
+    const t = setTimeout(go, 450);
+    return () => { cancelAnimationFrame(raf); clearTimeout(t); };
+  }, [status]);
 
   // Sticky CTA: visible after the hero scrolls away, hidden while the form is on screen
   useEffect(() => {
@@ -249,11 +275,17 @@ export default function ChatGptAds({ nav }) {
     if (errors[k]) setErrors({ ...errors, [k]: undefined });
   };
 
+  const FIELD_ORDER = ["sells", "budget", "clientValue", "name", "email", "phone", "website"];
   const submit = async (e) => {
     e.preventDefault();
     const errs = validateLead(form);
     setErrors(errs);
-    if (Object.keys(errs).length) return;
+    if (Object.keys(errs).length) {
+      const first = FIELD_ORDER.find((k) => errs[k]);
+      const el = first && document.getElementById(`cg-${first}`);
+      if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); el.focus({ preventScroll: true }); }
+      return;
+    }
     setStatus("sending");
     try {
       const payload = buildLeadPayload(form, { source: sourceFromSearch(typeof window !== "undefined" ? window.location.search : "") });
@@ -402,11 +434,11 @@ export default function ChatGptAds({ nav }) {
             <span className="rl">Founder, PROFITBRAND</span>
             <p>Правя реклами в интернет от 2024 г. — за мои продукти и за клиенти. Кампании в <strong>9 европейски държави</strong>, бюджети от €3 000 до над €10 000 на месец, бизнес, който помогнах да стигне <strong>седемцифрен оборот</strong>.</p>
             <p>Виждал съм доста канали, които не връщат парите. Затова предпочитам да ти кажа „не“ в началото, отколкото ти да го разбереш след месец.</p>
-            <p>Рекламите в ChatGPT следя от февруари, когато тръгнаха в САЩ. Имам <strong>вече работещ профил в ChatGPT Ads</strong>, в който съм похарчил собствени пари — знам как изглежда отвътре, не от статии. <strong>Първите кампании тук ще ги направим заедно.</strong></p>
+            <p>Рекламите в ChatGPT следя от февруари, когато тръгнаха в САЩ. Имам достъп до тях за България през партньор. <strong>Първите кампании тук ще ги направим заедно.</strong></p>
             <div className="cg-creds">
               <span>Google AI Leader сертификат</span>
               <span>9 европейски държави</span>
-              <span>Работещ ChatGPT Ads профил със собствени пари</span>
+              <span>ChatGPT Ads от февруари 2026</span>
             </div>
           </div>
         </Reveal>
@@ -437,10 +469,15 @@ export default function ChatGptAds({ nav }) {
         </Reveal>
         <Reveal className="cg-form" delay={0.1}>
           {status === "done" ? (
-            <motion.div className="cg-done" {...(reduce ? {} : { initial: { opacity: 0, scale: 0.95 }, animate: { opacity: 1, scale: 1 }, transition: { duration: 0.4, ease: EASE } })}>
-              <div className="ic"><Mail size={28} /></div>
+            <motion.div id="cg-done" tabIndex={-1} role="status" aria-live="polite" className="cg-done" {...(reduce ? {} : { initial: { opacity: 0, scale: 0.95 }, animate: { opacity: 1, scale: 1 }, transition: { duration: 0.4, ease: EASE } })}>
+              <div className="ic"><Check size={30} strokeWidth={3} /></div>
               <h3 className="U">Заявката е получена.</h3>
               <p>Преглеждам бизнеса ти и до 24 часа ти пиша лично дали е подходящ и защо. Ако е — получаваш оферта, направена за теб.</p>
+              <ul className="cg-done-list">
+                <li><Mail size={14} /> <span>Отговорът идва на имейла, който написа{form.email ? `: ${form.email}` : ""}.</span></li>
+                <li><Clock size={14} /> <span>Срок: до 24 часа. Без обаждания и презентации.</span></li>
+              </ul>
+              <a className="btn2" href="/" onClick={(e) => { e.preventDefault(); nav("home"); }}>Обратно към PROFITBRAND <ArrowRight size={12} /></a>
             </motion.div>
           ) : (
             <form onSubmit={submit} noValidate>

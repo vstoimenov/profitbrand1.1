@@ -50,7 +50,17 @@ test("valid submit sends the lead and shows thank-you", async () => {
   await waitFor(() => expect(spy).toHaveBeenCalledTimes(1));
   expect(spy.mock.calls[0][0]).toMatchObject({ name: "Иван", email: "ivan@example.com", phone: "0888123456", verdict: "за преглед" });
   expect(await screen.findByText(/Заявката е получена/)).toBeInTheDocument();
+  await waitFor(() => expect(Element.prototype.scrollIntoView).toHaveBeenCalled());
+  expect(screen.getByRole("status")).toHaveTextContent("ivan@example.com");
   spy.mockRestore();
+});
+
+test("invalid submit scrolls to the first invalid field", () => {
+  render(<ChatGptAds nav={() => {}} />);
+  fireEvent.change(screen.getByLabelText(/Какво продаваш/), { target: { value: "CRM" } });
+  fireEvent.click(screen.getByRole("button", { name: /Прати — ще ти пиша до 24 часа/ }));
+  expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
+  expect(document.activeElement.id).toBe("cg-budget");
 });
 
 test("successful submit fires the Meta Lead event via pixel and CAPI with one event id", async () => {
