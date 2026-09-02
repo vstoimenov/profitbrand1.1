@@ -56,13 +56,6 @@ const STEPS = [
   { icon: Zap, step: "Стъпка 3", title: "Пускаме рекламите", desc: "Първите данни виждаш на 14-ия ден, пълен отчет на 30-ия. Ако не сме стигнали целта — вторият месец е без такса." },
 ];
 
-const INCLUDED = [
-  "Достъп до рекламите в ChatGPT през партньорска агенция (в България още няма самостоятелен достъп)",
-  "Настройка на акаунт и проследяване",
-  "3–5 варианта на рекламата по въпросите, които хората реално задават",
-  "Два отчета — на 14-ия и на 30-ия ден",
-];
-
 const FAQS = [
   { q: "Ако кажеш, че не е подходящо — какво получавам?", a: "Една конкретна причина и какво трябва да се промени, за да стане. Никой не получава „не“ без обяснение." },
   { q: "Защо не пускаш реклами на всеки, който плаща?", a: "Защото след две седмици ще видиш, че не работи, и ще си прав да си ядосан. Предпочитам 5 клиента, при които работи, пред 15, които се отказват." },
@@ -137,24 +130,6 @@ const css = `
 .cg-pilot-note { max-width:760px; margin:32px auto 0; text-align:center; background:#080810; color:var(--w); border-radius:14px; padding:20px 24px;
   font-size:14px; line-height:1.65; }
 .cg-pilot-note b { color:var(--y); }
-
-/* Pricing */
-.cg-price { max-width:900px; margin:36px auto 0; display:grid; grid-template-columns:1.1fr 1fr; gap:18px; }
-.cg-price-main { background:#fff; color:var(--b); border-radius:18px; padding:32px 30px; box-shadow:0 2px 0 rgba(8,8,16,.08); }
-.cg-price-main .big { font-family:'Unbounded'; font-size:clamp(30px,4vw,44px); font-weight:900; line-height:1; }
-.cg-price-main .big small { font-size:14px; font-weight:700; color:#3a3a4a; margin-left:6px; }
-.cg-price-main .sub { font-size:13px; font-weight:700; color:#3a3a4a; margin:6px 0 18px; }
-.cg-price-main li { list-style:none; display:flex; gap:10px; padding:8px 0; font-size:13px; line-height:1.55; color:#3a3a4a; border-top:1px solid rgba(8,8,16,.06); }
-.cg-price-main li svg { color:var(--b); flex-shrink:0; margin-top:3px; }
-.cg-price-side { display:flex; flex-direction:column; gap:14px; }
-.cg-price-box { background:#080810; color:var(--w); border-radius:16px; padding:22px 24px; font-size:13px; line-height:1.65; flex:1; }
-.cg-price-box h4 { font-family:'Unbounded'; font-size:11px; font-weight:800; color:var(--y); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
-.cg-price-box b { color:var(--y); }
-.cg-notfor { max-width:900px; margin:20px auto 0; padding:20px 24px; border-radius:14px; background:var(--b3); border:1px solid rgba(255,68,85,.25);
-  font-size:14px; line-height:1.65; color:var(--g2); display:flex; gap:14px; align-items:flex-start; }
-.cg-notfor .m { width:26px; height:26px; min-width:26px; border-radius:7px; background:rgba(255,68,85,.14); color:#FF6B78; display:flex; align-items:center; justify-content:center; margin-top:1px; }
-.cg-notfor b { color:var(--w); }
-@media (max-width:900px) { .cg-price { grid-template-columns:1fr; } .cg-price-main { padding:24px 20px; } }
 
 /* Fit-check widget */
 .cg-fit { display:flex; gap:12px; padding:14px 16px; border-radius:12px; cursor:pointer; border:1px solid rgba(255,255,255,.07);
@@ -234,7 +209,6 @@ const css = `
 .cg-final-h em { font-style:normal; color:var(--y); }
 .cg-final-p { color:var(--g2); font-size:14px; max-width:560px; margin:0 auto 26px; text-align:center; line-height:1.65; }
 
-@media (max-width:1024px) { .cg-pilot { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:900px) {
   .cg-hero { padding:104px 20px 56px; }
   .cg-secrets, .cg-warn-grid, .cg-paths { grid-template-columns:1fr; }
@@ -433,39 +407,6 @@ export default function ChatGptAds({ nav }) {
               </Lift>
             </Reveal>
           ))}
-        </div>
-      </section>
-
-      {/* 5. Pricing */}
-      <section className="sec yellow">
-        <Reveal>
-          <div className="tg">Колко струва</div>
-          <h2 className="U">Без първоначална <em>такса</em>.</h2>
-        </Reveal>
-        <div className="cg-price">
-          <Reveal delay={0.05}>
-            <div className="cg-price-main">
-              <motion.div className="big" {...(reduce ? {} : { initial: { scale: 0.85, opacity: 0 }, whileInView: { scale: 1, opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5, delay: 0.2, ease: EASE } })}>€350<small>на месец</small></motion.div>
-              <div className="sub">Без първоначална такса. Вътре е всичко:</div>
-              <ul>
-                {INCLUDED.map((t, i) => <li key={i}><Check size={15} /> <span>{t}</span></li>)}
-              </ul>
-            </div>
-          </Reveal>
-          <div className="cg-price-side">
-            <Reveal delay={0.15} style={{ flex: 1, display: "flex" }}>
-              <div className="cg-price-box">
-                <h4>Рекламен бюджет — отделно</h4>
-                Минимум <b>€500 на месец</b>, плащаш го директно на платформата, не на мен. Минимален ангажимент <b>2 месеца</b>, защото за по-малко не се научава нищо.
-              </div>
-            </Reveal>
-            <Reveal delay={0.25} style={{ flex: 1, display: "flex" }}>
-              <div className="cg-price-box">
-                <h4>За сравнение</h4>
-                В САЩ първите рекламодатели плащаха около <b>$200 000</b>, за да влязат. Тук влизаш с <b>€850</b> за първия месец.
-              </div>
-            </Reveal>
-          </div>
         </div>
       </section>
 

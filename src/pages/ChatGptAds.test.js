@@ -10,12 +10,15 @@ beforeEach(() => {
 });
 afterEach(() => { delete window.fbq; delete global.fetch; });
 
-test("renders the v3 hero headline, pricing and the ad screenshot", () => {
+test("renders the v3 hero headline, no pricing section, and the ad screenshot", () => {
   render(<ChatGptAds nav={() => {}} />);
   expect(screen.getByRole("heading", { level: 1 }).textContent).toMatch(/ChatGPT показва реклами в България от 1 септември/);
   const body = document.body.textContent;
-  expect(body).toMatch(/€350\s*на месец/);
-  expect(body).toMatch(/[Мм]инимум €500/);
+  expect(screen.queryByText("Колко струва")).toBeNull();
+  expect(body).not.toMatch(/Без първоначална такса/);
+  expect(body).not.toMatch(/€\s?350/);
+  expect(body).not.toMatch(/€\s?850/);
+  expect(body).not.toMatch(/200\s?000/);
   expect(body).not.toMatch(/€\s?490/);
   expect(body).not.toMatch(/€\s?390/);
   const shot = screen.getByRole("img", { name: /Sponsored/ });
