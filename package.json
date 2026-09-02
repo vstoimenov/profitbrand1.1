@@ -21,6 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:api": "node --test api/*.test.js",
     "eject": "react-scripts eject",
     "vercel-build": "react-scripts build"
   },

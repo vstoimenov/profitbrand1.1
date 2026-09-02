@@ -6,7 +6,9 @@ import * as leads from "../lib/leads";
 beforeEach(() => {
   window.scrollTo = jest.fn();
   Element.prototype.scrollIntoView = jest.fn();
+  global.IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} };
 });
+afterEach(() => { delete window.fbq; delete global.fetch; });
 
 test("renders the v3 hero headline, pricing and the ad screenshot", () => {
   render(<ChatGptAds nav={() => {}} />);
@@ -45,6 +47,42 @@ test("valid submit sends the lead and shows thank-you", async () => {
   expect(spy.mock.calls[0][0]).toMatchObject({ name: "Иван", email: "ivan@example.com", phone: "0888123456", verdict: "за преглед" });
   expect(await screen.findByText(/Заявката е получена/)).toBeInTheDocument();
   spy.mockRestore();
+});
+
+test("successful submit fires the Meta Lead event via pixel and CAPI with one event id", async () => {
+  const spy = jest.spyOn(leads, "submitLead").mockResolvedValue();
+  window.fbq = jest.fn();
+  global.fetch = jest.fn().mockResolvedValue({ ok: true });
+  render(<ChatGptAds nav={() => {}} />);
+  fireEvent.change(screen.getByLabelText(/Какво продаваш/), { target: { value: "CRM" } });
+  fireEvent.change(screen.getByLabelText(/Какъв месечен бюджет/), { target: { value: "€500–1 000" } });
+  fireEvent.change(screen.getByLabelText(/Колко ти носи един клиент/), { target: { value: "над €500" } });
+  fireEvent.change(screen.getByLabelText(/^Име$/), { target: { value: "Иван Петров" } });
+  fireEvent.change(screen.getByLabelText(/^Имейл$/), { target: { value: "ivan@example.com" } });
+  fireEvent.change(screen.getByLabelText(/^Телефон$/), { target: { value: "0888123456" } });
+  fireEvent.change(screen.getByLabelText(/^Сайт$/), { target: { value: "example.com" } });
+  fireEvent.click(screen.getByRole("button", { name: /Прати и ще ти пиша/ }));
+  await screen.findByText(/Заявката е получена/);
+  await waitFor(() => expect(window.fbq).toHaveBeenCalledWith("track", "Lead", expect.any(Object), { eventID: expect.any(String) }));
+  const eventId = window.fbq.mock.calls.find((c) => c[1] === "Lead")[3].eventID;
+  await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+  const capiCall = global.fetch.mock.calls.find((c) => c[0] === "/api/meta-capi");
+  expect(JSON.parse(capiCall[1].body)).toMatchObject({ event_name: "Lead", event_id: eventId, user_data: { em: "ivan@example.com" } });
+  spy.mockRestore();
+});
+
+test("fit-check widget gives a verdict after two criteria are ticked", () => {
+  render(<ChatGptAds nav={() => {}} />);
+  expect(screen.getByText(/Отбележи какво е вярно за теб/)).toBeInTheDocument();
+  const boxes = screen.getAllByRole("checkbox");
+  expect(boxes).toHaveLength(3);
+  fireEvent.click(boxes[0]);
+  fireEvent.click(boxes[1]);
+  expect(screen.getByText(/Най-вероятно е за теб/)).toBeInTheDocument();
+  fireEvent.click(boxes[0]);
+  fireEvent.click(boxes[1]);
+  fireEvent.click(boxes[2]);
+  expect(screen.getByText(/Само едно от трите/)).toBeInTheDocument();
 });
 
 test("failed submit shows an error and keeps the form", async () => {

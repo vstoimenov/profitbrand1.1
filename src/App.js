@@ -9,6 +9,7 @@ import {
 import { HeroGeometric } from "./components/ui/shape-landing-hero";
 import ChatGptAds from "./pages/ChatGptAds";
 import { pageFromPath, pathForPage } from "./lib/routing";
+import { trackPixel } from "./lib/meta";
 
 /* ---------- Helpers ---------- */
 
@@ -312,6 +313,13 @@ export default function App() {
     document.title = page === "chatgpt"
       ? "ChatGPT Ads в България — 30-дневен пилот | PROFITBRAND"
       : "PROFITBRAND — Performance Marketing & AI за E-commerce | Виктор Стоименов";
+  }, [page]);
+
+  // Meta Pixel PageView on SPA navigation (the first PageView comes from index.html)
+  const firstPageView = useRef(true);
+  useEffect(() => {
+    if (firstPageView.current) { firstPageView.current = false; return; }
+    trackPixel("PageView");
   }, [page]);
 
   // Sync page with browser back/forward
