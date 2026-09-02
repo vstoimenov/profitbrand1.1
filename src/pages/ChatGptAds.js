@@ -186,7 +186,8 @@ const css = `
   .cg-form { padding:24px 18px; }
   .cg-warn { padding:22px 18px; }
 }
-@media (max-width:600px) { .cg-pilot { grid-template-columns:1fr; } .cg-hero h1 { font-size:22px; letter-spacing:-.5px; } .cg-sub { font-size:15px; } .cg-chat { padding:16px 14px; } }
+@media (max-width:600px) { .cg-pilot { grid-template-columns:1fr; } .cg-hero h1 { font-size:22px; letter-spacing:-.5px; } .cg-sub { font-size:15px; } .cg-chat { padding:16px 14px; }
+  .cg .btn { white-space:normal; text-align:center; line-height:1.45; padding:14px 20px; max-width:100%; } }
 `;
 
 export default function ChatGptAds({ nav }) {
