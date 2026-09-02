@@ -7,6 +7,8 @@ import {
   PhoneCall, FileText, Zap, Quote, Award, Headphones,
 } from "lucide-react";
 import { HeroGeometric } from "./components/ui/shape-landing-hero";
+import ChatGptAds from "./pages/ChatGptAds";
+import { pageFromPath, pathForPage } from "./lib/routing";
 
 /* ---------- Helpers ---------- */
 
@@ -50,6 +52,7 @@ function Counter({ end, suffix = "", duration = 2200 }) {
 
 const defaultServices = [
   { id: 1, icon: "Target", title: "PERFORMANCE ACQUISITION", desc: "Meta & Instagram реклами, creative стратегия, A/B тестване, retargeting funnels, lookalike аудитории. Привличаме точните хора на най-ниската цена.", active: true },
+  { id: 6, icon: "Sparkles", title: "CHATGPT ADS", desc: "Реклами в отговорите на ChatGPT — първите в България. Fit анализ на разговорите в твоята ниша, партньорски достъп до инвентара, 30-дневен пилот с KPI, записан преди да платиш. Не на всеки — само ако сметката излиза.", active: true, href: "/chatgpt-ads" },
   { id: 2, icon: "Bot", title: "AI-POWERED RETENTION", desc: "Automated email flows, abandoned cart recovery, post-purchase sequences, AI customer segmentation, персонализирани оферти. Всеки клиент получава правилното съобщение в правилния момент.", active: true },
   { id: 3, icon: "TrendingUp", title: "CONVERSION & SCALE", desc: "Landing page оптимизация, product page strategy, upsell/cross-sell funnels, AOV optimization. Повече приходи от същия трафик, преди да увеличим бюджета.", active: true },
   { id: 4, icon: "Headphones", title: "AI CUSTOMER SUPPORT", desc: "AI агенти, които отговарят на клиентски запитвания 24/7 — преди покупка, при доставка, след продажба. По-бързи отговори, по-малко изпуснати продажби, нула чакащи клиенти.", active: true },
@@ -216,13 +219,13 @@ const defaultTestimonials = [
 
 /* Bump when default copy (services/credentials/testimonials) changes,
    so visitors with older localStorage get the fresh content. */
-const DATA_VERSION = 6;
+const DATA_VERSION = 7;
 
 /* ---------- App ---------- */
 
 export default function App() {
   const [page, setPage] = useState(() =>
-    typeof window !== "undefined" && window.location.pathname.replace(/\/+$/, "") === "/admin" ? "admin" : "home"
+    typeof window !== "undefined" ? pageFromPath(window.location.pathname) : "home"
   );
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -287,7 +290,7 @@ export default function App() {
     setPage(p);
     setMenuOpen(false);
     window.scrollTo?.(0, 0);
-    const path = p === "admin" ? "/admin" : "/";
+    const path = pathForPage(p);
     if (window.location.pathname !== path) window.history.pushState({}, "", path);
   };
 
@@ -304,16 +307,26 @@ export default function App() {
     return () => clearTimeout(t);
   }, [page, clients]);
 
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.title = page === "chatgpt"
+      ? "ChatGPT Ads в България — 30-дневен пилот | PROFITBRAND"
+      : "PROFITBRAND — Performance Marketing & AI за E-commerce | Виктор Стоименов";
+  }, [page]);
+
   // Sync page with browser back/forward
   useEffect(() => {
-    const onPop = () => setPage(window.location.pathname.replace(/\/+$/, "") === "/admin" ? "admin" : "home");
+    const onPop = () => setPage(pageFromPath(window.location.pathname));
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
   const scrollTo = (id) => {
     setMenuOpen(false);
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    const go = () => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    if (page !== "home") { nav("home"); setTimeout(go, 60); } else go();
   };
   // ff() — always visible, no flash. data-v kept for potential future use.
   const ff = (id, d = 0) => ({ "data-v": id });
@@ -481,6 +494,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   letter-spacing:.3px; line-height:1.3; color:var(--b);
 }
 .svc p { font-size:13px; color:#3a3a4a; line-height:1.6; padding:0 4px; }
+.svc-link { text-decoration:none; cursor:pointer; }
+.svc-more { margin-top:auto; font-family:'Unbounded'; font-size:10px; font-weight:800;
+  color:var(--b); display:inline-flex; align-items:center; gap:4px; letter-spacing:.5px; }
+.NR a.nav-hot { color:var(--y); }
 
 /* JOURNEY — stair-step like Anomaly */
 .jrn-wrap {
@@ -828,7 +845,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         badge="PERFORMANCE MARKETING & AI ЗА E-COMMERCE"
         title1="Помагаме на"
         typewriterWords={["E-commerce брандове", "Коучове", "Консултанти", "High Ticket бизнеси"]}
-        subtitle="Да изградят 7-цифрен оборот чрез Performance Meta реклами + AI автоматизации — цялата система от първия клик до повторната покупка. Доказано с над 2 000 000 € генериран оборот за 12 месеца."
+        subtitle="Да изградят 7-цифрен оборот чрез Performance Meta реклами, ChatGPT Ads + AI автоматизации — цялата система от първия клик до повторната покупка. Доказано с над 2 000 000 € генериран оборот за 12 месеца."
         ctaText="Безплатна Консултация"
         onCtaClick={() => setShowAudit(true)}
       />
@@ -905,7 +922,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             <div className="pbox-item">
               <div className="pi"><Settings size={22} /></div>
               <h5>ЦЯЛАТА СИСТЕМА, НЕ ПАРЧЕТА</h5>
-              <p>Meta реклами + landing pages + email sequences + AI автоматизации + creative стратегия. Всичко работи като една машина. Не купуваш отделни услуги — получаваш система за растеж.</p>
+              <p>Meta реклами + ChatGPT Ads + landing pages + email sequences + AI автоматизации + creative стратегия. Всичко работи като една машина. Не купуваш отделни услуги — получаваш система за растеж.</p>
             </div>
           </div>
         </div>
@@ -921,7 +938,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           Една система. Всичко, от което e-commerce брандът ти има нужда, за да расте предвидимо.
         </p>
         <div className="svc-grid" {...ff("svg", 0.2)}>
-          {activeServices.map((s) => (
+          {activeServices.map((s) => s.href ? (
+            <a key={s.id} className="svc svc-link" href={s.href} onClick={(e) => { e.preventDefault(); nav(pageFromPath(s.href)); }}>
+              <div className="ic"><SvcIcon name={s.icon} size={28} /></div>
+              <h4>{s.title}</h4>
+              <p>{s.desc}</p>
+              <span className="svc-more">Виж програмата <ArrowRight size={12} /></span>
+            </a>
+          ) : (
             <div key={s.id} className="svc" tabIndex={0}>
               <div className="ic"><SvcIcon name={s.icon} size={28} /></div>
               <h4>{s.title}</h4>
@@ -1605,6 +1629,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         <div className="NR">
           <a href="#team" onClick={(e) => { e.preventDefault(); scrollTo("team"); }}>За нас</a>
           <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Growth System</a>
+          <a href="/chatgpt-ads" className="nav-hot" onClick={(e) => { e.preventDefault(); nav("chatgpt"); }}>ChatGPT Ads</a>
           <a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }}>Процес</a>
           <a href="#cases" onClick={(e) => { e.preventDefault(); scrollTo("cases"); }}>Резултати</a>
           <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>FAQ</a>
@@ -1619,6 +1644,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         <a href="/" onClick={(e) => { e.preventDefault(); setMenuOpen(false); nav("home"); }}>Начало</a>
         <a href="#team" onClick={(e) => { e.preventDefault(); scrollTo("team"); }}>За нас</a>
         <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Growth System</a>
+        <a href="/chatgpt-ads" onClick={(e) => { e.preventDefault(); nav("chatgpt"); }}>ChatGPT Ads</a>
         <a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }}>Процес</a>
         <a href="#cases" onClick={(e) => { e.preventDefault(); scrollTo("cases"); }}>Резултати</a>
         <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>FAQ</a>
@@ -1627,12 +1653,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
       {page === "home" && renderHome()}
       {page === "admin" && renderAdmin()}
+      {page === "chatgpt" && <ChatGptAds nav={nav} />}
 
       <footer className="ft">
         <div className="cp">© 2025 PROFITBRAND. Всички права запазени.</div>
         <div className="lk">
           <a href="/" onClick={(e) => { e.preventDefault(); nav("home"); }}>Начало</a>
           <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Услуги</a>
+          <a href="/chatgpt-ads" onClick={(e) => { e.preventDefault(); nav("chatgpt"); }}>ChatGPT Ads</a>
           <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>Контакт</a>
         </div>
       </footer>
