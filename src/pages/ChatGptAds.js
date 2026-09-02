@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, Check, X, Plus, FileText, Zap,
-  MessageSquare, Users, BarChart3, Mail, AlertTriangle, Clock, Target,
+  MessageSquare, Users, BarChart3, Mail, AlertTriangle, Target,
 } from "lucide-react";
 import { BUDGETS, CLIENT_VALUES, buildLeadPayload, validateLead, submitLead, sourceFromSearch } from "../lib/leads";
 import { trackPixel, trackLead } from "../lib/meta";
@@ -38,31 +38,31 @@ function Lift({ children, className, style }) {
 }
 
 const FACTS = [
-  { icon: BarChart3, t: "Кликът е скъп — около €3–5.", d: "Не €0.30 като във Facebook." },
-  { icon: Users, t: "Виждат я само хора на безплатния план.", d: "Който плаща за ChatGPT Plus, не вижда реклами." },
-  { icon: Target, t: "Няма таргетиране по възраст или интереси.", d: "Рекламата излиза само ако темата на разговора съвпада с твоя продукт." },
-  { icon: Clock, t: "В България е от 1 септември.", d: "Още никой няма реални данни какво работи тук." },
+  { icon: BarChart3, t: "Кликът е скъп — около €3–5, не 30 стотинки като във Facebook.", d: "Ако продаваш нещо за €25, парите не се връщат." },
+  { icon: Users, t: "Виждат я само хората на безплатния план.", d: "Който плаща за ChatGPT Plus, не вижда реклами." },
+  { icon: Target, t: "Няма таргетиране по възраст или интереси.", d: "Рекламата излиза само когато някой реално пита за това, което продаваш." },
 ];
 
 const FOR_YOU = [
-  ["Хората питат ChatGPT за това, което продаваш", "— услуги, софтуер, обучения, по-скъпа техника, B2B."],
-  ["Един клиент ти носи над €150.", "Иначе клик за €4 не се връща."],
-  ["Имаш сайт, който вече продава.", "Рекламата праща хора — сайтът ги превръща в клиенти."],
+  ["Хората питат ChatGPT за това, което продаваш", "— счетоводство, право, ремонти, софтуер, обучения, здраве, имоти, B2B."],
+  ["Един клиент ти носи над €150.", "Тогава клик за €4 е евтин."],
+  ["Имаш сайт, който вече продава.", "Рекламата води хората, сайтът ги прави клиенти."],
 ];
 
 const STEPS = [
-  { icon: MessageSquare, step: "Стъпка 1", title: "Отговаряш на 3 въпроса", desc: "Какво продаваш, какъв бюджет, колко ти носи един клиент. Отнема минута." },
-  { icon: FileText, step: "Стъпка 2", title: "До 48 часа ти пиша лично", desc: "Подходящ е, не е, или не още — и защо. Ако е подходящ, говорим 15 минути и записваме целта: колко да струва клик или запитване." },
-  { icon: Zap, step: "Стъпка 3", title: "Пускаме рекламите", desc: "Първите данни виждаш на 14-ия ден, пълен отчет на 30-ия. Ако не сме стигнали целта — вторият месец е без такса." },
+  { icon: MessageSquare, step: "Стъпка 1", title: "Отговаряш на 3 въпроса", desc: "Какво продаваш, какъв бюджет имаш, колко ти носи един клиент. Една минута." },
+  { icon: FileText, step: "Стъпка 2", title: "До 24 часа ти пиша лично", desc: "Дали бизнесът ти е подходящ и защо. Ако е — получаваш оферта, направена за теб: какво ще правим, колко ще струва и каква цел си поставяме, преди да платиш каквото и да е." },
+  { icon: Zap, step: "Стъпка 3", title: "Пускаме рекламите", desc: "Първите числа виждаш след 2 седмици. Пълен отчет след месец." },
 ];
 
 const FAQS = [
+  { q: "Наистина ли хората питат ChatGPT вместо Google?", a: "Не всички. Google още е по-голям. Но все повече хора питат ChatGPT — и точно те разказват цялата си ситуация, преди да купят. Въпросът не е дали всички са там, а дали твоят клиент е там. Това проверявам." },
+  { q: "Колко ще ми струва?", a: "Зависи от бизнеса ти, бюджета и колко работа има. Затова не пиша една цена за всички — ще ти пратя оферта за теб след като видя отговорите ти. Без ангажимент." },
   { q: "Ако кажеш, че не е подходящо — какво получавам?", a: "Една конкретна причина и какво трябва да се промени, за да стане. Никой не получава „не“ без обяснение." },
-  { q: "Защо не пускаш реклами на всеки, който плаща?", a: "Защото след две седмици ще видиш, че не работи, и ще си прав да си ядосан. Предпочитам 5 клиента, при които работи, пред 15, които се отказват." },
-  { q: "Колко струва един клик?", a: "В САЩ — около $3–5. В България още никой не знае точно. След 14 дни ще го знаеш за твоя бизнес." },
-  { q: "Всички ли виждат рекламата?", a: "Не. Само хора на безплатния план на ChatGPT. Който плаща за Plus, не вижда реклами. За повечето бизнеси в България това е голямото мнозинство от хората." },
-  { q: "Кой определя целта?", a: "Заедно, преди да платиш. Ако ти се струва твърде лесна — кажи, вдигаме я." },
-  { q: "Не мога ли просто да си пусна сам, като отвори за всички?", a: "Можеш. Тогава ще влезеш заедно с всички останали. Сега има по-малко конкуренция и кликът е по-евтин." },
+  { q: "Защо не пускаш реклами на всеки, който плаща?", a: "Защото след две седмици ще видиш, че не работи, и ще си прав да си ядосан. Предпочитам малко клиенти, при които работи, пред много, които се отказват." },
+  { q: "Колко струва един клик?", a: "В САЩ — около $3–5. В България още никой не знае точно. След 2 седмици ще го знаеш за твоя бизнес." },
+  { q: "Всички ли виждат рекламата?", a: "Не. Само хората на безплатния план. Който плаща за Plus, не вижда реклами. За повечето бизнеси в България това е голямото мнозинство." },
+  { q: "Не мога ли да си пусна сам?", a: "Можеш, когато отвори за всички. Тогава ще влезеш заедно с всички останали. Сега конкуренцията е малка и кликът е по-евтин." },
 ];
 
 const EMPTY = { sells: "", budget: "", clientValue: "", name: "", email: "", phone: "", website: "" };
@@ -283,16 +283,16 @@ export default function ChatGptAds({ nav }) {
     <div className="cg">
       {/* 1. Hero */}
       <section className="cg-hero" ref={heroRef}>
-        <motion.div className="cg-pre" {...heroItem(0)}>За собственици на бизнес, които се питат дали да рекламират в ChatGPT</motion.div>
+        <motion.div className="cg-pre" {...heroItem(0)}>За собственици на бизнес в България</motion.div>
         <motion.h1 {...heroItem(1)}>
-          ChatGPT показва реклами в България <em>от 1 септември</em>. Разбери дали бизнесът ти е подходящ за реклами там — за 48 часа, безплатно.
+          Клиентът ти вече пита ChatGPT за всичко. И от 1 септември под отговора има реклама. <em>Само че не е твоята.</em>
         </motion.h1>
         <motion.p className="cg-sub" {...heroItem(2)}>
-          Отговаряш на 3 кратки въпроса. Аз преглеждам бизнеса ти и до 2 дни ти пиша лично: <strong>подходящ ли е, или не</strong>. Ако не е — ще ти кажа защо и ще си спестил парите. Ако е — пускаме рекламите с ясна цел, записана преди да платиш.
+          Не е за всеки бизнес и няма да ти казвам, че е. Отговори на 3 кратки въпроса и до 24 часа ще ти пиша лично <strong>дали бизнесът ти е подходящ</strong> за реклами в ChatGPT. Ако е — ще ти пратя оферта точно за теб. Ако не е — ще ти кажа защо и ще си спестил парите.
         </motion.p>
         <motion.div {...heroItem(3)}>
           <button className="btn" onClick={goApply}>Провери дали бизнесът ти е подходящ <ArrowRight size={14} /></button>
-          <div className="cg-micro">3 въпроса · 1 минута · <b>отговор до 48 часа</b> · без обаждания и презентации</div>
+          <div className="cg-micro">3 въпроса · 1 минута · <b>отговор до 24 часа</b></div>
         </motion.div>
 
         <motion.figure className="cg-shot" {...(reduce ? {} : { initial: { opacity: 0, y: 40, scale: 0.97 }, animate: { opacity: 1, y: 0, scale: 1 }, transition: { duration: 0.8, delay: 0.45, ease: EASE } })}>
@@ -306,15 +306,30 @@ export default function ChatGptAds({ nav }) {
         </motion.figure>
       </section>
 
-      {/* 2. What it is */}
+      {/* 2. What is happening right now */}
       <section className="sec dk">
         <Reveal>
-          <div className="tg">С две думи</div>
-          <h2 className="U">Какво са <em>рекламите в ChatGPT</em></h2>
+          <div className="tg">Ето какво се случва в момента</div>
+          <h2 className="U">Под отговора има реклама. <em>Не е твоята.</em></h2>
         </Reveal>
         <Reveal className="cg-prose" style={{ marginTop: 24 }} delay={0.05}>
-          <p>Човек пише в ChatGPT: <strong>„кой софтуер за фактури е най-добър за малка фирма“</strong>. Получава отговор. А под отговора — малка карта с надпис <em>„Sponsored“</em>. Това е рекламата. Появява се точно когато някой пита за това, което продаваш.</p>
-          <p className="cg-big">Звучи страхотно. И за някои бизнеси е. Но има няколко неща, които трябва да знаеш, преди да похарчиш и евро:</p>
+          <p>Помисли за клиента си. Сяда вечерта с телефона. Преди пишеше в Google „счетоводител София“ и гледаше 10 линка и 4 реклами. Твоята беше някъде там.</p>
+          <p>Сега пита ChatGPT: <strong>„Имам малка фирма, какъв счетоводител ми трябва и колко ще ми струва?“</strong> И получава отговор. Един. Ясен.</p>
+          <p>А под отговора — малка карта с надпис <em>„Sponsored“</em>. Нечие лого. Нечие име. Бутон.</p>
+          <p className="cg-big">Не е твоето.</p>
+          <p>Това не е нещо, което идва след година. В България е от 1 септември. И някой от твоя бранш вече го е разбрал.</p>
+        </Reveal>
+      </section>
+
+      {/* 3. Why it is different */}
+      <section className="sec">
+        <Reveal>
+          <div className="tg">Защо е различно</div>
+          <h2 className="U">Различно от <em>всяка друга реклама</em></h2>
+        </Reveal>
+        <Reveal className="cg-prose" style={{ marginTop: 24 }} delay={0.05}>
+          <p>В Google човекът пише две думи. На ChatGPT разказва цялата ситуация — какъв му е проблемът, колко може да даде, какво вече е пробвал. И рекламата се показва точно там, точно в този момент. <strong>Няма по-добър момент да те види.</strong></p>
+          <p className="cg-big">Но има три неща, които трябва да знаеш, преди да се хвърлиш:</p>
         </Reveal>
         <div className="cg-secrets">
           {FACTS.map((s, i) => (
@@ -327,15 +342,15 @@ export default function ChatGptAds({ nav }) {
           ))}
         </div>
         <Reveal className="cg-punch" delay={0.1}>
-          Затова не казвам „да“ на всеки. Първо проверявам дали има смисъл за теб.
+          Затова, ако някой ти каже „пускаме веднага, ще стане“, без да е погледнал бизнеса ти — той иска парите ти, не резултата ти.
         </Reveal>
       </section>
 
-      {/* 3. For whom */}
-      <section className="sec">
+      {/* 4. For whom */}
+      <section className="sec dk">
         <Reveal>
-          <div className="tg">За кого е и за кого не е</div>
-          <h2 className="U">Най-вероятно е подходящо <em>за теб, ако</em>:</h2>
+          <div className="tg">За кого работи</div>
+          <h2 className="U">Най-вероятно ще ти кажа <em>„да“, ако</em>:</h2>
         </Reveal>
         <Reveal className="cg-warn-grid" style={{ gridTemplateColumns: "1fr", maxWidth: 760 }} delay={0.05}>
           <div className="cg-warn ok">
@@ -348,12 +363,12 @@ export default function ChatGptAds({ nav }) {
         </Reveal>
         <Reveal className="cg-notfor" delay={0.1}>
           <span className="m"><X size={14} /></span>
-          <span><b>Най-вероятно не е за теб</b>, ако продаваш евтини стоки под €30, нямаш работещ сайт или искаш „да пробваш със 100 евро“. Ще ти го кажа честно и няма да ти губя времето.</span>
+          <span><b>И най-вероятно ще ти кажа „не“</b>, ако продаваш евтини стоки под €30, нямаш работещ сайт или искаш „да пробваш със 100 евро“. Няма да ти взема парите за нещо, което ще спра след две седмици.</span>
         </Reveal>
       </section>
 
-      {/* 4. Steps */}
-      <section className="sec dk">
+      {/* 5. Steps */}
+      <section className="sec">
         <Reveal>
           <div className="tg">Как става</div>
           <h2 className="U">3 стъпки, <em>без срещи</em>.</h2>
@@ -377,7 +392,7 @@ export default function ChatGptAds({ nav }) {
       {/* 6. Who am I */}
       <section className="sec">
         <Reveal>
-          <div className="tg">Кой съм аз</div>
+          <div className="tg">Кой ти пише</div>
           <h2 className="U">Предпочитам да ти кажа <em>„не“ в началото</em>.</h2>
         </Reveal>
         <Reveal className="cg-founder" style={{ marginTop: 36 }} delay={0.1}>
@@ -386,7 +401,7 @@ export default function ChatGptAds({ nav }) {
             <div className="nm">Виктор Стоименов</div>
             <span className="rl">Founder, PROFITBRAND</span>
             <p>Правя реклами в интернет от 2024 г. — за мои продукти и за клиенти. Кампании в <strong>9 европейски държави</strong>, бюджети от €3 000 до над €10 000 на месец, бизнес, който помогнах да стигне <strong>седемцифрен оборот</strong>.</p>
-            <p>Виждал съм много канали, които не връщат парите. Затова предпочитам да ти кажа „не“ в началото, отколкото ти да го разбереш след месец и €1 000.</p>
+            <p>Виждал съм доста канали, които не връщат парите. Затова предпочитам да ти кажа „не“ в началото, отколкото ти да го разбереш след месец.</p>
             <p>Рекламите в ChatGPT следя от февруари, когато тръгнаха в САЩ. Имам <strong>вече работещ профил в ChatGPT Ads</strong>, в който съм похарчил собствени пари — знам как изглежда отвътре, не от статии. <strong>Първите кампании тук ще ги направим заедно.</strong></p>
             <div className="cg-creds">
               <span>Google AI Leader сертификат</span>
@@ -401,14 +416,14 @@ export default function ChatGptAds({ nav }) {
       <section className="sec dk">
         <Reveal>
           <div className="tg">Гаранция</div>
-          <h2 className="U">Обещавам числото, <em>което зависи от мен</em>.</h2>
+          <h2 className="U">Как знаеш, че <em>няма да ти изгоря парите</em></h2>
         </Reveal>
         <Reveal className="guar" style={{ marginTop: 32 }} delay={0.1}>
           <h3 className="U">Една цел, <em>записана преди да платиш</em></h3>
           <ul>
-            <li><span className="gc"><Check size={14} /></span>Преди да платиш, записваме една цел: колко да струва клик или запитване за твоя бизнес. На 30-ия ден я сравняваме с реалността.</li>
-            <li><span className="gc"><Check size={14} /></span>Ако не сме я стигнали, вторият месец е без такса за управление. Плащаш само рекламния бюджет и решаваш дали продължаваме.</li>
-            <li><span className="gc"><Check size={14} /></span>Не обещавам продажби — каналът е нов и който ти обещава продажби, гадае. Обещавам числото, което зависи от мен.</li>
+            <li><span className="gc"><Check size={14} /></span>Преди да платиш, записваме една цел — колко да струва клик или запитване за твоя бизнес. След месец я сравняваме с реалността.</li>
+            <li><span className="gc"><Check size={14} /></span>Ако не сме я стигнали, следващият месец работя без такса. Плащаш само рекламния бюджет и решаваш дали продължаваме.</li>
+            <li><span className="gc"><Check size={14} /></span>Не обещавам продажби. Каналът е нов и който ти обещава продажби, гадае с твоите пари. Обещавам това, което зависи от мен.</li>
           </ul>
         </Reveal>
       </section>
@@ -418,14 +433,14 @@ export default function ChatGptAds({ nav }) {
         <Reveal>
           <div className="tg">Провери дали бизнесът ти е подходящ</div>
           <h2 className="U">3 въпроса, <em>1 минута</em>.</h2>
-          <p className="sdesc">До 48 часа ти пиша лично.</p>
+          <p className="sdesc">До 24 часа ти пиша лично.</p>
         </Reveal>
         <Reveal className="cg-form" delay={0.1}>
           {status === "done" ? (
             <motion.div className="cg-done" {...(reduce ? {} : { initial: { opacity: 0, scale: 0.95 }, animate: { opacity: 1, scale: 1 }, transition: { duration: 0.4, ease: EASE } })}>
               <div className="ic"><Mail size={28} /></div>
               <h3 className="U">Заявката е получена.</h3>
-              <p>Преглеждам бизнеса ти и до 48 часа ти пиша лично: подходящ е, не е, или не още — и защо.</p>
+              <p>Преглеждам бизнеса ти и до 24 часа ти пиша лично дали е подходящ и защо. Ако е — получаваш оферта, направена за теб.</p>
             </motion.div>
           ) : (
             <form onSubmit={submit} noValidate>
@@ -433,7 +448,7 @@ export default function ChatGptAds({ nav }) {
               <div className="cg-prog" aria-hidden="true"><i style={{ width: `${(answered / 3) * 100}%` }} /></div>
               {field("sells", "Какво продаваш и на кого? (едно изречение)",
                 <input id="cg-sells" value={form.sells} onChange={set("sells")} placeholder="Напр.: CRM софтуер за малки счетоводни кантори" />)}
-              {field("budget", "Какъв месечен бюджет си готов да тестваш?",
+              {field("budget", "Какъв месечен бюджет за реклама си готов да тестваш?",
                 <select id="cg-budget" value={form.budget} onChange={set("budget")} required>
                   <option value="" disabled>Избери…</option>
                   {BUDGETS.map((b) => <option key={b} value={b}>{b}</option>)}
@@ -449,13 +464,13 @@ export default function ChatGptAds({ nav }) {
               {field("phone", "Телефон", <input id="cg-phone" type="tel" value={form.phone} onChange={set("phone")} placeholder="0888 123 456" autoComplete="tel" />)}
               {field("website", "Сайт", <input id="cg-website" value={form.website} onChange={set("website")} placeholder="https://..." autoComplete="url" />)}
               <button className="btn" type="submit" disabled={status === "sending"}>
-                {status === "sending" ? "Изпращаме…" : <>Прати и ще ти пиша до 48 часа <ArrowRight size={14} /></>}
+                {status === "sending" ? "Изпращаме…" : <>Прати — ще ти пиша до 24 часа <ArrowRight size={14} /></>}
               </button>
               {status === "fail" && (
                 <div className="cg-fail">Нещо се обърка и заявката не стигна до мен. Опитай пак след минута или ми пиши директно — ще отговоря.</div>
               )}
               <div className="cg-form-note">
-                Без обаждания и презентации. Отговарям писмено, лично, до 48 часа.
+                Без обаждания и презентации. Отговарям писмено, лично, до 24 часа.
               </div>
             </form>
           )}
@@ -485,8 +500,19 @@ export default function ChatGptAds({ nav }) {
       {/* 10. Final */}
       <section className="cta sec">
         <Reveal>
+          <div className="tg">Имаш два избора</div>
+          <div className="cg-paths">
+            <div className="cg-path">
+              <div className="lb">Първият</div>
+              <p>Можеш да затвориш страницата. След половин година всички ще са там, кликът ще е двойно по-скъп, а някой от твоя бранш ще има шест месеца преднина.</p>
+            </div>
+            <div className="cg-path win">
+              <div className="lb">Вторият</div>
+              <p>Отговаряш на 3 въпроса сега. До 24 часа знаеш дали бизнесът ти е подходящ. Ако не е — нищо не губиш. Ако е — ти си този под отговора.</p>
+            </div>
+          </div>
           <h2 className="cg-final-h U">Най-много <em>5 нови клиента</em> на месец.</h2>
-          <p className="cg-final-p">За да мога да им обърна внимание. Ако бизнесът ти е подходящ — ще ти кажа до 48 часа. Ако не е — също.</p>
+          <p className="cg-final-p">За да мога да им обърна внимание.</p>
           <button className="btn" onClick={goApply}>Провери дали бизнесът ти е подходящ <ArrowRight size={14} /></button>
           <p style={{ marginTop: 22, fontSize: 12 }}>
             <a href="/" onClick={(e) => { e.preventDefault(); nav("home"); }} style={{ color: "var(--g)", textDecoration: "none" }}>
@@ -500,7 +526,7 @@ export default function ChatGptAds({ nav }) {
       <AnimatePresence>
         {showBar && (
           <motion.div className="cg-bar" initial={{ y: 90 }} animate={{ y: 0 }} exit={{ y: 90 }} transition={{ duration: 0.3, ease: EASE }}>
-            <span><b>Подходящ ли е бизнесът ти?</b> 3 въпроса · отговор до 48 часа</span>
+            <span><b>Подходящ ли е бизнесът ти?</b> 3 въпроса · отговор до 24 часа</span>
             <button className="btn btnSm" onClick={goApply}>Провери безплатно <ArrowRight size={12} /></button>
           </motion.div>
         )}

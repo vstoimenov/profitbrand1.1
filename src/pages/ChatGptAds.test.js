@@ -12,12 +12,13 @@ afterEach(() => { delete window.fbq; delete global.fetch; });
 
 test("renders the v3 hero headline, no pricing section, and the ad screenshot", () => {
   render(<ChatGptAds nav={() => {}} />);
-  expect(screen.getByRole("heading", { level: 1 }).textContent).toMatch(/ChatGPT показва реклами в България от 1 септември/);
+  expect(screen.getByRole("heading", { level: 1 }).textContent).toMatch(/Клиентът ти вече пита ChatGPT за всичко/);
   const body = document.body.textContent;
   expect(screen.queryByText("Колко струва")).toBeNull();
   expect(body).not.toMatch(/Без първоначална такса/);
   expect(body).not.toMatch(/€\s?350/);
   expect(body).not.toMatch(/€\s?850/);
+  expect(body).not.toMatch(/48 часа/);
   expect(body).not.toMatch(/200\s?000/);
   expect(body).not.toMatch(/€\s?490/);
   expect(body).not.toMatch(/€\s?390/);
@@ -28,7 +29,7 @@ test("renders the v3 hero headline, no pricing section, and the ad screenshot", 
 test("empty submit shows validation errors and does not send", async () => {
   const spy = jest.spyOn(leads, "submitLead").mockResolvedValue();
   render(<ChatGptAds nav={() => {}} />);
-  fireEvent.click(screen.getByRole("button", { name: /Прати и ще ти пиша/ }));
+  fireEvent.click(screen.getByRole("button", { name: /Прати — ще ти пиша до 24 часа/ }));
   expect(await screen.findByText("Напиши какво продаваш и на кого.")).toBeInTheDocument();
   expect(screen.getByText("Напиши телефон за връзка.")).toBeInTheDocument();
   expect(spy).not.toHaveBeenCalled();
@@ -45,7 +46,7 @@ test("valid submit sends the lead and shows thank-you", async () => {
   fireEvent.change(screen.getByLabelText(/^Имейл$/), { target: { value: "ivan@example.com" } });
   fireEvent.change(screen.getByLabelText(/^Телефон$/), { target: { value: "0888123456" } });
   fireEvent.change(screen.getByLabelText(/^Сайт$/), { target: { value: "https://example.com" } });
-  fireEvent.click(screen.getByRole("button", { name: /Прати и ще ти пиша/ }));
+  fireEvent.click(screen.getByRole("button", { name: /Прати — ще ти пиша до 24 часа/ }));
   await waitFor(() => expect(spy).toHaveBeenCalledTimes(1));
   expect(spy.mock.calls[0][0]).toMatchObject({ name: "Иван", email: "ivan@example.com", phone: "0888123456", verdict: "за преглед" });
   expect(await screen.findByText(/Заявката е получена/)).toBeInTheDocument();
@@ -64,7 +65,7 @@ test("successful submit fires the Meta Lead event via pixel and CAPI with one ev
   fireEvent.change(screen.getByLabelText(/^Имейл$/), { target: { value: "ivan@example.com" } });
   fireEvent.change(screen.getByLabelText(/^Телефон$/), { target: { value: "0888123456" } });
   fireEvent.change(screen.getByLabelText(/^Сайт$/), { target: { value: "example.com" } });
-  fireEvent.click(screen.getByRole("button", { name: /Прати и ще ти пиша/ }));
+  fireEvent.click(screen.getByRole("button", { name: /Прати — ще ти пиша до 24 часа/ }));
   await screen.findByText(/Заявката е получена/);
   await waitFor(() => expect(window.fbq).toHaveBeenCalledWith("track", "Lead", expect.any(Object), { eventID: expect.any(String) }));
   const eventId = window.fbq.mock.calls.find((c) => c[1] === "Lead")[3].eventID;
