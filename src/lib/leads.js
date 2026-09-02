@@ -1,7 +1,11 @@
 /* Lead form helpers for the /chatgpt-ads landing.
-   Submissions go to a Google Apps Script web app bound to the "gpt ads" sheet.
-   Deploy steps: scripts/google-sheets-leads.gs */
+   Primary store: Supabase table pb_chatgpt_ads_leads (project bg-explorer),
+   anonymous INSERT only via RLS. Optional secondary: Google Apps Script web app
+   bound to the "gpt ads" sheet (scripts/google-sheets-leads.gs). */
 
+export const SUPABASE_URL = "https://bhiirhfrbbjjaaamxegd.supabase.co";
+export const SUPABASE_KEY = "sb_publishable_sbFtrp834-PwgycMxhmR2A_2LUxwVY1";
+export const LEADS_TABLE = "pb_chatgpt_ads_leads";
 export const SHEET_ENDPOINT = "";
 
 export const BUDGETS = ["под €500", "€500–1 000", "€1 000–3 000", "над €3 000"];
@@ -42,17 +46,41 @@ export function buildLeadPayload(form, { now = new Date(), source = "" } = {}) {
   };
 }
 
-/* Apps Script web apps do not answer CORS preflights, so we send text/plain
-   with mode no-cors. The response is opaque: a resolved fetch means the
-   request reached Google. */
-export async function submitLead(payload, endpoint = SHEET_ENDPOINT) {
-  if (!endpoint) throw new Error("no-endpoint");
-  await fetch(endpoint, {
+/* Insert the lead into Supabase (throws on failure), then mirror it to the
+   Google Sheet if an Apps Script endpoint is configured (best effort). */
+export async function submitLead(payload, { fetchFn, sheetEndpoint = SHEET_ENDPOINT, supabaseUrl = SUPABASE_URL, supabaseKey = SUPABASE_KEY } = {}) {
+  const f = fetchFn || ((...a) => fetch(...a));
+  const row = {
+    name: payload.name,
+    email: payload.email,
+    phone: payload.phone || null,
+    website: payload.website || null,
+    sells: payload.sells || null,
+    budget: payload.budget || null,
+    client_value: payload.clientValue || null,
+    verdict: payload.verdict || null,
+    source: payload.source || null,
+    page_url: typeof window !== "undefined" ? window.location.href : null,
+    user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+  };
+  const r = await f(`${supabaseUrl}/rest/v1/${LEADS_TABLE}`, {
     method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(payload),
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify(row),
   });
+  if (!r || !r.ok) throw new Error(`supabase-${r ? r.status : "no-response"}`);
+
+  if (sheetEndpoint) {
+    /* Apps Script web apps do not answer CORS preflights: text/plain + no-cors. */
+    try {
+      await f(sheetEndpoint, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+    } catch { /* sheet mirror is best effort */ }
+  }
 }
 
 /* "utm_source=x" -> "utm:x", else "direct" */

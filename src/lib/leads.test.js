@@ -48,18 +48,29 @@ test("validateLead flags missing fields and bad email", () => {
   expect(Object.keys(errs).sort()).toEqual(["email", "name", "phone", "sells"]);
 });
 
-test("submitLead rejects when no endpoint configured", async () => {
-  await expect(submitLead({ name: "x" }, "")).rejects.toThrow("no-endpoint");
+test("submitLead inserts the row into Supabase with the publishable key", async () => {
+  const fetchFn = jest.fn().mockResolvedValue({ ok: true, status: 201 });
+  const payload = buildLeadPayload(valid, { now, source: "direct" });
+  await submitLead(payload, { fetchFn });
+  expect(fetchFn).toHaveBeenCalledTimes(1);
+  const [url, opts] = fetchFn.mock.calls[0];
+  expect(url).toBe("https://bhiirhfrbbjjaaamxegd.supabase.co/rest/v1/pb_chatgpt_ads_leads");
+  expect(opts.method).toBe("POST");
+  expect(opts.headers.apikey).toMatch(/^sb_publishable_/);
+  expect(opts.headers.Prefer).toBe("return=minimal");
+  expect(JSON.parse(opts.body)).toMatchObject({ name: "Иван", email: "ivan@example.com", phone: "+359 888 123 456", client_value: "€150–500", verdict: "за преглед" });
 });
 
-test("submitLead POSTs JSON to the endpoint", async () => {
-  const fetchMock = jest.fn().mockResolvedValue({});
-  global.fetch = fetchMock;
-  await submitLead({ name: "x" }, "https://script.google.com/macros/s/abc/exec");
-  expect(fetchMock).toHaveBeenCalledTimes(1);
-  const [url, opts] = fetchMock.mock.calls[0];
+test("submitLead throws when Supabase rejects the insert", async () => {
+  const fetchFn = jest.fn().mockResolvedValue({ ok: false, status: 401 });
+  await expect(submitLead(buildLeadPayload(valid, { now }), { fetchFn })).rejects.toThrow("supabase-401");
+});
+
+test("submitLead mirrors to the Google Sheet only when an endpoint is configured", async () => {
+  const fetchFn = jest.fn().mockResolvedValue({ ok: true, status: 201 });
+  await submitLead(buildLeadPayload(valid, { now }), { fetchFn, sheetEndpoint: "https://script.google.com/macros/s/abc/exec" });
+  expect(fetchFn).toHaveBeenCalledTimes(2);
+  const [url, opts] = fetchFn.mock.calls[1];
   expect(url).toBe("https://script.google.com/macros/s/abc/exec");
-  expect(opts.method).toBe("POST");
   expect(opts.mode).toBe("no-cors");
-  expect(JSON.parse(opts.body)).toEqual({ name: "x" });
 });

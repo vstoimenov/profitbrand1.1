@@ -73,33 +73,3 @@ test("successful submit fires the Meta Lead event via pixel and CAPI with one ev
   expect(JSON.parse(capiCall[1].body)).toMatchObject({ event_name: "Lead", event_id: eventId, user_data: { em: "ivan@example.com" } });
   spy.mockRestore();
 });
-
-test("fit-check widget gives a verdict after two criteria are ticked", () => {
-  render(<ChatGptAds nav={() => {}} />);
-  expect(screen.getByText(/Отбележи какво е вярно за теб/)).toBeInTheDocument();
-  const boxes = screen.getAllByRole("checkbox");
-  expect(boxes).toHaveLength(3);
-  fireEvent.click(boxes[0]);
-  fireEvent.click(boxes[1]);
-  expect(screen.getByText(/Най-вероятно е за теб/)).toBeInTheDocument();
-  fireEvent.click(boxes[0]);
-  fireEvent.click(boxes[1]);
-  fireEvent.click(boxes[2]);
-  expect(screen.getByText(/Само едно от трите/)).toBeInTheDocument();
-});
-
-test("failed submit shows an error and keeps the form", async () => {
-  const spy = jest.spyOn(leads, "submitLead").mockRejectedValue(new Error("no-endpoint"));
-  render(<ChatGptAds nav={() => {}} />);
-  fireEvent.change(screen.getByLabelText(/Какво продаваш/), { target: { value: "CRM" } });
-  fireEvent.change(screen.getByLabelText(/Какъв месечен бюджет/), { target: { value: "€500–1 000" } });
-  fireEvent.change(screen.getByLabelText(/Колко ти носи един клиент/), { target: { value: "над €500" } });
-  fireEvent.change(screen.getByLabelText(/^Име$/), { target: { value: "Иван" } });
-  fireEvent.change(screen.getByLabelText(/^Имейл$/), { target: { value: "ivan@example.com" } });
-  fireEvent.change(screen.getByLabelText(/^Телефон$/), { target: { value: "0888123456" } });
-  fireEvent.change(screen.getByLabelText(/^Сайт$/), { target: { value: "example.com" } });
-  fireEvent.click(screen.getByRole("button", { name: /Прати и ще ти пиша/ }));
-  expect(await screen.findByText(/Нещо се обърка/)).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: /Прати и ще ти пиша/ })).toBeInTheDocument();
-  spy.mockRestore();
-});

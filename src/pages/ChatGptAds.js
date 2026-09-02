@@ -131,22 +131,6 @@ const css = `
   font-size:14px; line-height:1.65; }
 .cg-pilot-note b { color:var(--y); }
 
-/* Fit-check widget */
-.cg-fit { display:flex; gap:12px; padding:14px 16px; border-radius:12px; cursor:pointer; border:1px solid rgba(255,255,255,.07);
-  background:rgba(255,255,255,.02); transition:border-color .2s ease, background .2s ease, transform .2s ease; font-size:14px; line-height:1.55; color:var(--g2); margin-bottom:10px; }
-.cg-fit:hover { border-color:rgba(255,214,0,.35); transform:translateY(-2px); }
-.cg-fit.on { border-color:var(--y); background:rgba(255,214,0,.08); }
-.cg-fit b { color:var(--w); display:block; margin-bottom:2px; }
-.cg-fit .m { width:26px; height:26px; min-width:26px; border-radius:8px; border:2px solid rgba(255,214,0,.4); display:flex; align-items:center; justify-content:center; color:var(--b); margin-top:2px; transition:all .2s ease; }
-.cg-fit.on .m { background:var(--y); border-color:var(--y); }
-.cg-fit input { position:absolute; opacity:0; width:1px; height:1px; pointer-events:none; }
-.cg-verdict { margin-top:14px; padding:18px 20px; border-radius:14px; border:1px solid rgba(255,255,255,.08); background:var(--b3); font-size:14px; line-height:1.6; color:var(--g2); }
-.cg-verdict.yes { border-color:rgba(255,214,0,.5); background:linear-gradient(135deg,rgba(255,214,0,.12),rgba(255,214,0,.03)); color:var(--w); }
-.cg-verdict.no { border-color:rgba(255,68,85,.35); }
-.cg-verdict b { color:var(--y); }
-.cg-verdict .btn { margin-top:12px; }
-.cg-fit-wrap { max-width:760px; margin:32px auto 0; }
-
 /* Form progress */
 .cg-prog { height:4px; border-radius:4px; background:rgba(255,255,255,.08); margin:-4px 0 18px; overflow:hidden; }
 .cg-prog i { display:block; height:100%; background:var(--y); border-radius:4px; transition:width .35s ease; }
@@ -227,7 +211,6 @@ export default function ChatGptAds({ nav }) {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle"); // idle | sending | done | fail
   const [openFaq, setOpenFaq] = useState(null);
-  const [fit, setFit] = useState([false, false, false]);
   const [showBar, setShowBar] = useState(false);
   const heroRef = useRef(null);
   const applyRef = useRef(null);
@@ -293,7 +276,6 @@ export default function ChatGptAds({ nav }) {
     </div>
   );
 
-  const fitCount = fit.filter(Boolean).length;
   const answered = [form.sells.trim(), form.budget, form.clientValue].filter(Boolean).length;
   const heroItem = (i) => reduce ? {} : { initial: { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.6, delay: 0.1 * i, ease: EASE } };
 
@@ -349,38 +331,20 @@ export default function ChatGptAds({ nav }) {
         </Reveal>
       </section>
 
-      {/* 3. For whom — interactive fit check */}
+      {/* 3. For whom */}
       <section className="sec">
         <Reveal>
           <div className="tg">За кого е и за кого не е</div>
           <h2 className="U">Най-вероятно е подходящо <em>за теб, ако</em>:</h2>
-          <p className="sdesc" style={{ marginBottom: 0 }}>Отбележи кое от трите важи за теб — и виж на място дали има смисъл.</p>
         </Reveal>
-        <Reveal className="cg-fit-wrap" delay={0.05}>
-          {FOR_YOU.map(([b, d], i) => (
-            <label key={i} className={`cg-fit ${fit[i] ? "on" : ""}`}>
-              <input type="checkbox" checked={fit[i]} onChange={() => setFit(fit.map((v, j) => (j === i ? !v : v)))} />
-              <span className="m">{fit[i] && <Check size={16} strokeWidth={3} />}</span>
-              <span><b>{b}</b>{d}</span>
-            </label>
-          ))}
-          {/* keyed remount = short enter animation on every verdict change */}
-            <motion.div
-              key={fitCount === 0 ? "none" : fitCount === 1 ? "one" : "yes"}
-              className={`cg-verdict ${fitCount >= 2 ? "yes" : fitCount === 1 ? "no" : ""}`}
-              initial={reduce ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25 }}
-            >
-              {fitCount === 0 && <>Отбележи какво е вярно за теб. Ако поне две от трите са верни — най-вероятно е за теб.</>}
-              {fitCount === 1 && <>Само едно от трите. Най-вероятно не е за теб — но провери, ще ти кажа честно и няма да ти губя времето.</>}
-              {fitCount >= 2 && (
-                <>
-                  <b>Най-вероятно е за теб.</b> Провери безплатно — до 48 часа ти пиша лично дали да пускаме.
-                  <div><button className="btn btnSm" onClick={goApply}>Провери за 48 часа <ArrowRight size={12} /></button></div>
-                </>
-              )}
-            </motion.div>
+        <Reveal className="cg-warn-grid" style={{ gridTemplateColumns: "1fr", maxWidth: 760 }} delay={0.05}>
+          <div className="cg-warn ok">
+            <ul>
+              {FOR_YOU.map(([b, d], i) => (
+                <li key={i} style={i === 0 ? { borderTop: "none", paddingTop: 0 } : undefined}><span className="m"><Check size={14} /></span><span><b>{b}</b>{d}</span></li>
+              ))}
+            </ul>
+          </div>
         </Reveal>
         <Reveal className="cg-notfor" delay={0.1}>
           <span className="m"><X size={14} /></span>
@@ -423,11 +387,11 @@ export default function ChatGptAds({ nav }) {
             <span className="rl">Founder, PROFITBRAND</span>
             <p>Правя реклами в интернет от 2024 г. — за мои продукти и за клиенти. Кампании в <strong>9 европейски държави</strong>, бюджети от €3 000 до над €10 000 на месец, бизнес, който помогнах да стигне <strong>седемцифрен оборот</strong>.</p>
             <p>Виждал съм много канали, които не връщат парите. Затова предпочитам да ти кажа „не“ в началото, отколкото ти да го разбереш след месец и €1 000.</p>
-            <p>Рекламите в ChatGPT следя от февруари, когато тръгнаха в САЩ. Имам достъп до тях за България през партньор. <strong>Първите кампании тук ще ги направим заедно.</strong></p>
+            <p>Рекламите в ChatGPT следя от февруари, когато тръгнаха в САЩ. Имам <strong>вече работещ профил в ChatGPT Ads</strong>, в който съм похарчил собствени пари — знам как изглежда отвътре, не от статии. <strong>Първите кампании тук ще ги направим заедно.</strong></p>
             <div className="cg-creds">
               <span>Google AI Leader сертификат</span>
               <span>9 европейски държави</span>
-              <span>Достъп до ChatGPT Ads за България</span>
+              <span>Работещ ChatGPT Ads профил със собствени пари</span>
             </div>
           </div>
         </Reveal>

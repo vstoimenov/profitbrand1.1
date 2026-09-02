@@ -53,7 +53,7 @@ function Counter({ end, suffix = "", duration = 2200 }) {
 
 const defaultServices = [
   { id: 1, icon: "Target", title: "PERFORMANCE ACQUISITION", desc: "Meta & Instagram реклами, creative стратегия, A/B тестване, retargeting funnels, lookalike аудитории. Привличаме точните хора на най-ниската цена.", active: true },
-  { id: 6, icon: "Sparkles", title: "CHATGPT ADS", desc: "Реклами под отговорите на ChatGPT — в България от 1 септември. Безплатна проверка за 48 часа дали бизнесът ти е подходящ, достъп през партньор, ясна цел, записана преди да платиш. Не на всеки — само ако има смисъл за теб.", active: true, href: "/chatgpt-ads" },
+  { id: 6, icon: "Sparkles", title: "CHATGPT ADS", desc: "Реклами под отговорите на ChatGPT — в България от 1 септември. Безплатна проверка за 48 часа дали бизнесът ти е подходящ, вече работещ профил със собствени похарчени пари в ChatGPT Ads, ясна цел, записана преди да платиш. Не на всеки — само ако има смисъл за теб.", active: true, href: "/chatgpt-ads" },
   { id: 2, icon: "Bot", title: "AI-POWERED RETENTION", desc: "Automated email flows, abandoned cart recovery, post-purchase sequences, AI customer segmentation, персонализирани оферти. Всеки клиент получава правилното съобщение в правилния момент.", active: true },
   { id: 3, icon: "TrendingUp", title: "CONVERSION & SCALE", desc: "Landing page оптимизация, product page strategy, upsell/cross-sell funnels, AOV optimization. Повече приходи от същия трафик, преди да увеличим бюджета.", active: true },
   { id: 4, icon: "Headphones", title: "AI CUSTOMER SUPPORT", desc: "AI агенти, които отговарят на клиентски запитвания 24/7 — преди покупка, при доставка, след продажба. По-бързи отговори, по-малко изпуснати продажби, нула чакащи клиенти.", active: true },
@@ -220,7 +220,7 @@ const defaultTestimonials = [
 
 /* Bump when default copy (services/credentials/testimonials) changes,
    so visitors with older localStorage get the fresh content. */
-const DATA_VERSION = 8;
+const DATA_VERSION = 9;
 
 /* ---------- App ---------- */
 
