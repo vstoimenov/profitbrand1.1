@@ -10,6 +10,9 @@ import { HeroGeometric } from "./components/ui/shape-landing-hero";
 import ChatGptAds from "./pages/ChatGptAds";
 import { pageFromPath, pathForPage } from "./lib/routing";
 import { trackPixel } from "./lib/meta";
+import { trackPageView } from "./lib/analytics";
+import { adminLogin, fetchAdminStats } from "./lib/admin";
+import AdminStats from "./components/AdminStats";
 
 /* ---------- Helpers ---------- */
 
@@ -231,7 +234,13 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminPass, setAdminPass] = useState("");
-  const [adminTab, setAdminTab] = useState("clients");
+  const [adminTab, setAdminTab] = useState("stats");
+  const [loginErr, setLoginErr] = useState("");
+  const [loginBusy, setLoginBusy] = useState(false);
+  const [stats, setStats] = useState(null);
+  const [statsDays, setStatsDays] = useState(30);
+  const [statsLoading, setStatsLoading] = useState(false);
+  const [statsErr, setStatsErr] = useState("");
   const [clients, setClients] = useState(defaultClients);
   const [team, setTeam] = useState(defaultTeam);
   const [services, setServices] = useState(defaultServices);
@@ -321,6 +330,26 @@ export default function App() {
     if (firstPageView.current) { firstPageView.current = false; return; }
     trackPixel("PageView");
   }, [page]);
+
+  // First-party page views -> Supabase (shown in /admin -> Статистика)
+  useEffect(() => { if (page !== "admin") trackPageView(); }, [page]);
+
+  const loadStats = useCallback(async (pass, days) => {
+    setStatsLoading(true); setStatsErr("");
+    try { setStats(await fetchAdminStats(pass, days)); }
+    catch (e) { setStatsErr(e.message || "грешка"); }
+    finally { setStatsLoading(false); }
+  }, []);
+
+  const tryLogin = async () => {
+    if (!adminPass || loginBusy) return;
+    setLoginBusy(true); setLoginErr("");
+    const ok = await adminLogin(adminPass);
+    setLoginBusy(false);
+    if (!ok) { setLoginErr("Грешна парола."); return; }
+    setIsAdmin(true);
+    loadStats(adminPass, statsDays);
+  };
 
   // Sync page with browser back/forward
   useEffect(() => {
@@ -1296,10 +1325,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             type="password"
             value={adminPass}
             onChange={(e) => setAdminPass(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && adminPass === "profit2025" && setIsAdmin(true)}
+            onKeyDown={(e) => e.key === "Enter" && tryLogin()}
             placeholder="Парола"
           />
-          <button className="btn btnSm" onClick={() => adminPass === "profit2025" && setIsAdmin(true)}>ВХОД</button>
+          <button className="btn btnSm" onClick={tryLogin} disabled={loginBusy}>{loginBusy ? "…" : "ВХОД"}</button>
+          {loginErr && <p style={{ color: "#FF6B78", fontSize: 12, marginTop: 12 }}>{loginErr}</p>}
         </div>
       );
 
@@ -1313,6 +1343,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
         <div className="adm-tabs">
           {[
+            { k: "stats", l: "Статистика" },
             { k: "clients", l: "Клиенти" },
             { k: "team", l: "Екип & Снимки" },
             { k: "credentials", l: "За нас (Credentials)" },
@@ -1325,6 +1356,17 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             </div>
           ))}
         </div>
+
+        {adminTab === "stats" && (
+          <AdminStats
+            stats={stats}
+            days={statsDays}
+            loading={statsLoading}
+            error={statsErr}
+            onDays={(d) => { setStatsDays(d); loadStats(adminPass, d); }}
+            onRefresh={() => loadStats(adminPass, statsDays)}
+          />
+        )}
 
         {adminTab === "clients" && (
           <div>
