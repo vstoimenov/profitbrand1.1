@@ -75,16 +75,7 @@ function SvcIcon({ name, size = 28 }) {
   return <Ico size={size} strokeWidth={2} />;
 }
 
-const defaultClients = [
-  { id: 1, name: "Wienerberger", logo: "/logos/wienerberger.png" },
-  { id: 2, name: "Захарни Заводи", logo: "/logos/zaharni-zavodi.png" },
-  { id: 3, name: "minimart", logo: "/logos/minimart.png", dark: true },
-  { id: 4, name: "Saint Charles Apothecary", logo: "/logos/saint-charles.png" },
-  { id: 5, name: "ПК Инвиктус", logo: "/logos/invictus.png" },
-  { id: 6, name: "Kavo Kerreu", logo: "/logos/kavo-kerreu.jpg" },
-  { id: 7, name: "Sintra", logo: "/logos/sintra.png" },
-  { id: 8, name: "Wolt", logo: "/logos/wolt.jpg" },
-];
+const defaultClients = [];
 
 const defaultTeam = [
   { id: 1, name: "Виктор Стоименов", role: "CEO & Founder", bio: "Performance Marketing & AI Strategy. Управляваме собствен бизнес + бизнеси на клиенти в 7 държави в Европа. Сертифициран от Google за AI Leadership. Управлявали сме рекламни бюджети, генерирали над 2 000 000 € оборот за 12 месеца. Не теоретизираме — всичко, което препоръчваме, сме тествали с реални пари и реални бизнеси.", photo: "/viktor.jpg" },
@@ -223,7 +214,7 @@ const defaultTestimonials = [
 
 /* Bump when default copy (services/credentials/testimonials) changes,
    so visitors with older localStorage get the fresh content. */
-const DATA_VERSION = 11;
+const DATA_VERSION = 12;
 
 /* ---------- App ---------- */
 
@@ -246,7 +237,6 @@ export default function App() {
   const [services, setServices] = useState(defaultServices);
   const [cases, setCases] = useState(defaultCases);
   const [testimonials, setTestimonials] = useState(defaultTestimonials);
-  const [nc, setNc] = useState({ name: "", logo: "" });
   const [nm, setNm] = useState({ name: "", role: "", bio: "", photo: "" });
   const [credentials, setCredentials] = useState(founderCredentials);
   const [newCred, setNewCred] = useState("");
@@ -303,26 +293,6 @@ export default function App() {
     const path = pathForPage(p);
     if (window.location.pathname !== path) window.history.pushState({}, "", path);
   };
-
-  // Broken/missing logo files fall back to the client name.
-  // (onError alone can miss errors that fire before React attaches listeners.)
-  useEffect(() => {
-    const t = setTimeout(() => {
-      document.querySelectorAll(".cl-logo img").forEach((img) => {
-        if (img.complete && img.naturalWidth === 0) {
-          img.replaceWith(document.createTextNode(img.alt || ""));
-        }
-      });
-    }, 800);
-    return () => clearTimeout(t);
-  }, [page, clients]);
-
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    document.title = page === "chatgpt"
-      ? "Реклами в ChatGPT — подходящ ли е бизнесът ти? | PROFITBRAND"
-      : "PROFITBRAND — Performance Marketing & AI за E-commerce | Виктор Стоименов";
-  }, [page]);
 
   // Meta Pixel PageView on SPA navigation (the first PageView comes from index.html)
   const firstPageView = useRef(true);
@@ -887,26 +857,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         onCtaClick={() => setShowAudit(true)}
       />
 
-      {clients.length > 0 && (
-        <section className="trust" aria-label="Клиенти">
-          <div className="trust-lbl">Доверяват ни се</div>
-          <div className="trust-grid">
-            {clients.map((c) => (
-              <div key={c.id} className={`cl-logo ${c.dark ? "dark" : ""}`}>
-                {c.logo ? (
-                  <img
-                    src={c.logo}
-                    alt={c.name}
-                    decoding="async"
-                    onError={(e) => { e.currentTarget.replaceWith(document.createTextNode(c.name)); }}
-                  />
-                ) : c.name}
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
       <section className="sec dk" id="stats" style={{ paddingBottom: 30 }}>
         <div {...ff("sttg")} className="tg">Резултати</div>
         <h2 {...ff("sth2", 0.1)} className="U">
@@ -1344,7 +1294,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         <div className="adm-tabs">
           {[
             { k: "stats", l: "Статистика" },
-            { k: "clients", l: "Клиенти" },
             { k: "team", l: "Екип & Снимки" },
             { k: "credentials", l: "За нас (Credentials)" },
             { k: "services", l: "Услуги" },
@@ -1366,31 +1315,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
             onDays={(d) => { setStatsDays(d); loadStats(adminPass, d); }}
             onRefresh={() => loadStats(adminPass, statsDays)}
           />
-        )}
-
-        {adminTab === "clients" && (
-          <div>
-            <h3>Добави клиент (движеща се лента)</h3>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-              <input className="ai" value={nc.name} onChange={(e) => setNc({ ...nc, name: e.target.value })} placeholder="Име" />
-              <input className="ai" value={nc.logo} onChange={(e) => setNc({ ...nc, logo: e.target.value })} placeholder="URL лого (опц.)" />
-              <button className="btn btnSm" onClick={() => {
-                if (!nc.name) return;
-                const u = [...clients, { ...nc, id: Date.now() }];
-                setClients(u); save(u, team, services, cases, testimonials, credentials); setNc({ name: "", logo: "" });
-              }}><Plus size={12} /> Добави</button>
-            </div>
-            <h3>Подредба (drag & drop)</h3>
-            <div className="al">
-              {clients.map((c) => (
-                <div key={c.id} className="ae" {...dragProps(clients, setClients, c.id)}>
-                  <span className="grip"><GripVertical size={14} /></span>
-                  <div className="ae-body">{c.name}{c.logo && <span style={{ color: "var(--g)", fontSize: 10 }}> — {c.logo}</span>}</div>
-                  <button className="btnD" onClick={() => { const u = clients.filter((x) => x.id !== c.id); setClients(u); save(u, team, services, cases, testimonials, credentials); }}><X size={12} /></button>
-                </div>
-              ))}
-            </div>
-          </div>
         )}
 
         {adminTab === "team" && (
