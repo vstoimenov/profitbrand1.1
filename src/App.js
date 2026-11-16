@@ -953,7 +953,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 `;
 
-  const marqueeWords = ["Реклами в Meta", "Реклами в ChatGPT", "AI автоматизации", "Имейли, които продават", "AI обслужване 24/7", "Страници, които конвертират"];
+  const marqueeWords = ["Реклами в Google", "Реклами в Meta", "Реклами в TikTok", "Реклами в ChatGPT", "AI автоматизации", "Имейли, които продават", "AI обслужване 24/7", "Страници, които конвертират"];
 
   const ctaBand = (title, text, id) => (
     <section className="cta-band">
@@ -972,7 +972,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         badge="РЕКЛАМИ + AI, КОИТО ПРОДАВАТ"
         title1="Време е да скалираш"
         title2="бизнеса си."
-        subtitle={"Ние сме агенцията, която превръща рекламния бюджет в продажби. Реклами в Meta и ChatGPT + AI автоматизации — доказано с над 2\u00A0000\u00A0000\u00A0€ оборот за един клиент за 12\u00A0месеца."}
+        subtitle="Реклами в Google, Meta, TikTok и ChatGPT + AI автоматизации — в една система, която носи клиенти всеки ден. Ти движиш бизнеса. Ние движим продажбите."
         ctaText="Искам безплатна стратегия"
         onCtaClick={() => setShowAudit(true)}
       />
