@@ -972,7 +972,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         badge="РЕКЛАМИ + AI, КОИТО ПРОДАВАТ"
         title1="Време е да скалираш"
         title2="бизнеса си."
-        subtitle={"Реклами в Meta и ChatGPT + AI автоматизации — една система от първия клик до повторната покупка. Над 2\u00A0000\u00A0000\u00A0€ оборот за клиент за 12\u00A0месеца."}
+        subtitle={"Ние сме агенцията, която превръща рекламния бюджет в продажби. Реклами в Meta и ChatGPT + AI автоматизации — доказано с над 2\u00A0000\u00A0000\u00A0€ оборот за един клиент за 12\u00A0месеца."}
         ctaText="Искам безплатна стратегия"
         onCtaClick={() => setShowAudit(true)}
       />
