@@ -55,12 +55,12 @@ function Counter({ end, suffix = "", duration = 2200 }) {
 /* ---------- Default data ---------- */
 
 const defaultServices = [
-  { id: 1, icon: "Target", title: "PERFORMANCE ACQUISITION", desc: "Meta & Instagram реклами, creative стратегия, A/B тестване, retargeting funnels, lookalike аудитории. Привличаме точните хора на най-ниската цена.", active: true },
-  { id: 6, icon: "Sparkles", title: "CHATGPT ADS", desc: "Реклами под отговорите на ChatGPT — в България от 1 септември. Безплатна проверка до 24 часа дали бизнесът ти е подходящ, достъп до рекламите за България през партньор, ясна цел, записана преди да платиш. Не на всеки — само ако има смисъл за теб.", active: true, href: "/chatgpt-ads" },
-  { id: 2, icon: "Bot", title: "AI-POWERED RETENTION", desc: "Automated email flows, abandoned cart recovery, post-purchase sequences, AI customer segmentation, персонализирани оферти. Всеки клиент получава правилното съобщение в правилния момент.", active: true },
-  { id: 3, icon: "TrendingUp", title: "CONVERSION & SCALE", desc: "Landing page оптимизация, product page strategy, upsell/cross-sell funnels, AOV optimization. Повече приходи от същия трафик, преди да увеличим бюджета.", active: true },
-  { id: 4, icon: "Headphones", title: "AI CUSTOMER SUPPORT", desc: "AI агенти, които отговарят на клиентски запитвания 24/7 — преди покупка, при доставка, след продажба. По-бързи отговори, по-малко изпуснати продажби, нула чакащи клиенти.", active: true },
-  { id: 5, icon: "Award", title: "🔒 ТАЕН WORKSHOP (САМО ЗА ВЪТРЕШНИ)", desc: "Закрит workshop — достъпен само за партньори в програмата. Стратегиите, които не споделяме публично: точните creative formula-и, AI prompt библиотеки, retention sequences, които вдигат AOV с 30-40%. Това е BONUS, който не се намира никъде другаде.", active: true },
+  { id: 1, icon: "Target", title: "РЕКЛАМИ В META И INSTAGRAM", desc: "Стигаме до хората, които ще купят — на най-ниската цена. Тестваме визии и текстове и връщаме посетителите, които не са купили.", active: true },
+  { id: 6, icon: "Sparkles", title: "РЕКЛАМИ В CHATGPT", desc: "Реклами под отговорите на ChatGPT — в България от 1 септември. Безплатна проверка до 24 часа дали има смисъл за твоя бизнес.", active: true, href: "/chatgpt-ads" },
+  { id: 2, icon: "Bot", title: "AI ИМЕЙЛИ И ПОВТОРНИ ПОКУПКИ", desc: "Автоматични имейли за изоставена количка, след покупка и за стари клиенти. Правилното съобщение в правилния момент.", active: true },
+  { id: 3, icon: "TrendingUp", title: "ПОВЕЧЕ ПРОДАЖБИ ОТ СЪЩИЯ ТРАФИК", desc: "Подобряваме страниците и офертите, за да купуват повече хора — и за повече. Преди да вдигаме бюджета.", active: true },
+  { id: 4, icon: "Headphones", title: "AI ОБСЛУЖВАНЕ 24/7", desc: "AI агент отговаря на клиентите веднага — преди и след покупка. Без изпуснати продажби, без чакане.", active: true },
+  { id: 5, icon: "Award", title: "🔒 ЗАКРИТ WORKSHOP", desc: "Само за клиенти. Рекламните формули, AI инструкциите и имейл поредиците, които вдигат средната поръчка с 30–40%. Не ги споделяме публично.", active: true },
 ];
 
 const ICONS = {
@@ -84,119 +84,126 @@ const defaultTeam = [
 const defaultCases = [
   {
     id: 1,
-    client: "E-COMMERCE БРАНД — ОТ ROAS 1.2 ДО 4.7x ЗА 60 ДНИ",
-    problem: "ROAS 1.2 при 8 000 €./мес рекламен бюджет — горяха пари без ясна стратегия. Нямаше email автоматизации, нямаше retargeting система, creative-ите не бяха тествани.",
-    result: "Пълен restructure на Meta кампаниите. Нови creative концепции с A/B тестване. AI-powered email flows за abandoned cart и post-purchase. Retargeting funnel с 3 нива. Резултат: ROAS 4.7x за 60 дни. Същият бюджет — 4x повече приходи. Без смяна на продукт. Брандът достигна над 2 000 000 € оборот за 12 месеца.",
+    client: "ОНЛАЙН МАГАЗИН — ОТ ROAS 1.2 ДО 4.7x ЗА 60 ДНИ",
+    problem: "8\u00A0000\u00A0€ на месец за реклама, а всяко евро връщаше едва 1.20 €. Без автоматични имейли, без реклами към посетителите, без тестове на визиите.",
+    result: "Пренаредихме кампаниите, тествахме нови визии, пуснахме автоматични имейли и реклами към посетителите на 3 нива. За 60 дни — 4.7x ROAS при същия бюджет и същия продукт. Над 2\u00A0000\u00A0000\u00A0€ оборот за 12 месеца.",
     metric: "4.7x ROAS",
     time: "60 дни",
   },
 ];
 
+const painPoints = [
+  { icon: "DollarSign", title: "Харчиш за реклами, а продажбите стоят", desc: "Бюджетът расте, оборотът — не. И никой не ти казва ясно защо." },
+  { icon: "AlertCircle", title: "Не знаеш колко ти струва един клиент", desc: "Агенцията праща отчети с харесвания и кликове. Не с печалба." },
+  { icon: "Mail", title: "Клиентите купуват веднъж и изчезват", desc: "Няма имейли, няма напомняния, няма причина да се върнат." },
+  { icon: "Settings", title: "Всичко е на парче", desc: "Реклами тук, сайт там, имейли никъде. Нищо не работи заедно." },
+];
+
 const journeySteps = [
-  { step: 0, title: "ВИЕ СТЕ ТУК", desc: "Интерес за съвместна работа." },
-  { step: 1, title: "СРЕЩА & АНАЛИЗ", desc: "Установяваме целите и правим съвместен анализ на текущата ситуация." },
-  { step: 2, title: "PROFITBRAND BLUEPRINT", desc: "Стратегически документ (40+ страници), който разглежда цялостна маркетингова стратегия за бизнеса." },
-  { step: 3, title: "ПРЕДЛОЖЕНИЕ", desc: "Бизнес предложение за партньорство, нива на обслужване, финансови параметри и договорни условия." },
-  { step: 4, title: "ИНФРАСТРУКТУРА", desc: "Достъп до комуникационните канали, изграждане на съвместна инфраструктура за работни практики и процеси на одобрение." },
-  { step: 5, title: "СТАРТ НА СЪВМЕСТНА РАБОТА", desc: "Вашият бизнес е наш бизнес. Растем заедно." },
+  { step: 0, title: "ТИ СИ ТУК", desc: "Искаш да скалираш." },
+  { step: 1, title: "РАЗГОВОР И АНАЛИЗ", desc: "Изясняваме целите и гледаме къде си сега." },
+  { step: 2, title: "PROFITBRAND BLUEPRINT", desc: "Стратегия от 40+ страници за целия ти маркетинг." },
+  { step: 3, title: "ПРЕДЛОЖЕНИЕ", desc: "Обхват, цена и условия — черно на бяло." },
+  { step: 4, title: "ПОДГОТОВКА", desc: "Достъпи, канали за връзка, ред за одобрение." },
+  { step: 5, title: "СТАРТ", desc: "Твоят бизнес е наш бизнес. Растем заедно." },
 ];
 
 const systemSteps = [
   {
     icon: "Search",
     letter: "А",
-    title: "Анализ & E-com Audit",
-    desc: "Пълен одит на e-commerce бизнеса: unit economics, product margins, customer acquisition cost, lifetime value, funnel leaks. Не гадаем — решаваме на база данни.",
-    tags: ["Unit economics анализ", "Funnel audit (от ad до checkout)", "Конкурентен landscape"],
+    title: "Анализ",
+    desc: "Преглеждаме бизнеса отвътре: колко струва един клиент, колко ти носи и къде губиш пари.",
+    tags: ["Цена на клиент", "Печалба по продукти", "Конкуренция"],
     details: [
-      "Unit economics анализ — CAC, LTV, contribution margin",
-      "Funnel audit — от първия ad до checkout",
-      "Конкурентен landscape и позициониране",
-      "Customer journey map и retention insights",
+      "Колко струва и колко носи един клиент",
+      "Къде посетителите се отказват — от рекламата до плащането",
+      "Как стоиш спрямо конкуренцията",
+      "Защо клиентите купуват повторно (или не)",
     ],
   },
   {
     icon: "Wrench",
     letter: "И",
-    title: "Изграждане & Инфраструктура",
-    desc: "Meta кампании, AI email системи, landing pages, creative assets — цялата машина за растеж, настроена за твоя бранд.",
-    tags: ["Meta Ads setup & creative", "AI email автоматизации", "Conversion-optimized pages"],
+    title: "Изграждане",
+    desc: "Пускаме реклами, имейли, страници и визии — цялата машина, настроена за твоя бранд.",
+    tags: ["Реклами в Meta", "AI имейли", "Страници, които продават"],
     details: [
-      "Meta Ads setup — campaign architecture, audiences, creative",
-      "AI email автоматизации — abandoned cart, post-purchase, win-back",
-      "Conversion-optimized landing pages и product pages",
-      "Retargeting funnel с 3 нива",
+      "Структура на кампаниите, аудитории и визии",
+      "Имейли за изоставена количка, след покупка и за стари клиенти",
+      "Страници за продукти и оферти, които продават",
+      "Реклами към посетителите на сайта на 3 нива",
     ],
   },
   {
     icon: "Rocket",
     letter: "Р",
-    title: "Растеж & Скалиране",
-    desc: "Оптимизираме в реално време. Скалираме каналите, които работят. Добавяме нови revenue streams — subscriptions, bundles, VIP програми.",
-    tags: ["Performance оптимизация", "AOV & LTV growth", "Нови revenue streams"],
+    title: "Растеж",
+    desc: "Следим числата всяка седмица. Наливаме бюджет в това, което работи, и добавяме нови приходи.",
+    tags: ["Седмични корекции", "По-голяма поръчка", "Нови приходи"],
     details: [
-      "Performance оптимизация — седмични корекции по данни",
-      "AOV & LTV growth — upsells, bundles, cross-sells",
-      "Нови revenue streams — subscriptions, VIP, loyalty",
-      "Скалиране на каналите, които работят",
+      "Корекции всяка седмица според данните",
+      "Пакети и допълнителни продукти за по-голяма поръчка",
+      "Абонаменти, VIP и програми за лоялност",
+      "Повече бюджет там, където носи",
     ],
   },
 ];
 
 const faqs = [
-  { q: "Колко бързо ще видя резултати?", a: "Повечето e-commerce клиенти виждат подобрение в ROAS в първите 2-4 седмици. Пълна оптимизация на системата (ads + email + automations) отнема 60-90 дни." },
-  { q: "Какво ако вече работя с агенция?", a: "Ако текущата ти агенция не ти дава ясни числа за ROAS, CAC и LTV — имаш проблем. Можем да направим безплатен audit и да видим къде са пропуските, преди да вземеш решение." },
-  { q: "Как се заплаща?", a: "Работим на месечен retainer + performance бонус при постигане на KPIs. Без дългосрочни договори. Конкретните условия обсъждаме на консултацията." },
-  { q: "Какво ви отличава от другите агенции?", a: "Не пускаме просто реклами. Изграждаме цялата система — от Meta ads до AI автоматизации за retention. Повечето агенции спират след клика. Ние работим до повторната покупка." },
-  { q: "За какъв размер e-commerce бизнес е подходящо?", a: "Работим с e-commerce брандове, които вече имат product-market fit и минимум 3 000-5 000 €/месец рекламен бюджет. Ако си в начален етап без продажби — все още не е моментът." },
-  { q: "Работите ли с брандове извън България?", a: "Фокусът ни е български e-commerce брандове и такива, продаващи на българския/европейския пазар. За международно скалиране — обсъждаме индивидуално." },
+  { q: "Кога ще видя резултати?", a: "Първите подобрения идват обикновено до 2–4 седмици. Цялата система е напълно настроена за 60–90 дни." },
+  { q: "Вече работя с агенция. Защо да сменям?", a: "Ако не ти показват ясно колко струва един клиент и колко носи — имаш проблем. Правим безплатен преглед и сам виждаш къде са пропуските." },
+  { q: "Как се плаща?", a: "Месечна такса + бонус, само ако постигнем целите. Без дългосрочен договор. Детайлите — на разговора." },
+  { q: "С какво сте различни?", a: "Повечето агенции спират до клика. Ние работим до повторната покупка — реклами, страници, имейли и AI в една система." },
+  { q: "За какъв бизнес е подходящо?", a: "За бизнеси, които вече продават и могат да вложат поне 3\u00A0000–5\u00A0000\u00A0€ на месец в реклама. Ако още нямаш продажби — рано е." },
+  { q: "Работите ли извън България?", a: "Да. Основно с бизнеси в България и Европа. За други пазари говорим индивидуално." },
 ];
 
 const workProcess = [
   {
     icon: "PhoneCall",
     step: "Стъпка 1",
-    title: "Безплатен E-com Audit Call",
-    desc: "30-минутен разговор, в който анализираме твоя e-commerce бизнес: какво работи, къде губиш пари, къде е най-големият потенциал за растеж.",
-    listLabel: "Какво изясняваме:",
+    title: "Безплатен разговор",
+    desc: "30 минути. Разглеждаме бизнеса ти: какво работи, къде губиш пари и къде е най-големият потенциал.",
+    listLabel: "Ще разбереш:",
     items: [
-      "Текущ ROAS, CAC, AOV и LTV — къде стоиш спрямо benchmarks",
-      "Кои продукти/категории имат най-голям margin и потенциал",
-      "Къде в funnel-а губиш най-много клиенти",
+      "Колко ти струва един клиент и колко ти носи",
+      "Кои продукти имат най-голяма печалба",
+      "Къде губиш най-много клиенти",
     ],
   },
   {
     icon: "FileText",
     step: "Стъпка 2",
-    title: "Growth Blueprint",
-    desc: "Получаваш детайлен стратегически документ — конкретен план за растеж на твоя e-commerce бранд с таймлайн, KPIs и приоритети.",
-    listLabel: "Какво включва:",
+    title: "План за растеж",
+    desc: "Получаваш конкретен план — срокове, цели и приоритети. Без общи приказки.",
+    listLabel: "Включва:",
     items: [
-      "Meta ads стратегия: аудитории, creative подход, бюджет разпределение",
-      "AI automation план: email flows, segments, triggers",
-      "90-дневен roadmap с конкретни KPIs (ROAS, AOV, CAC targets)",
+      "Рекламна стратегия: аудитории, визии, бюджет",
+      "План за автоматизации: имейли и AI",
+      "План за 90 дни с ясни цели",
     ],
   },
   {
     icon: "Zap",
     step: "Стъпка 3",
-    title: "Изпълнение & Оптимизация",
-    desc: "Стартираме системата и оптимизираме на база реални данни. Седмични отчети, бързи корекции, фокус върху ROI.",
+    title: "Скалираме",
+    desc: "Пускаме системата и я подобряваме всяка седмица по реални данни.",
     listLabel: "Как работим:",
     items: [
-      "Седмични performance отчети с ясни числа",
-      "Bi-weekly strategy calls",
-      "Непрекъсната оптимизация на кампании, creative и automations",
+      "Седмичен отчет с ясни числа",
+      "Среща на всеки 2 седмици",
+      "Постоянни подобрения на рекламите и автоматизациите",
     ],
   },
 ];
 
 const founderCredentials = [
-  "Управляваме собствен бизнес + бизнеси на клиенти в 7 държави в Европа. Не работим теоретично — продаваме реално, всеки ден, в реални пазари.",
-  "Сертифициран от Google за AI Leadership — официално признат експерт в имплементацията на AI системи за бизнес растеж.",
-  "Управлявали сме рекламни бюджети, генерирали над 2 000 000 € оборот за 12 месеца. Постигнали сме ROAS 4.7x за 60 дни — от изходна точка ROAS 1.2 — без увеличение на бюджета.",
-  "Тествали сме десетки хиляди евро рекламен бюджет със собствени пари — не с пари на клиенти. Знаем какво е кампания да не върви и как да я обърнем, защото сме го преживели с нашия си бизнес.",
-  "Всички показани резултати и метрики са от реални клиенти и реални бюджети — не от семинари, симулации или хипотетични cases. Числата са от Ads Manager-и, които можеш да видиш със собствените си очи.",
+  "Работим в 7 държави в Европа — със собствен бизнес и с клиенти. Продаваме всеки ден, на реални пазари.",
+  "Сертифициран от Google за AI Leadership.",
+  "Над 2\u00A0000\u00A0000\u00A0€ оборот за клиент за 12 месеца. ROAS от 1.2 до 4.7x за 60 дни — без по-голям бюджет.",
+  "Десетки хиляди евро рекламен бюджет, тествани със собствени пари. Знаем как се обръща кампания, която не върви.",
+  "Всички резултати са от реални клиенти и реални рекламни акаунти. Можеш да ги видиш сам.",
 ];
 
 const defaultTestimonials = [
@@ -214,7 +221,7 @@ const defaultTestimonials = [
 
 /* Bump when default copy (services/credentials/testimonials) changes,
    so visitors with older localStorage get the fresh content. */
-const DATA_VERSION = 12;
+const DATA_VERSION = 13;
 
 /* ---------- App ---------- */
 
@@ -272,8 +279,56 @@ export default function App() {
     try { localStorage.setItem("pb5", JSON.stringify({ v: DATA_VERSION, c, t, s, cs, tm, cr })); } catch {}
   }, []);
 
-  // Scroll-reveal removed — elements always visible, no flash issues
-  useEffect(() => {}, [page]);
+  // Scroll-reveal. No flash: only elements still below the fold get hidden,
+  // and only after mount. Containers with data-stagger reveal their children
+  // one after another. Reduced-motion users and old browsers see everything at once.
+  useEffect(() => {
+    if (page !== "home" || typeof window === "undefined") return;
+    if (!("IntersectionObserver" in window)) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+
+    const cleanups = [];
+    const finish = (el) => {
+      el.setAttribute("data-rv", "done");
+      el.style.transitionDelay = "";
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          io.unobserve(el);
+          el.setAttribute("data-rv", "in");
+          const delay = parseFloat(el.style.transitionDelay) || 0;
+          const t = setTimeout(() => finish(el), (delay + 1) * 1000);
+          cleanups.push(() => clearTimeout(t));
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    const vh = window.innerHeight;
+    document.querySelectorAll("[data-v]").forEach((el) => {
+      const base = parseFloat(el.getAttribute("data-d")) || 0;
+      const items = el.hasAttribute("data-stagger")
+        ? Array.from(el.children).map((c, i) => [c, Math.min(i, 8) * 0.08])
+        : [[el, base]];
+      items.forEach(([item, d]) => {
+        if (item.hasAttribute("data-rv")) return;
+        if (item.getBoundingClientRect().top < vh) return; // already on screen: leave visible
+        item.setAttribute("data-rv", "out");
+        item.style.transitionDelay = `${d}s`;
+        item.style.setProperty("--rvd", `${d}s`);
+        io.observe(item);
+      });
+    });
+
+    return () => {
+      io.disconnect();
+      cleanups.forEach((fn) => fn());
+      document.querySelectorAll('[data-rv="out"],[data-rv="in"]').forEach(finish);
+    };
+  }, [page]);
 
   // Inject CSS into <head> exactly once — never re-renders, no paint flash
   useEffect(() => {
@@ -335,8 +390,13 @@ export default function App() {
     };
     if (page !== "home") { nav("home"); setTimeout(go, 60); } else go();
   };
-  // ff() — always visible, no flash. data-v kept for potential future use.
-  const ff = (id, d = 0) => ({ "data-v": id });
+  // ff() — marks an element for scroll-reveal (see effect above).
+  // d = delay in seconds; stagger = reveal the element's children one by one.
+  const ff = (id, d = 0, stagger = false) => ({
+    "data-v": id,
+    "data-d": d,
+    ...(stagger ? { "data-stagger": "" } : {}),
+  });
   const activeServices = services.filter((s) => s.active);
 
   /* drag-drop reordering for admin lists */
@@ -383,6 +443,50 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 @keyframes blink { 50%{opacity:0} }
 
 .tw-caret { display:inline-block; margin-left:2px; color:var(--y); animation:blink 1s step-end infinite; }
+
+/* SCROLL REVEAL — attributes are set by JS only for elements below the fold */
+.Z [data-rv="out"] { opacity:0; transform:translateY(28px); }
+.Z [data-rv="in"] { opacity:1; transform:none;
+  transition:opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1); }
+.jrn-svg polyline { stroke-dasharray:1; stroke-dashoffset:0; }
+.jrn-wrap[data-rv="out"] .jrn-svg polyline { stroke-dashoffset:1; }
+.jrn-wrap:not([data-rv="out"]) .jrn-svg polyline { transition:stroke-dashoffset 1.6s cubic-bezier(.65,0,.35,1) .25s; }
+.SI[data-rv="in"] .SIi { animation:pop-in .6s cubic-bezier(.34,1.56,.64,1) both; animation-delay:calc(var(--rvd, 0s) + .15s); }
+@keyframes pop-in { from { transform:scale(.6); opacity:0; } to { transform:none; opacity:1; } }
+
+/* MARQUEE */
+.mq { overflow:hidden; background:var(--b2); border-top:1px solid rgba(255,214,0,.12);
+  border-bottom:1px solid rgba(255,214,0,.12); padding:16px 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); }
+.mq-track { display:flex; width:max-content; animation:mq 36s linear infinite; }
+.mq:hover .mq-track { animation-play-state:paused; }
+.mq-set { display:flex; }
+.mq-set span { font-family:'Unbounded'; font-size:13px; font-weight:700; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--w); white-space:nowrap; display:inline-flex; align-items:center; }
+.mq-set span::after { content:'✦'; color:var(--y); margin:0 28px; font-size:12px; }
+@keyframes mq { to { transform:translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .mq-track { animation:none !important; } }
+
+/* PAIN */
+.pain-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; max-width:1100px; margin:0 auto; }
+.pain-card { background:var(--b2); border:1px solid rgba(255,107,120,.16); border-radius:16px;
+  padding:26px 22px; text-align:left; transition:border-color .25s ease, transform .25s ease; }
+.pain-card:hover { border-color:rgba(255,214,0,.4); transform:translateY(-3px); }
+.pain-ic { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  background:rgba(255,107,120,.1); color:#FF6B78; margin-bottom:16px; }
+.pain-card h4 { font-family:'Unbounded'; font-size:14px; font-weight:700; line-height:1.4; margin-bottom:8px; color:var(--w); }
+.pain-card p { font-size:13px; color:var(--g2); line-height:1.6; }
+.pain-out { text-align:center; margin:40px auto 0; max-width:640px; font-size:clamp(17px,2.2vw,22px);
+  font-weight:700; line-height:1.4; color:var(--w); }
+.pain-out em { font-style:normal; color:var(--y); }
+
+/* CTA BAND */
+.cta-band { background:linear-gradient(135deg,#FFD600,#FFC107); color:var(--b); padding:56px 24px; text-align:center; }
+.cta-band h3 { font-family:'Unbounded'; font-size:clamp(22px,3.2vw,34px); font-weight:800; letter-spacing:-.5px; margin-bottom:10px; }
+.cta-band p { font-size:15px; line-height:1.6; color:rgba(8,8,16,.75); max-width:520px; margin:0 auto 24px; }
+.btn.btn-dk { background:var(--b); color:var(--y); box-shadow:0 10px 30px rgba(8,8,16,.25); }
+.btn.btn-dk:hover { box-shadow:0 14px 34px rgba(8,8,16,.35); }
 
 /* NAV */
 .N {
@@ -797,6 +901,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 @media (max-width:1024px) {
   .sec { padding:72px 32px; }
+  .pain-grid { grid-template-columns:repeat(2,1fr); }
   .svc-grid { grid-template-columns:repeat(3,1fr); }
   .sys-grid { grid-template-columns:1fr; gap:14px; }
   .wp-grid { grid-template-columns:1fr; }
@@ -835,6 +940,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 @media (max-width:500px) {
   .svc-grid { grid-template-columns:1fr; }
+  .pain-grid { grid-template-columns:1fr; }
+  .mq-set span { font-size:11px; }
   .cases { grid-template-columns:1fr; }
   .sec h2 { font-size:24px; }
   .jrn-circle { width:60px; height:60px; font-size:22px; }
@@ -846,91 +953,135 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 `;
 
+  const marqueeWords = ["Реклами в Meta", "Реклами в ChatGPT", "AI автоматизации", "Имейли, които продават", "AI обслужване 24/7", "Страници, които конвертират"];
+
+  const ctaBand = (title, text, id) => (
+    <section className="cta-band">
+      <h3 {...ff(`${id}h`)}>{title}</h3>
+      <p {...ff(`${id}p`, 0.08)}>{text}</p>
+      <button {...ff(`${id}b`, 0.16)} className="btn btn-dk" onClick={() => setShowAudit(true)}>
+        Искам безплатна стратегия <ArrowRight size={14} />
+      </button>
+    </section>
+  );
+
   const renderHome = () => (
     <>
+      {/* 1. Hero — one message */}
       <HeroGeometric
-        badge="PERFORMANCE MARKETING & AI ЗА E-COMMERCE"
-        title1="Помагаме на"
-        typewriterWords={["E-commerce брандове", "Коучове", "Консултанти", "High Ticket бизнеси"]}
-        subtitle="Да изградят 7-цифрен оборот чрез Performance Meta реклами, ChatGPT Ads + AI автоматизации — цялата система от първия клик до повторната покупка. Доказано с над 2 000 000 € генериран оборот за 12 месеца."
-        ctaText="Безплатна Консултация"
+        badge="РЕКЛАМИ + AI, КОИТО ПРОДАВАТ"
+        title1="Време е да скалираш"
+        title2="бизнеса си."
+        subtitle={"Реклами в Meta и ChatGPT + AI автоматизации — една система от първия клик до повторната покупка. Над 2\u00A0000\u00A0000\u00A0€ оборот за клиент за 12\u00A0месеца."}
+        ctaText="Искам безплатна стратегия"
         onCtaClick={() => setShowAudit(true)}
       />
 
+      {/* 2. Marquee — what we do, at a glance */}
+      <div className="mq" aria-label="Какво правим">
+        <div className="mq-track">
+          {[0, 1].map((k) => (
+            <div key={k} className="mq-set" aria-hidden={k === 1 ? "true" : undefined}>
+              {marqueeWords.map((w) => <span key={w}>{w}</span>)}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Proof in numbers */}
       <section className="sec dk" id="stats" style={{ paddingBottom: 30 }}>
         <div {...ff("sttg")} className="tg">Резултати</div>
         <h2 {...ff("sth2", 0.1)} className="U">
-          Числата говорят <em>сами</em>.
+          Числата <em>говорят</em>.
         </h2>
-        <div className="ST" style={{ marginTop: 32, padding: 0, background: "transparent", border: "none" }} {...ff("stg", 0.2)}>
+        <div className="ST" style={{ marginTop: 32, padding: 0, background: "transparent", border: "none" }} {...ff("stg", 0.2, true)}>
           <div className="SI">
             <div className="SIi"><DollarSign size={34} /></div>
             <div className="SIs">Над</div>
             <div className="SIn"><Counter end={2} suffix="M+ €" /></div>
-            <div className="SIl">Генериран оборот за e-commerce бранд за 12 месеца</div>
+            <div className="SIl">Оборот за един клиент за 12 месеца</div>
           </div>
           <div className="SI">
             <div className="SIi"><TrendingUp size={34} /></div>
-            <div className="SIs">Постигнат</div>
+            <div className="SIs">Постигнахме</div>
             <div className="SIn">4.7x ROAS</div>
-            <div className="SIl">За 60 дни — без увеличение на рекламния бюджет</div>
+            <div className="SIl">Всяко евро в реклама връща 4.70 € продажби</div>
           </div>
           <div className="SI">
             <div className="SIi"><Rocket size={34} /></div>
             <div className="SIs">За</div>
             <div className="SIn"><Counter end={60} suffix=" дни" /></div>
-            <div className="SIl">От ROAS 1.2 до ROAS 4.7 — само с оптимизация на стратегията</div>
+            <div className="SIl">От ROAS 1.2 до 4.7 — без да вдигаме бюджета</div>
           </div>
         </div>
       </section>
 
-      {/* Differentiator */}
+      {/* 4. Pain — does this sound familiar? */}
+      <section className="sec dk2" id="pain">
+        <div {...ff("pntg")} className="tg">Познато ли ти е?</div>
+        <h2 {...ff("pnh2", 0.1)} className="U">
+          Бизнесът ти може повече.<br /><em>Нещо го спира.</em>
+        </h2>
+        <div className="pain-grid" style={{ marginTop: 32 }} {...ff("png", 0.2, true)}>
+          {painPoints.map((p) => (
+            <div key={p.title} className="pain-card">
+              <div className="pain-ic"><SvcIcon name={p.icon} size={22} /></div>
+              <h4>{p.title}</h4>
+              <p>{p.desc}</p>
+            </div>
+          ))}
+        </div>
+        <p className="pain-out U" {...ff("pno", 0.1)}>
+          Не ти трябват още реклами. Трябва ти <em>система</em>.
+        </p>
+      </section>
+
+      {/* 5. The answer — why us */}
       <section className="sec dk" id="about">
-        <div {...ff("ptg")} className="tg">Защо да работиш с нас</div>
+        <div {...ff("ptg")} className="tg">Решението</div>
         <h2 {...ff("ph2", 0.1)} className="U">
-          Защо e-commerce брандове<br />
-          <em>работят с нас.</em>
+          Една система.<br /><em>Предвидим растеж.</em>
         </h2>
         <p {...ff("psd", 0.15)} className="sdesc">
-          Тествали сме десетки хиляди евро рекламен бюджет със <strong style={{ color: "var(--y)" }}>собствени пари</strong> — не с пари на клиенти. Мислим като партньори и знаем какво е нещата да не вървят.
+          Тествали сме с <strong style={{ color: "var(--y)" }}>собствени пари</strong>, не с твоите. Знаем какво е нещо да не върви — и как да го обърнем.
         </p>
         <div className="pbox" {...ff("pbx", 0.2)}>
           <div className="pbox-grid">
             <div className="pbox-item">
               <div className="pi"><Search size={22} /></div>
-              <h5>НЕ ПУСКАМЕ ПРОСТО РЕКЛАМИ</h5>
-              <p>Повечето агенции ти пускат кампания и чакат. Ние влизаме в бизнеса — гледаме unit economics, product margins, customer journey, retention. Защото ROAS без контекст е безсмислено число.</p>
+              <h5>ГЛЕДАМЕ ЦЕЛИЯ БИЗНЕС</h5>
+              <p>Не само рекламите. Маржове, цени, повторни покупки. Иначе числата в рекламите не значат нищо.</p>
             </div>
             <div className="pbox-item">
               <div className="pi"><Bot size={22} /></div>
-              <h5>AI АВТОМАТИЗАЦИИ 24/7</h5>
-              <p>Изграждаме AI системи за email flows, customer qualification, abandoned cart recovery и post-purchase upsells. Не ръчно — автоматизирано, персонализирано, скалируемо.</p>
+              <h5>AI РАБОТИ ВМЕСТО ТЕБ</h5>
+              <p>Имейли, напомняния за изоставена количка, отговори на клиенти — автоматично, денонощно.</p>
             </div>
             <div className="pbox-item">
               <div className="pi"><Settings size={22} /></div>
-              <h5>ЦЯЛАТА СИСТЕМА, НЕ ПАРЧЕТА</h5>
-              <p>Meta реклами + ChatGPT Ads + landing pages + email sequences + AI автоматизации + creative стратегия. Всичко работи като една машина. Не купуваш отделни услуги — получаваш система за растеж.</p>
+              <h5>ВСИЧКО РАБОТИ ЗАЕДНО</h5>
+              <p>Реклами в Meta и ChatGPT, страници, имейли и AI — свързани в една машина. Не купуваш парчета.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services — E-commerce Growth System */}
+      {/* 6. Services */}
       <section className="sec yellow" id="services">
-        <div {...ff("svtg")} className="tg">Какво получаваш</div>
+        <div {...ff("svtg")} className="tg">Какво правим</div>
         <h2 {...ff("svh2", 0.1)} className="U">
-          E-commerce <em>Growth System</em>.
+          Всичко за <em>растеж</em>. На едно място.
         </h2>
         <p {...ff("svsd", 0.15)} className="sdesc">
-          Една система. Всичко, от което e-commerce брандът ти има нужда, за да расте предвидимо.
+          Избираме това, от което бизнесът ти има нужда — и го свързваме в една система.
         </p>
-        <div className="svc-grid" {...ff("svg", 0.2)}>
+        <div className="svc-grid" {...ff("svg", 0.2, true)}>
           {activeServices.map((s) => s.href ? (
             <a key={s.id} className="svc svc-link" href={s.href} onClick={(e) => { e.preventDefault(); nav(pageFromPath(s.href)); }}>
               <div className="ic"><SvcIcon name={s.icon} size={28} /></div>
               <h4>{s.title}</h4>
               <p>{s.desc}</p>
-              <span className="svc-more">Виж програмата <ArrowRight size={12} /></span>
+              <span className="svc-more">Виж повече <ArrowRight size={12} /></span>
             </a>
           ) : (
             <div key={s.id} className="svc" tabIndex={0}>
@@ -942,16 +1093,98 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
       </section>
 
-      {/* System AIR */}
+      {/* 7. Case study */}
+      <section className="sec" id="cases">
+        <div {...ff("cstg")} className="tg">Доказателство</div>
+        <h2 {...ff("csh2", 0.1)} className="U">
+          Един бранд. <em>4.7x ROAS. {"2\u00A0000\u00A0000+\u00A0€"} оборот.</em>
+        </h2>
+        <p {...ff("cssd", 0.15)} className="sdesc">
+          Реален клиент. Реални числа от рекламния акаунт.
+        </p>
+        <div className="cases" {...ff("csg", 0.2, true)}>
+          {cases.map((c) => (
+            <div key={c.id} className="case">
+              <span className="case-tag">{c.client}</span>
+              <div className="case-lb">Проблем</div>
+              <p>{c.problem}</p>
+              <div className="case-lb">Резултат</div>
+              <p>{c.result}</p>
+              <div className="case-metrics">
+                <div className="case-m"><div className="n">{c.metric}</div><div className="l">Резултат</div></div>
+                <div className="case-m"><div className="n">{c.time}</div><div className="l">Време</div></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 8. Testimonials */}
+      {testimonials.length > 0 && (
+        <section className="sec" id="testimonials" style={{ paddingTop: 20 }}>
+          <div {...ff("tstg")} className="tg">Отзиви</div>
+          <h2 {...ff("tsh2", 0.1)} className="U">
+            Какво <em>казват</em> клиентите.
+          </h2>
+          <p {...ff("tssd", 0.15)} className="sdesc">
+            Реални думи от реални хора.
+          </p>
+          <div className="ts-grid" {...ff("tsg", 0.2, true)}>
+            {testimonials.map((t) => (
+              <div key={t.id} className="ts-card">
+                <Quote size={22} className="ts-q" />
+                <p className="ts-text">{t.quote}</p>
+                <div className="ts-meta">
+                  <div className="ts-name">{t.name}</div>
+                  <div className="ts-role">{t.role}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {ctaBand("Готов да скалираш?", "30 минути. Безплатно. Ще ти кажем къде губиш пари и какво да промениш.", "cb1")}
+
+      {/* 9. Process — 3 simple steps */}
+      <section className="sec" id="process">
+        <div {...ff("wptg")} className="tg">Как започваме</div>
+        <h2 {...ff("wph2", 0.1)} className="U">
+          Скалираме в <em>3 стъпки</em>.
+        </h2>
+        <p {...ff("wpsd", 0.15)} className="sdesc">
+          Ясни стъпки. Ясни срокове. Фокус върху продажбите.
+        </p>
+        <div className="wp-grid" {...ff("wpg", 0.2, true)}>
+          {workProcess.map((p, i) => (
+            <div key={i} className="wp-card">
+              <div className="wp-head">
+                <div className="wp-ico"><SvcIcon name={p.icon} size={28} /></div>
+                <div className="wp-step">{p.step}</div>
+              </div>
+              <h3 className="U">{p.title}</h3>
+              <p>{p.desc}</p>
+              <div className="wp-list-lbl">{p.listLabel}</div>
+              <ul className="wp-list">
+                {p.items.map((it, j) => (
+                  <li key={j}><Check size={14} /> <span>{it}</span></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 10. System AIR */}
       <section className="sec dk" id="system">
-        <div {...ff("sytg")} className="tg">Как го правим</div>
+        <div {...ff("sytg")} className="tg">Методът</div>
         <h2 {...ff("syh2", 0.1)} className="U">
           Системата <em>АИР</em>
         </h2>
         <p {...ff("sysd", 0.15)} className="sdesc">
-          Анализ → Изграждане → Растеж. Три стъпки. Нула гадаене.
+          Анализ → Изграждане → Растеж. Без гадаене.
         </p>
-        <div className="sys-grid" {...ff("syg", 0.2)}>
+        <div className="sys-grid" {...ff("syg", 0.2, true)}>
           {systemSteps.map((s, i) => (
             <div
               key={i}
@@ -982,43 +1215,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
       </section>
 
-      {/* Work Process — funnel-masters style 3 steps */}
-      <section className="sec" id="process">
-        <div {...ff("wptg")} className="tg">Процес</div>
-        <h2 {...ff("wph2", 0.1)} className="U">
-          Процес на <em>работа</em>.
-        </h2>
-        <p {...ff("wpsd", 0.15)} className="sdesc">
-          Ясни стъпки, бързи обратни връзки и фокус върху резултата.
-        </p>
-        <div className="wp-grid" {...ff("wpg", 0.2)}>
-          {workProcess.map((p, i) => (
-            <div key={i} className="wp-card">
-              <div className="wp-head">
-                <div className="wp-ico"><SvcIcon name={p.icon} size={28} /></div>
-                <div className="wp-step">{p.step}</div>
-              </div>
-              <h3 className="U">{p.title}</h3>
-              <p>{p.desc}</p>
-              <div className="wp-list-lbl">{p.listLabel}</div>
-              <ul className="wp-list">
-                {p.items.map((it, j) => (
-                  <li key={j}><Check size={14} /> <span>{it}</span></li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Onboarding Journey - Anomaly stair */}
+      {/* 11. Onboarding journey */}
       <section className="sec dk2" id="journey">
-        <div {...ff("jrtg")} className="tg">Пътят на клиента</div>
+        <div {...ff("jrtg")} className="tg">Пътят</div>
         <h2 {...ff("jrh2", 0.1)} className="U">
-          PROFITBRAND <em>ONBOARDING</em>
+          От разговор до <em>растеж</em>.
         </h2>
         <p {...ff("jrsd", 0.15)} className="sdesc">
-          Знаете какво следва — от първия разговор до съвместна работа.
+          Знаеш какво следва на всяка стъпка.
         </p>
         <div className="jrn-wrap" {...ff("jrg", 0.2)}>
           <svg className="jrn-svg" viewBox="0 0 1200 520" preserveAspectRatio="none">
@@ -1029,6 +1233,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               </linearGradient>
             </defs>
             <polyline
+              pathLength="1"
               points="100,460 300,460 300,390 500,390 500,320 700,320 700,250 900,250 900,180 1100,180 1100,110"
               fill="none"
               stroke="url(#jrline)"
@@ -1037,11 +1242,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
               strokeLinejoin="round"
             />
           </svg>
-          <div className="jrn-grid">
+          <div className="jrn-grid" {...ff("jrs", 0.3, true)}>
             {journeySteps.map((j, i) => (
               <div key={i} className="jrn-step">
                 <div className={`jrn-circle ${i === 0 ? "start" : ""}`}>
-                  {i === 0 ? <>Вие<br />сте<br />тук</> : i}
+                  {i === 0 ? <>Ти<br />си<br />тук</> : i}
                 </div>
                 <div className="jrn-label">
                   <h5>{j.title}</h5>
@@ -1053,37 +1258,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
       </section>
 
-      {/* Cases */}
-      <section className="sec" id="cases">
-        <div {...ff("cstg")} className="tg">Резултати</div>
-        <h2 {...ff("csh2", 0.1)} className="U">
-          Един бранд. <em>4x ROAS. 2 000 000+ € оборот.</em>
-        </h2>
-        <p {...ff("cssd", 0.15)} className="sdesc">
-          Реален клиент. Реален бюджет. Реални числа от Ads Manager.
-        </p>
-        <div className="cases" {...ff("csg", 0.2)}>
-          {cases.map((c) => (
-            <div key={c.id} className="case">
-              <span className="case-tag">{c.client}</span>
-              <div className="case-lb">Проблем</div>
-              <p>{c.problem}</p>
-              <div className="case-lb">Резултат</div>
-              <p>{c.result}</p>
-              <div className="case-metrics">
-                <div className="case-m"><div className="n">{c.metric}</div><div className="l">Резултат</div></div>
-                <div className="case-m"><div className="n">{c.time}</div><div className="l">Време</div></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Founder */}
+      {/* 12. Founder */}
       <section className="sec dk" id="team">
         <div {...ff("fdtg")} className="tg">Кой стои зад Profitbrand</div>
         <h2 {...ff("fdh2", 0.1)} className="U">
-          Не теоретизираме — <em>тествали сме с реални пари</em>.
+          Тествали сме <em>с наши пари</em>. Не с твоите.
         </h2>
         <div className="fd-wrap" {...ff("fdg", 0.2)}>
           {team.length > 0 && (
@@ -1110,63 +1289,38 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
           </ul>
           <div style={{ textAlign: "center", marginTop: 28 }}>
             <button className="btn" onClick={() => setShowAudit(true)}>
-              Безплатна Консултация <ArrowRight size={14} />
+              Искам безплатна стратегия <ArrowRight size={14} />
             </button>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      {testimonials.length > 0 && (
-        <section className="sec" id="testimonials">
-          <div {...ff("tstg")} className="tg">Отзиви</div>
-          <h2 {...ff("tsh2", 0.1)} className="U">
-            Какво <em>казват</em> другите.
-          </h2>
-          <p {...ff("tssd", 0.15)} className="sdesc">
-            Реални думи от реални хора. Не платени актьори.
-          </p>
-          <div className="ts-grid" {...ff("tsg", 0.2)}>
-            {testimonials.map((t) => (
-              <div key={t.id} className="ts-card">
-                <Quote size={22} className="ts-q" />
-                <p className="ts-text">{t.quote}</p>
-                <div className="ts-meta">
-                  <div className="ts-name">{t.name}</div>
-                  <div className="ts-role">{t.role}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Guarantee */}
+      {/* 13. Guarantee */}
       <section className="sec" id="guarantee">
         <div {...ff("grtg")} className="tg">Гаранция</div>
         <h2 {...ff("grh2", 0.1)} className="U">
-          Гаранция за <em>резултат</em>.
+          Ние поемаме <em>риска</em>.
         </h2>
         <p {...ff("grsd", 0.15)} className="sdesc">
-          Ако ние сме уверени в системата, защо ти да не си?
+          Вярваме в системата. Затова я гарантираме.
         </p>
         <div className="guar" {...ff("grg", 0.2)}>
           <h3 className="U">Тройна <em>гаранция</em></h3>
           <ul>
-            <li><span className="gc"><Check size={14} /></span>Подобрение на ROAS с минимум 50% в първите 90 дни — или работим безплатно докато го постигнем.</li>
-            <li><span className="gc"><Check size={14} /></span>Без дългосрочни договори. Спираш когато искаш.</li>
-            <li><span className="gc"><Check size={14} /></span>Пълна прозрачност — достъп до Ads Manager и всички данни в реално време.</li>
+            <li><span className="gc"><Check size={14} /></span>ROAS +50% за първите 90 дни — или работим безплатно, докато го постигнем.</li>
+            <li><span className="gc"><Check size={14} /></span>Без дългосрочен договор. Спираш, когато поискаш.</li>
+            <li><span className="gc"><Check size={14} /></span>Пълна прозрачност — виждаш рекламите и данните в реално време.</li>
           </ul>
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* 14. FAQ */}
       <section className="sec dk" id="faq">
         <div {...ff("fqtg")} className="tg">Въпроси</div>
         <h2 {...ff("fqh2", 0.1)} className="U">
-          Знаем какво <em>си мислите</em>.
+          Знаем какво <em>си мислиш</em>.
         </h2>
-        <div className="faq" style={{ marginTop: 32 }} {...ff("fqg", 0.2)}>
+        <div className="faq" style={{ marginTop: 32 }} {...ff("fqg", 0.2, true)}>
           {faqs.map((q, i) => (
             <div key={i} className="faq-i">
               <div
@@ -1185,45 +1339,32 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
       </section>
 
-      {/* Contact */}
-      <section className="sec" id="contact">
-        <div {...ff("cftg")} className="tg">Контакт</div>
-        <h2 {...ff("cfh2", 0.1)} className="U">
-          Готов ли си да <em>вдигнеш оборота</em>?
+      {/* 15. Final CTA + form */}
+      <section className="sec cta" id="contact">
+        <div {...ff("cftg")} className="tg">Последна стъпка</div>
+        <h2 {...ff("cfh2", 0.1)} className="U" style={{ maxWidth: 680, margin: "0 auto 16px" }}>
+          Време е да <em>скалираш</em>.
         </h2>
         <p {...ff("cfsd", 0.15)} className="sdesc">
-          Запиши се за безплатен 30-минутен E-commerce Audit Call. Ще анализираме бизнеса ти и ще ти кажем конкретно къде губиш пари и какво да промениш.
+          Запиши безплатен 30-минутен разговор. Работим с малко клиенти наведнъж — така всеки получава пълно внимание.
         </p>
         <div style={{ maxWidth: 460, margin: "32px auto 0", textAlign: "left" }} {...ff("cfg", 0.2)}>
           <div className="fg"><label>Име</label>
-            <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Вашето име" />
+            <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Твоето име" />
           </div>
           <div className="fg"><label>Email</label>
             <input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="email@example.com" />
           </div>
-          <div className="fg"><label>Уебсайт на бранда</label>
+          <div className="fg"><label>Сайт на бизнеса</label>
             <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="https://..." />
           </div>
           <div className="fg"><label>Месечен рекламен бюджет</label>
-            <textarea value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} placeholder="Напр: 5 000 €/мес. + кратко описание на бранда..." />
+            <textarea value={form.msg} onChange={(e) => setForm({ ...form, msg: e.target.value })} placeholder="Напр. 5 000 €/мес. + няколко думи за бизнеса" />
           </div>
-          <button className="btn" style={{ width: "100%" }} onClick={() => alert("Благодарим! Ще се свържем с теб до 24 часа.")}>
-            Запази консултация <ArrowRight size={14} />
+          <button className="btn" style={{ width: "100%" }} onClick={() => alert("Благодаря! Ще се свържем с теб до 24 часа.")}>
+            Искам безплатна стратегия <ArrowRight size={14} />
           </button>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section className="cta sec dk">
-        <h2 {...ff("cth2")} className="U" style={{ maxWidth: 640, margin: "0 auto 16px" }}>
-          Приемаме <em>ограничен брой</em> e-commerce брандове.
-        </h2>
-        <p {...ff("ctp", 0.1)} style={{ color: "var(--g2)", maxWidth: 520, margin: "0 auto 28px", fontSize: 14, lineHeight: 1.7 }}>
-          За да гарантираме качество. Ако си сериозен за растеж — запази консултация сега.
-        </p>
-        <button {...ff("ctb", 0.2)} className="btn" onClick={() => setShowAudit(true)}>
-          Безплатен E-com Audit <ArrowRight size={14} />
-        </button>
       </section>
     </>
   );
@@ -1602,11 +1743,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         <div className="NL U" onClick={() => nav("home")}>PROFITBRAND</div>
         <div className="NR">
           <a href="#team" onClick={(e) => { e.preventDefault(); scrollTo("team"); }}>За нас</a>
-          <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Growth System</a>
+          <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Услуги</a>
           <a href="/chatgpt-ads" className="nav-hot" onClick={(e) => { e.preventDefault(); nav("chatgpt"); }}>ChatGPT Ads</a>
           <a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }}>Процес</a>
           <a href="#cases" onClick={(e) => { e.preventDefault(); scrollTo("cases"); }}>Резултати</a>
-          <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>FAQ</a>
+          <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>Въпроси</a>
           <button className="btn btnSm" onClick={() => setShowAudit(true)}>Консултация</button>
         </div>
         <button className="mob" aria-label="Меню" onClick={() => setMenuOpen(!menuOpen)}>
@@ -1617,11 +1758,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       <div className={`mm ${menuOpen ? "o" : ""}`}>
         <a href="/" onClick={(e) => { e.preventDefault(); setMenuOpen(false); nav("home"); }}>Начало</a>
         <a href="#team" onClick={(e) => { e.preventDefault(); scrollTo("team"); }}>За нас</a>
-        <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Growth System</a>
+        <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Услуги</a>
         <a href="/chatgpt-ads" onClick={(e) => { e.preventDefault(); nav("chatgpt"); }}>ChatGPT Ads</a>
         <a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }}>Процес</a>
         <a href="#cases" onClick={(e) => { e.preventDefault(); scrollTo("cases"); }}>Резултати</a>
-        <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>FAQ</a>
+        <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>Въпроси</a>
         <button className="btn" onClick={() => { setMenuOpen(false); setShowAudit(true); }}>Консултация</button>
       </div>
 
@@ -1643,21 +1784,21 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
         <div className="mo" onClick={(e) => e.target.className.includes("mo ") && setShowAudit(false)}>
           <div className="mo-box">
             <button className="mo-x" aria-label="Затвори" onClick={() => setShowAudit(false)}><X size={20} /></button>
-            <h3 className="U" style={{ fontSize: 16, marginBottom: 4 }}>Безплатен E-com Audit</h3>
+            <h3 className="U" style={{ fontSize: 16, marginBottom: 4 }}>Безплатна стратегия за растеж</h3>
             <p style={{ color: "var(--g2)", fontSize: 12, marginBottom: 20, lineHeight: 1.6 }}>
-              30-минутен разговор. Ще ти покажем конкретно къде губиш пари и какво да промениш. Без ангажимент. Без sales скрипт.
+              30 минути. Ще ти покажем къде губиш пари и как да скалираш. Без ангажимент. Без продажбени трикове.
             </p>
             <div className="fg"><label>Име</label>
-              <input value={audit.name} onChange={(e) => setAudit({ ...audit, name: e.target.value })} placeholder="Вашето име" />
+              <input value={audit.name} onChange={(e) => setAudit({ ...audit, name: e.target.value })} placeholder="Твоето име" />
             </div>
             <div className="fg"><label>Email</label>
               <input value={audit.email} onChange={(e) => setAudit({ ...audit, email: e.target.value })} placeholder="email@example.com" />
             </div>
-            <div className="fg"><label>Уебсайт на бранда</label>
+            <div className="fg"><label>Сайт на бизнеса</label>
               <input value={audit.web} onChange={(e) => setAudit({ ...audit, web: e.target.value })} placeholder="https://yoursite.com" />
             </div>
-            <button className="btn" style={{ width: "100%" }} onClick={() => { alert("Благодарим! Ще се свържем до 24 часа."); setShowAudit(false); }}>
-              Запази консултация <ArrowRight size={14} />
+            <button className="btn" style={{ width: "100%" }} onClick={() => { alert("Благодаря! Ще се свържем с теб до 24 часа."); setShowAudit(false); }}>
+              Искам безплатна стратегия <ArrowRight size={14} />
             </button>
           </div>
         </div>
