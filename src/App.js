@@ -159,43 +159,12 @@ const faqs = [
   { q: "Работите ли извън България?", a: "Да. Основно с бизнеси в България и Европа. За други пазари говорим индивидуално." },
 ];
 
-const workProcess = [
-  {
-    icon: "PhoneCall",
-    step: "Стъпка 1",
-    title: "Безплатен разговор",
-    desc: "30 минути. Разглеждаме бизнеса ти: какво работи, къде губиш пари и къде е най-големият потенциал.",
-    listLabel: "Ще разбереш:",
-    items: [
-      "Колко ти струва един клиент и колко ти носи",
-      "Кои продукти имат най-голяма печалба",
-      "Къде губиш най-много клиенти",
-    ],
-  },
-  {
-    icon: "FileText",
-    step: "Стъпка 2",
-    title: "План за растеж",
-    desc: "Получаваш конкретен план — срокове, цели и приоритети. Без общи приказки.",
-    listLabel: "Включва:",
-    items: [
-      "Рекламна стратегия: аудитории, визии, бюджет",
-      "План за автоматизации: имейли и AI",
-      "План за 90 дни с ясни цели",
-    ],
-  },
-  {
-    icon: "Zap",
-    step: "Стъпка 3",
-    title: "Скалираме",
-    desc: "Пускаме системата и я подобряваме всяка седмица по реални данни.",
-    listLabel: "Как работим:",
-    items: [
-      "Седмичен отчет с ясни числа",
-      "Среща на всеки 2 седмици",
-      "Постоянни подобрения на рекламите и автоматизациите",
-    ],
-  },
+const timeline = [
+  { icon: "PhoneCall", when: "До 24 часа", title: "Свързваме се с теб", desc: "Уговаряме кратък разговор в удобно за теб време." },
+  { icon: "Search", when: "30 минути", title: "Разглеждаме бизнеса ти", desc: "Какво работи, къде губиш пари и къде е най-големият потенциал. Безплатно." },
+  { icon: "FileText", when: "След разговора", title: "Получаваш план", desc: "Кои канали — Google, Meta, TikTok, ChatGPT — с какъв бюджет и с какви цели за 90 дни." },
+  { icon: "Rocket", when: "Старт", title: "Пускаме системата", desc: "Реклами, имейли и AI автоматизации — свързани и проследими от първия ден." },
+  { icon: "TrendingUp", when: "Всяка седмица", title: "Растем", desc: "Отчет с ясни числа и корекции по данни. Среща на всеки 2 седмици." },
 ];
 
 const founderCredentials = [
@@ -578,7 +547,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .SIn { font-family:'Unbounded'; font-size:clamp(28px,4vw,46px); font-weight:900; color:var(--y); }
 .SIl { font-size:12px; color:var(--g2); margin-top:3px; }
 
-/* SERVICES — Anomaly style (yellow bg, white cards, black circles, yellow icons) */
+/* SERVICES — yellow bg, white cards, black circles, yellow icons */
 .svc-grid {
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:24px; max-width:1180px; margin:0 auto;
@@ -610,7 +579,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   color:var(--b); display:inline-flex; align-items:center; gap:4px; letter-spacing:.5px; }
 .NR a.nav-hot { color:var(--y); }
 
-/* JOURNEY — stair-step like Anomaly */
+/* JOURNEY — stair-step */
 .jrn-wrap {
   position:relative; max-width:1200px; margin:60px auto 0;
   padding:40px 20px 20px;
@@ -832,29 +801,22 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .adm-preview-lbl { font-size:9px; color:var(--y); letter-spacing:2px;
   text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
 
-/* WORK PROCESS */
-.wp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
-  max-width:1140px; margin:0 auto; }
-.wp-card { background:var(--b3); border:1px solid rgba(255,255,255,.04);
-  border-radius:16px; padding:30px 26px; transition:all .25s ease; }
-.wp-card:hover { border-color:rgba(255,214,0,.2); transform:translateY(-4px);
-  box-shadow:0 20px 40px -20px rgba(255,214,0,.12); }
-.wp-head { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
-.wp-ico { width:50px; height:50px; border-radius:12px;
-  background:rgba(255,214,0,.08); border:1px solid rgba(255,214,0,.18);
-  color:var(--y); display:flex; align-items:center; justify-content:center; }
-.wp-step { font-family:'Unbounded'; font-size:10px; font-weight:800;
-  color:var(--y); letter-spacing:2px; text-transform:uppercase; }
-.wp-card h3 { font-family:'Unbounded'; font-size:16px; font-weight:800;
-  margin-bottom:10px; line-height:1.25; }
-.wp-card > p { font-size:13px; color:var(--g2); line-height:1.6; margin-bottom:16px; }
-.wp-list-lbl { font-size:10px; font-weight:700; color:var(--y);
-  letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px;
-  padding-top:14px; border-top:1px solid rgba(255,214,0,.08); }
-.wp-list { list-style:none; }
-.wp-list li { display:flex; gap:10px; padding:6px 0; font-size:12px;
-  color:var(--g2); line-height:1.5; align-items:flex-start; }
-.wp-list li svg { color:var(--y); margin-top:3px; flex-shrink:0; }
+/* TIMELINE — what happens after you click */
+.tl { list-style:none; max-width:720px; margin:0 auto; text-align:left; }
+.tl-i { display:grid; grid-template-columns:56px 1fr; gap:22px; position:relative; padding-bottom:30px; }
+.tl-i:last-child { padding-bottom:0; }
+.tl-i::before { content:''; position:absolute; left:27px; top:62px; bottom:6px; width:2px;
+  background:linear-gradient(rgba(255,214,0,.7), rgba(255,214,0,.08)); border-radius:2px; }
+.tl-i:last-child::before { display:none; }
+.tl-dot { width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  background:rgba(255,214,0,.08); border:1px solid rgba(255,214,0,.35); color:var(--y);
+  transition:transform .25s ease, background .25s ease; }
+.tl-i:hover .tl-dot { transform:scale(1.08); background:rgba(255,214,0,.16); }
+.tl-i:last-child .tl-dot { background:var(--y); color:var(--b); box-shadow:0 0 30px rgba(255,214,0,.35); }
+.tl-body { padding-top:4px; }
+.tl-when { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--y); }
+.tl-body h3 { font-family:'Unbounded'; font-size:18px; font-weight:700; color:var(--w); margin:6px 0; line-height:1.3; }
+.tl-body p { font-size:14px; color:var(--g2); line-height:1.6; }
 
 /* FOUNDERS */
 .fd-wrap { max-width:920px; margin:0 auto; padding:36px;
@@ -904,7 +866,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .pain-grid { grid-template-columns:repeat(2,1fr); }
   .svc-grid { grid-template-columns:repeat(3,1fr); }
   .sys-grid { grid-template-columns:1fr; gap:14px; }
-  .wp-grid { grid-template-columns:1fr; }
+  .tl-i { grid-template-columns:44px 1fr; gap:16px; }
+  .tl-dot { width:44px; height:44px; }
+  .tl-i::before { left:21px; top:50px; }
+  .tl-body h3 { font-size:16px; }
   .jrn-grid { height:360px; }
   .jrn-step:nth-child(2) { padding-bottom:56px; }
   .jrn-step:nth-child(3) { padding-bottom:112px; }
@@ -1146,32 +1111,31 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
       {ctaBand("Готов да скалираш?", "30 минути. Безплатно. Ще ти кажем къде губиш пари и какво да промениш.", "cb1")}
 
-      {/* 9. Process — 3 simple steps */}
+      {/* 9. What happens after you click — timeline */}
       <section className="sec" id="process">
-        <div {...ff("wptg")} className="tg">Как започваме</div>
+        <div {...ff("wptg")} className="tg">След бутона</div>
         <h2 {...ff("wph2", 0.1)} className="U">
-          Скалираме в <em>3 стъпки</em>.
+          Какво става, след като <em>натиснеш бутона</em>.
         </h2>
         <p {...ff("wpsd", 0.15)} className="sdesc">
-          Ясни стъпки. Ясни срокове. Фокус върху продажбите.
+          Без дълги договори. Без изненади.
         </p>
-        <div className="wp-grid" {...ff("wpg", 0.2, true)}>
-          {workProcess.map((p, i) => (
-            <div key={i} className="wp-card">
-              <div className="wp-head">
-                <div className="wp-ico"><SvcIcon name={p.icon} size={28} /></div>
-                <div className="wp-step">{p.step}</div>
+        <ol className="tl" {...ff("tl", 0.2, true)}>
+          {timeline.map((t) => (
+            <li key={t.title} className="tl-i">
+              <div className="tl-dot"><SvcIcon name={t.icon} size={22} /></div>
+              <div className="tl-body">
+                <span className="tl-when">{t.when}</span>
+                <h3>{t.title}</h3>
+                <p>{t.desc}</p>
               </div>
-              <h3 className="U">{p.title}</h3>
-              <p>{p.desc}</p>
-              <div className="wp-list-lbl">{p.listLabel}</div>
-              <ul className="wp-list">
-                {p.items.map((it, j) => (
-                  <li key={j}><Check size={14} /> <span>{it}</span></li>
-                ))}
-              </ul>
-            </div>
+            </li>
           ))}
+        </ol>
+        <div style={{ textAlign: "center", marginTop: 36 }}>
+          <button {...ff("tlb", 0.1)} className="btn" onClick={() => setShowAudit(true)}>
+            Искам безплатна стратегия <ArrowRight size={14} />
+          </button>
         </div>
       </section>
 
