@@ -15,6 +15,10 @@ module.exports = {
           line: "#d6e3dc",
         },
       },
+      keyframes: {
+        breath: { "0%, 100%": { transform: "scale(1)" }, "50%": { transform: "scale(1.08)" } },
+        float: { "0%, 100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-8px)" } },
+      },
       fontFamily: {
         "cr-head": ["Geologica", "system-ui", "sans-serif"],
         "cr-body": ['"Golos Text"', "system-ui", "sans-serif"],
