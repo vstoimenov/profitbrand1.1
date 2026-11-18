@@ -8,7 +8,8 @@ import {
 } from "lucide-react";
 import { HeroGeometric } from "./components/ui/shape-landing-hero";
 import ChatGptAds from "./pages/ChatGptAds";
-import { pageFromPath, pathForPage } from "./lib/routing";
+import { pageFromPath, pathForPage, isCreditPage } from "./lib/routing";
+import CreditApp from "./pages/credit/CreditApp";
 import { trackPixel } from "./lib/meta";
 import { trackPageView } from "./lib/analytics";
 import { adminLogin, fetchAdminStats } from "./lib/admin";
@@ -322,11 +323,12 @@ export default function App() {
   const firstPageView = useRef(true);
   useEffect(() => {
     if (firstPageView.current) { firstPageView.current = false; return; }
+    if (isCreditPage(page)) return;
     trackPixel("PageView");
   }, [page]);
 
   // First-party page views -> Supabase (shown in /admin -> Статистика)
-  useEffect(() => { if (page !== "admin") trackPageView(); }, [page]);
+  useEffect(() => { if (page !== "admin" && !isCreditPage(page)) trackPageView(); }, [page]);
 
   const loadStats = useCallback(async (pass, days) => {
     setStatsLoading(true); setStatsErr("");
@@ -1700,6 +1702,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       </div>
     );
   };
+
+  // Credit demo: its own app, no PROFITBRAND nav/footer/modal.
+  if (isCreditPage(page)) return <CreditApp page={page} nav={nav} />;
 
   return (
     <div className="Z">
