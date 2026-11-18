@@ -45,3 +45,8 @@ test("request button passes the current values", () => {
   expect(typeof v.payment).toBe("number");
   expect(v.payment).toBeGreaterThan(0);
 });
+
+test("shows total payments", () => {
+  render(<Calculator onRequest={() => {}} />);
+  expect(screen.getByText("Общо плащания")).toBeInTheDocument();
+});

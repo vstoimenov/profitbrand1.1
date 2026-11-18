@@ -97,7 +97,7 @@ export default function Calculator({ onRequest }) {
         })}
       </div>
 
-      <div className="mt-6 grid grid-cols-2 items-end gap-4 rounded-xl bg-credit-pine p-5 text-white sm:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="mt-6 grid grid-cols-2 items-end gap-4 rounded-xl bg-credit-pine p-5 text-white sm:grid-cols-[1.5fr_1fr_1fr_1fr]">
         <div className="col-span-2 sm:col-span-1">
           <div className="text-xs text-white/70">Месечна вноска</div>
           <div data-testid="calc-payment" className="font-cr-head text-3xl font-bold tabular-nums text-credit-mint sm:text-[34px]">
@@ -111,6 +111,10 @@ export default function Calculator({ onRequest }) {
         <div>
           <div className="text-xs text-white/70">Общо лихви</div>
           <div className="font-semibold tabular-nums">{formatEur(s.totalInterest)}</div>
+        </div>
+        <div>
+          <div className="text-xs text-white/70">Общо плащания</div>
+          <div className="font-semibold tabular-nums">{formatEur(s.totalPaid)}</div>
         </div>
       </div>
 

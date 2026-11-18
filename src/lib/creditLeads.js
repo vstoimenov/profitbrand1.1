@@ -72,7 +72,8 @@ export function buildCreditLead(form, { now = new Date(), source = "form", chat 
 }
 
 /* ---------- demo data (fixed, clearly fictional) ---------- */
-const DEMO_BASE = Date.UTC(2026, 10, 18, 9, 0, 0);
+/* Relative to page load so the demo always looks current. */
+const DEMO_BASE = Date.now() - 20 * 60000;
 const DAY = 86400000;
 const demo = (id, daysAgo, name, type, amount, income, status, consultant, extra = {}) => {
   const t = LOAN_TYPES[type];
@@ -141,8 +142,27 @@ function writeJson(storage, key, value) {
 
 const isPlainObject = (v) => v && typeof v === "object" && !Array.isArray(v);
 
+/* Keep only rows the CRM can draw; repair the fields it can recompute. */
+function normaliseLead(l) {
+  if (!isPlainObject(l) || !l.id || !LOAN_TYPES[l.type]) return null;
+  const amount = Number(l.amount);
+  if (!(amount > 0) || typeof l.date !== "string" || Number.isNaN(Date.parse(l.date))) return null;
+  const payment = Number.isFinite(Number(l.payment)) ? Number(l.payment) : 0;
+  const income = Number(l.income) > 0 ? Number(l.income) : null;
+  return {
+    ...l,
+    amount,
+    payment,
+    income,
+    name: String(l.name ?? ""),
+    score: ["high", "medium", "low"].includes(l.score) ? l.score : scoreLead({ payment, income }),
+    status: STATUSES.includes(l.status) ? l.status : "Нов",
+    chat: Array.isArray(l.chat) ? l.chat : null,
+  };
+}
+
 function storedLeads(storage) {
-  return readJson(storage, LEADS_KEY, [], Array.isArray).filter((l) => isPlainObject(l) && l.id);
+  return readJson(storage, LEADS_KEY, [], Array.isArray).map(normaliseLead).filter(Boolean);
 }
 
 export function loadStatuses(storage = safeStorage()) {

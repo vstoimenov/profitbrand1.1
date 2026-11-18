@@ -63,7 +63,7 @@ function Detail({ lead, onClose, onStatus }) {
           <dt className="text-credit-soft">Срок / лихва</dt><dd>{lead.years} г. · {Number(lead.rate).toFixed(1)}%</dd>
           <dt className="text-credit-soft">Вноска</dt><dd className="font-semibold tabular-nums">{formatEur(lead.payment, 2)}</dd>
           <dt className="text-credit-soft">Доход</dt><dd className="tabular-nums">{lead.income ? formatEur(lead.income) : "не е посочен"}</dd>
-          <dt className="text-credit-soft">AI оценка</dt><dd><Chip className={SCORE[lead.score][1]}>{SCORE[lead.score][0]}</Chip></dd>
+          <dt className="text-credit-soft">AI оценка</dt><dd><Chip className={(SCORE[lead.score] || SCORE.medium)[1]}>{(SCORE[lead.score] || SCORE.medium)[0]}</Chip></dd>
         </dl>
 
         {lead.note && <p className="mb-6 rounded-lg bg-credit-mist p-3 text-sm">{lead.note}</p>}
@@ -75,7 +75,7 @@ function Detail({ lead, onClose, onStatus }) {
           ))}
         </ul>
 
-        {lead.chat && (
+        {Array.isArray(lead.chat) && (
           <>
             <h3 className="mb-2 font-cr-head font-semibold">Разговор с асистента</h3>
             <div className="flex flex-col gap-2">
@@ -172,7 +172,7 @@ export default function Crm({ nav }) {
                   </td>
                   <td className="px-4 py-3">{LOAN_TYPES[l.type]?.label}</td>
                   <td className="whitespace-nowrap px-4 py-3 tabular-nums">{formatEur(l.amount)}</td>
-                  <td className="px-4 py-3"><Chip className={SCORE[l.score][1]}>{SCORE[l.score][0]}</Chip></td>
+                  <td className="px-4 py-3"><Chip className={(SCORE[l.score] || SCORE.medium)[1]}>{(SCORE[l.score] || SCORE.medium)[0]}</Chip></td>
                   <td className="px-4 py-3"><Chip className={STATUS_TONE[l.status]}>{l.status}</Chip></td>
                   <td className="px-4 py-3 text-credit-soft">{l.consultant}</td>
                 </tr>

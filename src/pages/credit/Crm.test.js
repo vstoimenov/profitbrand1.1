@@ -51,3 +51,9 @@ test("back link goes to the landing", () => {
   fireEvent.click(screen.getAllByRole("link", { name: /Към сайта/ })[0]);
   expect(nav).toHaveBeenCalledWith("credit");
 });
+
+test("a wrongly shaped stored lead does not blank the CRM", () => {
+  window.localStorage.setItem("finora_demo_leads", JSON.stringify([{ id: "X1", name: "old" }]));
+  render(<Crm nav={() => {}} />);
+  expect(rows()).toHaveLength(12);
+});

@@ -303,13 +303,14 @@ export default function App() {
   // Inject CSS into <head> exactly once — never re-renders, no paint flash
   useEffect(() => {
     if (typeof document === "undefined") return;
+    if (isCreditPage(page)) return; // the credit demo must not get PROFITBRAND focus rings/fonts
     if (document.getElementById("pb-app-styles")) return;
     const el = document.createElement("style");
     el.id = "pb-app-styles";
     el.textContent = css;
     document.head.appendChild(el);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- css is a module constant
+  }, [page]);
 
   const nav = (p) => {
     setPage(p);

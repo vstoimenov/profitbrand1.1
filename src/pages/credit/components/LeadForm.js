@@ -89,11 +89,11 @@ export default function LeadForm({ prefill, onOpenCrm }) {
   return (
     <form noValidate onSubmit={submit} className="grid gap-4 rounded-2xl border border-credit-line bg-white p-5 text-left sm:grid-cols-2 sm:p-8">
       <Field id="lf-type" label="Вид кредит" error={errors.type}>
-        <select id="lf-type" value={form.type} onChange={set("type")} className={`${inputCls} ${border("type")}`}>
+        <select id="lf-type" value={form.type} onChange={(e) => { set("type")(e); setExtra((x) => ({ chat: x.chat || null })); }} className={`${inputCls} ${border("type")}`}>
           {Object.entries(LOAN_TYPES).map(([id, t]) => <option key={id} value={id}>{t.label}</option>)}
         </select>
       </Field>
-      <Field id="lf-amount" label="Сума (€)" error={errors.amount}>
+      <Field id="lf-amount" label={`${LOAN_TYPES[form.type].amountLabel} (€)`} error={errors.amount}>
         <input id="lf-amount" type="number" inputMode="numeric" min="0" value={form.amount} onChange={set("amount")} className={`${inputCls} ${border("amount")}`} placeholder="напр. 150000" />
       </Field>
       <Field id="lf-income" label="Нетен месечен доход (€, по избор)">

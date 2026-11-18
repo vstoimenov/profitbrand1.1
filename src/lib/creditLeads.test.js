@@ -116,3 +116,31 @@ test("DEMO_LEADS mix every score, type and status", () => {
   expect(DEMO_LEADS.filter((l) => l.score === "low").length).toBeGreaterThanOrEqual(2);
   expect(DEMO_LEADS.filter((l) => l.score === "medium").length).toBeGreaterThanOrEqual(3);
 });
+
+test("valid JSON with the wrong shape is dropped or normalised, never crashes callers", () => {
+  const s = mem();
+  s.setItem("finora_demo_leads", JSON.stringify([
+    { id: "X1", name: "old" },
+    { id: "X2", name: "Стар", type: "pot", amount: 9000, date: "2026-11-01T10:00:00Z", payment: 200, score: "??", status: "???", chat: "nope" },
+  ]));
+  const list = loadLeads(s);
+  expect(list).toHaveLength(13);
+  expect(list[0].id).toBe("X2");
+  expect(["high", "medium", "low"]).toContain(list[0].score);
+  expect(list[0].status).toBe("Нов");
+  expect(list[0].chat).toBeNull();
+});
+
+test("demo lead dates are relative to now", () => {
+  jest.useFakeTimers().setSystemTime(new Date("2027-03-01T15:00:00Z"));
+  try {
+    jest.isolateModules(() => {
+      const { DEMO_LEADS: fresh } = require("./creditLeads");
+      const newest = Math.max(...fresh.map((l) => Date.parse(l.date)));
+      expect(Date.now() - newest).toBeLessThan(24 * 3600 * 1000);
+      expect(Date.now() - newest).toBeGreaterThanOrEqual(0);
+    });
+  } finally {
+    jest.useRealTimers();
+  }
+});
