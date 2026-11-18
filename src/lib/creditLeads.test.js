@@ -107,3 +107,12 @@ test("saveStatus overrides status on load and resetDemo clears", () => {
   resetDemo(s);
   expect(loadLeads(s)[0].status).toBe(DEMO_LEADS[0].status);
 });
+
+test("DEMO_LEADS mix every score, type and status", () => {
+  const set = (k) => new Set(DEMO_LEADS.map((l) => l[k]));
+  expect(set("score")).toEqual(new Set(["high", "medium", "low"]));
+  expect(set("type")).toEqual(new Set(["ipo", "pot", "biz"]));
+  expect(set("status")).toEqual(new Set(STATUSES));
+  expect(DEMO_LEADS.filter((l) => l.score === "low").length).toBeGreaterThanOrEqual(2);
+  expect(DEMO_LEADS.filter((l) => l.score === "medium").length).toBeGreaterThanOrEqual(3);
+});
