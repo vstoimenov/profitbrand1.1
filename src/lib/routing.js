@@ -1,8 +1,10 @@
-/* Hand-rolled router: the app has three top-level pages. */
+/* Hand-rolled router: the app's top-level pages, including the credit demo. */
 const ROUTES = {
   home: "/",
   admin: "/admin",
   chatgpt: "/chatgpt-ads",
+  credit: "/credit",
+  creditCrm: "/credit/crm",
 };
 
 export function pageFromPath(pathname) {
@@ -13,4 +15,9 @@ export function pageFromPath(pathname) {
 
 export function pathForPage(page) {
   return ROUTES[page] || "/";
+}
+
+/* Credit demo pages render without any PROFITBRAND chrome or tracking. */
+export function isCreditPage(page) {
+  return page === "credit" || page === "creditCrm";
 }
